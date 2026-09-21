@@ -1,0 +1,20 @@
+{
+  "name": "thyra-onboarding-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Client registration, login and onboarding for Thyra. React (Vite) frontend and Express with PostgreSQL backend.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "dev": "concurrently -n api,web -c blue,magenta \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "build": "npm install --prefix client --include=dev && npm run build --prefix client && npm install --prefix server",
+    "start": "npm start --prefix server",
+    "migrate": "npm run migrate --prefix server",
+    "seed:admin": "npm run seed:admin --prefix server --",
+    "test": "npm test --prefix server",
+    "lint": "npm run lint --prefix client"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.0"
+  }
+}

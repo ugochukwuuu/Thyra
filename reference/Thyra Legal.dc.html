@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+</style>
+</helmet>
+<div style="min-height:100vh; display:flex; flex-direction:column; background:#F5F1E7; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#1A1714; -webkit-font-smoothing:antialiased;">
+
+  <!-- HEADER -->
+  <header style="position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:16px; padding:14px 24px; background:rgba(245,241,231,0.86); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid rgba(26,23,20,0.12); color:#1A1714;">
+    <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em;">
+      <span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#1A1714;"></span></span><span style="position:relative; height:14px; border:2px solid #1A1714; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#1A1714; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span>
+    </div>
+    <span style="width:1px; height:18px; background:rgba(26,23,20,0.12);"></span>
+    <span style="font-size:13px; color:#6B655C; letter-spacing:0.02em;">Legal</span>
+    <div style="flex:1;"></div>
+    <a href="Thyra Auth/Login.dc.html" style="font-size:13px; color:#6B655C;" style-hover="color:#C25E3D;">← Back to log in</a>
+  </header>
+
+  <div style="flex:1; display:flex;">
+
+  <!-- SIDEBAR -->
+  <div style="flex:0 0 264px; background:#1A1714; padding:32px 28px 28px; display:flex; flex-direction:column; gap:32px;">
+    <div style="display:flex; flex-direction:column; gap:14px;">
+      <span style="font-size:11px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Documentation</span>
+      <div style="display:flex; flex-direction:column; gap:2px;">
+        <sc-for list="{{ navItems }}" as="item" hint-placeholder-count="3">
+          <button onClick="{{ item.onClick }}" style="{{ item.style }}">
+            <span style="{{ item.dotStyle }}"></span>
+            {{ item.label }}
+          </button>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:12px;">
+      <div style="height:1px; background:rgba(237,231,218,0.14);"></div>
+      <p style="font-size:12.5px; color:#6B655C; line-height:1.5; margin:0;">Official terms, privacy, and cookie notices for Thyra Technologies.</p>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div style="flex:1; padding:64px 72px; display:flex; justify-content:center;">
+    <div style="width:100%; max-width:680px;">
+      <h1 style="font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.02em; font-size:34px; margin:0 0 10px; color:#1A1714;">{{ activeSection.title }}</h1>
+      <p style="font-size:13px; color:#6B655C; margin:0 0 36px;">Effective date: {{ activeSection.effective }}</p>
+
+      <div style="display:flex; flex-direction:column; gap:16px;">
+        <sc-for list="{{ activeSection.blocks }}" as="block" hint-placeholder-count="6">
+          <sc-if value="{{ block.isH }}" hint-placeholder-val="">
+            <h3 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.01em; font-size:18px; margin:14px 0 0; color:#1A1714;">{{ block.text }}</h3>
+          </sc-if>
+          <sc-if value="{{ block.isP }}" hint-placeholder-val="{{ true }}">
+            <p style="font-size:15px; line-height:1.7; color:#3A362F; margin:0;">{{ block.text }}</p>
+          </sc-if>
+          <sc-if value="{{ block.isLi }}" hint-placeholder-val="">
+            <div style="display:flex; gap:10px;">
+              <span style="width:5px; height:5px; border-radius:50%; background:#D9714E; margin-top:9px; flex:0 0 auto;"></span>
+              <p style="font-size:15px; line-height:1.7; color:#3A362F; margin:0;">{{ block.text }}</p>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:48px; padding-top:20px; border-top:1px solid rgba(26,23,20,0.10);">
+        <p style="font-size:13px; color:#A79F93; margin:0;">Questions about this notice? <a href="mailto:legal@thyra.co">legal@thyra.co</a></p>
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1100,&quot;height&quot;:760}}">
+const RAW = {
+  terms: {
+    label: 'Terms of use',
+    title: 'Terms of use',
+    effective: '1 September 2026',
+    blocks: [
+      ['p', "These terms govern your access to and use of Thyra's store platform and related services. By creating an account or using Thyra, you agree to these terms."],
+      ['h', '1. What Thyra provides'],
+      ['p', 'Thyra gives merchants the tools to list products, manage orders, and run a storefront without building or hosting anything themselves.'],
+      ['h', '2. Your account'],
+      ['li', "You're responsible for keeping your login credentials secure."],
+      ['li', 'You must provide accurate business details during onboarding.'],
+      ['li', "You're responsible for the products and content you publish through your store."],
+      ['h', '3. Fees and payments'],
+      ['p', 'Fees for using Thyra are set out at signup and billed on the cycle you choose. Payment processing is handled by our payment partners under their own terms.'],
+      ['h', '4. Ending your account'],
+      ['p', 'You can close your account at any time from account settings. We may suspend or close accounts that violate these terms or applicable law.']
+    ]
+  },
+  privacy: {
+    label: 'Privacy notice',
+    title: 'Privacy notice',
+    effective: '1 September 2026',
+    blocks: [
+      ['p', 'This notice explains what information Thyra collects, why, and how it is used to run your store and account.'],
+      ['h', '1. Information we collect'],
+      ['li', 'Account details: business name, email, and password.'],
+      ['li', 'Store data: products, orders, and customer information you manage through Thyra.'],
+      ['li', 'Usage data: how you interact with the dashboard, for reliability and support.'],
+      ['h', '2. How we use it'],
+      ['p', 'We use your information to operate your store, process orders, provide support, and improve the product. We do not sell your data.'],
+      ['h', '3. Sharing'],
+      ['p', 'We share data only with service providers that help run Thyra — such as payment and hosting partners — and only as needed to provide the service.'],
+      ['h', '4. Your choices'],
+      ['p', 'You can access, correct, or request deletion of your account data at any time by contacting us.']
+    ]
+  },
+  cookies: {
+    label: 'Cookie notice',
+    title: 'Cookie notice',
+    effective: '1 September 2026',
+    blocks: [
+      ['p', 'Thyra uses a small number of cookies to keep you signed in and to understand how the dashboard is used.'],
+      ['h', '1. Essential cookies'],
+      ['p', "These keep you logged in and remember your onboarding progress. The product doesn't work correctly without them."],
+      ['h', '2. Analytics cookies'],
+      ['p', 'These help us see which features are used and where people get stuck, so we can improve the product. You can opt out in account settings.'],
+      ['h', '3. Managing cookies'],
+      ['p', 'You can control cookies through your browser settings at any time. Blocking essential cookies may affect sign-in.']
+    ]
+  }
+};
+
+class Component extends DCLogic {
+  constructor(props){
+    super(props);
+    const hash = (typeof window !== 'undefined' ? window.location.hash.replace('#','') : '');
+    this.state = { section: RAW[hash] ? hash : 'terms' };
+  }
+  componentDidMount(){
+    this._onHash = () => {
+      const h = window.location.hash.replace('#','');
+      if(RAW[h]) this.setState({ section: h });
+    };
+    window.addEventListener('hashchange', this._onHash);
+  }
+  componentWillUnmount(){ window.removeEventListener('hashchange', this._onHash); }
+
+  go(key){
+    if(typeof window !== 'undefined') window.location.hash = key;
+    this.setState({ section: key });
+  }
+
+  renderVals(){
+    const { section } = this.state;
+    const keys = ['terms', 'privacy', 'cookies'];
+    const active = keys.includes(section) ? section : 'terms';
+    const raw = RAW[active];
+
+    const navOn = "display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 12px; border-radius:10px; border:none; cursor:pointer; font-size:14px; font-weight:600; background:rgba(217,113,78,0.14); color:#EDE7DA;";
+    const navOff = "display:flex; align-items:center; gap:10px; width:100%; text-align:left; padding:9px 12px; border-radius:10px; border:none; cursor:pointer; font-size:14px; font-weight:500; background:transparent; color:#9A9082;";
+
+    const navItems = keys.map(k => ({
+      label: RAW[k].label,
+      onClick: () => this.go(k),
+      style: k === active ? navOn : navOff,
+      dotStyle: "width:6px; height:6px; border-radius:50%; flex:0 0 auto; background:" + (k === active ? '#D9714E' : 'transparent') + "; border:1px solid " + (k === active ? '#D9714E' : '#6B655C') + ";"
+    }));
+
+    const blocks = raw.blocks.map(([type, text]) => ({
+      text,
+      isH: type === 'h',
+      isP: type === 'p',
+      isLi: type === 'li'
+    }));
+
+    return {
+      navItems,
+      activeSection: { title: raw.title, effective: raw.effective, blocks }
+    };
+  }
+}
+</script>
+</body>
+</html>

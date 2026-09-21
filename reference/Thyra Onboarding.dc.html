@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  ::placeholder{color:#A79F93}
+  textarea,input,select,button{font-family:inherit}
+  select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236B655C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px!important}
+  @keyframes thyraDot{0%,100%{opacity:1}50%{opacity:0.3}}
+</style>
+</helmet>
+<div ref="{{ setRoot }}" style="--cream:#F5F1E7; --paper:#FBFAF6; --charcoal:#1A1714; --terra:#D9714E; --terra-dark:#C25E3D; --grey:#6B655C; --ink:#1A1714; --line:rgba(26,23,20,0.12); --line-d:rgba(245,241,231,0.14); --dmuted:#9A9082; --tint:rgba(217,113,78,0.10); --hd:'Geist',system-ui,sans-serif; --bd:'Hanken Grotesk',system-ui,sans-serif; --gap:44px; --py:36px; --cpad:30px; font-family:var(--bd); color:var(--ink); background:var(--cream); min-height:100vh; -webkit-font-smoothing:antialiased; line-height:1.5;">
+
+  <!-- HEADER -->
+  <header style="position:sticky; top:0; z-index:40; display:flex; align-items:center; gap:16px; padding:14px 24px; background:rgba(245,241,231,0.86); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line); color:var(--ink);">
+    <div style="display:flex; align-items:center; gap:10px; font-family:var(--hd); font-weight:700; font-size:18px; letter-spacing:-0.02em;">
+      <span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#1A1714;"></span></span><span style="position:relative; height:14px; border:2px solid #1A1714; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#1A1714; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span>
+    </div>
+    <span style="width:1px; height:18px; background:var(--line);"></span>
+    <span style="font-size:13px; color:var(--grey); letter-spacing:0.02em;">Store onboarding</span>
+    <div style="flex:1;"></div>
+    <sc-if value="{{ saved }}" hint-placeholder-val="">
+      <span style="display:inline-flex; align-items:center; gap:7px; padding:6px 13px; border-radius:999px; border:1px solid var(--line); font-size:12px; color:var(--grey);"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra); animation:thyraDot 1s ease-in-out infinite;"></span>Progress saved</span>
+    </sc-if>
+    <a href="../Thyra Auth/Login.dc.html" style="font-size:13px; color:var(--grey);" style-hover="color:var(--terra-dark);">Log out</a>
+  </header>
+
+  <!-- RESUME BANNER -->
+  <sc-if value="{{ resumed }}" hint-placeholder-val="">
+    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:12px 24px; background:var(--tint); border-bottom:1px solid var(--line);">
+      <span style="width:7px; height:7px; border-radius:50%; background:var(--terra);"></span>
+      <span style="font-size:14px; color:var(--ink);">Welcome back — everything you entered is still here. Carry on where you left off.</span>
+      <button onClick="{{ dismissResume }}" style="margin-left:auto; background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;">Dismiss</button>
+    </div>
+  </sc-if>
+
+  <!-- SHELL -->
+  <div style="display:flex; gap:var(--gap); align-items:flex-start; max-width:1160px; margin:0 auto; padding:var(--py) 24px 80px;">
+
+    <!-- LEFT RAIL -->
+    <sc-if value="{{ showRail }}" hint-placeholder-val="{{ true }}">
+      <nav style="flex:0 0 268px; position:sticky; top:88px; display:flex; flex-direction:column; gap:2px;">
+        <div style="font-size:11px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--grey); padding:0 12px 12px;">Your store setup</div>
+        <sc-for list="{{ railItems }}" as="st" hint-placeholder-count="10">
+          <button onClick="{{ st.go }}" style="{{ st.rowStyle }}">
+            <span style="{{ st.iconStyle }}">{{ st.icon }}</span>
+            <span style="flex:1; text-align:left; min-width:0;">{{ st.label }}</span>
+            <span style="{{ st.numStyle }}">{{ st.num }}</span>
+          </button>
+        </sc-for>
+        <div style="margin-top:14px; padding:14px 12px 0; border-top:1px solid var(--line); font-size:12px; color:var(--grey); line-height:1.5;">No account needed. We save as you type — leave and finish anytime from this link.</div>
+      </nav>
+    </sc-if>
+
+    <!-- CONTENT -->
+    <div style="flex:1 1 0; min-width:0;">
+
+      <!-- MOBILE PROGRESS -->
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:16px 18px; margin-bottom:20px;">
+          <div style="display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px;">
+            <span style="font-family:var(--hd); font-weight:600; font-size:14px; color:var(--ink);">{{ mobileCounter }}</span>
+            <span style="font-size:13px; font-weight:600; color:var(--terra-dark);">{{ currentLabel }}</span>
+          </div>
+          <div style="height:6px; border-radius:999px; background:rgba(26,23,20,0.08); overflow:hidden;">
+            <div style="{{ barStyle }}"></div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 1 · BUSINESS INFO ===== -->
+      <sc-if value="{{ isStep0 }}" hint-placeholder-val="{{ true }}">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 01 · Business info</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Let's start with the basics</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">The details customers and couriers use to reach you. All of it is editable later.</p>
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">Business name</label>
+              <input value="{{ v.bizName }}" onInput="{{ on.bizName }}" placeholder="Adé Fine Jewellery" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+              <span style="font-size:12.5px; color:var(--grey);">Exactly as it's registered on your CAC certificate.</span>
+              <sc-if value="{{ err.bizName }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.bizName }}</span></sc-if>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">Description of the business</label>
+              <textarea value="{{ v.bizDesc }}" onInput="{{ on.bizDesc }}" placeholder="Handmade gold jewellery for everyday wear, made to order in Lagos." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:84px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+              <span style="font-size:12.5px; color:var(--grey);">This is what shows up when someone searches your brand online — keep it to 1–2 sentences.</span>
+              <sc-if value="{{ err.bizDesc }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.bizDesc }}</span></sc-if>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-weight:600; font-size:13px;">Business email</label>
+                <input value="{{ v.bizEmail }}" onInput="{{ on.bizEmail }}" placeholder="hello@yourstore.com" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                <span style="font-size:12.5px; color:var(--grey);">A Gmail or similar inbox you check daily.</span>
+                <sc-if value="{{ err.bizEmail }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.bizEmail }}</span></sc-if>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-weight:600; font-size:13px;">Business phone number</label>
+                <input value="{{ v.bizPhone }}" onInput="{{ on.bizPhone }}" placeholder="+234 800 000 0000" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                <span style="font-size:12.5px; color:var(--grey);">The number customers can call or message on WhatsApp.</span>
+                <sc-if value="{{ err.bizPhone }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.bizPhone }}</span></sc-if>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">Business address</label>
+              <textarea value="{{ v.bizAddress }}" onInput="{{ on.bizAddress }}" placeholder="12 Awolowo Road, Ikoyi, Lagos" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:70px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+              <span style="font-size:12.5px; color:var(--grey);">Where you're based — street, city, and state is enough.</span>
+              <sc-if value="{{ err.bizAddress }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.bizAddress }}</span></sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 2 · SHOP PAGE ===== -->
+      <sc-if value="{{ isStep1 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 02 · Shop page</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Build your catalog</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">Group products into categories, then add each product with its photos and options. You can add more anytime.</p>
+
+          <div style="display:flex; flex-direction:column; gap:6px; margin-bottom:26px; max-width:280px;">
+            <label style="font-weight:600; font-size:13px;">About how many products will you carry?</label>
+            <input value="{{ shop.count }}" onInput="{{ shop.onCount }}" inputmode="numeric" placeholder="e.g. 24" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+            <span style="font-size:12.5px; color:var(--grey);">A rough number is fine — it helps us plan the layout.</span>
+          </div>
+
+          <!-- CATEGORIES -->
+          <div style="border-top:1px solid var(--line); padding-top:22px; margin-bottom:26px;">
+            <div style="font-family:var(--hd); font-weight:600; font-size:17px; margin-bottom:4px;">Product categories</div>
+            <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">The groups your products fall into, e.g. "Tops," "Accessories." Add subcategories under any category if you have them.</div>
+            <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+              <sc-for list="{{ shop.categoryRows }}" as="c" hint-placeholder-count="0">
+                <div style="background:#fff; border:1px solid var(--line); border-radius:14px; padding:14px 16px;">
+                  <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                    <input value="{{ c.name }}" onInput="{{ c.onName }}" placeholder="Category name (e.g. Tops)" style="flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                    <button onClick="{{ c.remove }}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:15px; cursor:pointer; line-height:1; flex:0 0 auto;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+                  </div>
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <span style="font-size:12px; font-weight:600; color:var(--grey);">Subcategories</span>
+                    <sc-for list="{{ c.subRows }}" as="sub" hint-placeholder-count="0">
+                      <div style="display:flex; align-items:center; gap:6px; padding:5px 6px 5px 12px; border:1px solid var(--line); border-radius:999px; background:var(--cream);">
+                        <input value="{{ sub.name }}" onInput="{{ sub.onName }}" placeholder="Subcategory" style="border:none; outline:none; background:transparent; font-size:13px; color:var(--ink); width:104px;" />
+                        <button onClick="{{ sub.remove }}" style="width:22px; height:22px; border-radius:50%; border:none; background:rgba(26,23,20,0.06); color:var(--grey); font-size:13px; cursor:pointer; line-height:1;" style-hover="background:var(--tint); color:var(--terra-dark);">×</button>
+                      </div>
+                    </sc-for>
+                    <button onClick="{{ c.addSub }}" style="display:inline-flex; align-items:center; gap:5px; padding:6px 12px; border:1px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:12px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:13px; line-height:1;">+</span>Add subcategory</button>
+                  </div>
+                  <div style="font-size:12px; color:var(--grey); margin-top:8px;">Optional — narrower groups inside this one, e.g. "T-shirts" and "Blouses" under Tops.</div>
+                </div>
+              </sc-for>
+            </div>
+            <button onClick="{{ shop.addCategory }}" style="display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:13.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add category</button>
+          </div>
+
+          <!-- PRODUCTS -->
+          <div style="border-top:1px solid var(--line); padding-top:22px;">
+            <div style="font-family:var(--hd); font-weight:600; font-size:17px; margin-bottom:4px;">Products</div>
+            <div style="font-size:13px; color:var(--grey); margin-bottom:16px;">Everything you want live at launch. Give each one a name so you can feature it later.</div>
+            <sc-if value="{{ shop.productsEmpty }}" hint-placeholder-val="">
+              <div style="border:1px dashed var(--line); border-radius:16px; padding:26px; text-align:center; margin-bottom:16px;">
+                <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">No products yet</div>
+                <div style="font-size:14px; color:var(--grey);">Add your first — customers can't buy what they can't see.</div>
+              </div>
+            </sc-if>
+            <div style="display:flex; flex-direction:column; gap:16px; margin-bottom:16px;">
+              <sc-for list="{{ shop.productRows }}" as="p" hint-placeholder-count="0">
+                <div style="background:var(--cream); border:1px solid var(--line); border-radius:16px; padding:20px;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;">
+                    <span style="display:inline-flex; align-items:center; gap:9px; font-family:var(--hd); font-weight:700; font-size:13px; color:var(--terra);">{{ p.num }}<span style="font-family:var(--bd); font-weight:600; font-size:12px; color:var(--grey); letter-spacing:0.08em; text-transform:uppercase;">Product</span></span>
+                    <button onClick="{{ p.remove }}" style="background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra-dark);">Remove</button>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:14px;">
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                      <label style="font-weight:600; font-size:12.5px;">Product name</label>
+                      <input value="{{ p.name }}" onInput="{{ p.onName }}" placeholder="Signet ring" style="width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                      <span style="font-size:12px; color:var(--grey);">What you'd call it on the shelf.</span>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                      <label style="font-weight:600; font-size:12.5px;">Category</label>
+                      <sc-if value="{{ p.noCats }}" hint-placeholder-val=""><span style="font-size:12.5px; color:var(--grey);">Add a category above first, then tap to assign it here.</span></sc-if>
+                      <div style="display:flex; flex-direction:column; gap:10px;">
+                        <sc-for list="{{ p.catGroups }}" as="cg" hint-placeholder-count="0">
+                          <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                            <button onClick="{{ cg.toggle }}" style="{{ cg.style }}">{{ cg.name }}</button>
+                            <sc-if value="{{ cg.hasSubs }}" hint-placeholder-val=""><span style="color:var(--grey); font-size:15px; line-height:1;">›</span></sc-if>
+                            <sc-for list="{{ cg.subOptions }}" as="so" hint-placeholder-count="0">
+                              <button onClick="{{ so.toggle }}" style="{{ so.style }}">{{ so.name }}</button>
+                            </sc-for>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <span style="font-size:12px; color:var(--grey);">A product sits under one category and one subcategory. Tap a category, or tap a subcategory — picking a subcategory sets its category automatically.</span>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <label style="font-weight:600; font-size:12.5px;">Main product photo</label>
+                      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                        <label style="display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:13px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" accept="image/*" onChange="{{ p.onMain }}" style="display:none;" />Upload main photo</label>
+                        <sc-if value="{{ p.hasMain }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center; gap:7px; padding:6px 6px 6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;">{{ p.mainName }}<button onClick="{{ p.removeMain }}" style="width:20px; height:20px; border-radius:50%; border:none; background:rgba(217,113,78,0.2); color:var(--terra-dark); font-size:13px; cursor:pointer; line-height:1;">×</button></span></sc-if>
+                      </div>
+                      <span style="font-size:12px; color:var(--grey);">One image — the cover shot shown first on the product card.</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <label style="font-weight:600; font-size:12.5px;">Product gallery</label>
+                      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                        <label style="display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:13px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" accept="image/*" multiple onChange="{{ p.onImages }}" style="display:none;" />Upload gallery images</label>
+                        <sc-for list="{{ p.imageChips }}" as="img" hint-placeholder-count="0">
+                          <span style="display:inline-flex; align-items:center; gap:7px; padding:6px 6px 6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;">{{ img.name }}<button onClick="{{ img.remove }}" style="width:20px; height:20px; border-radius:50%; border:none; background:rgba(217,113,78,0.2); color:var(--terra-dark); font-size:13px; cursor:pointer; line-height:1;">×</button></span>
+                        </sc-for>
+                      </div>
+                      <span style="font-size:12px; color:var(--grey);">More angles and detail shots — add as many as you like.</span>
+                    </div>
+
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                      <label style="font-weight:600; font-size:12.5px;">Short description</label>
+                      <input value="{{ p.shortDesc }}" onInput="{{ p.onShort }}" placeholder="14k gold, hand-finished" style="width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                      <span style="font-size:12px; color:var(--grey);">One line that shows on the product card.</span>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:6px;">
+                      <label style="font-weight:600; font-size:12.5px;">Long description</label>
+                      <textarea value="{{ p.longDesc }}" onInput="{{ p.onLong }}" placeholder="Materials, sizing, care, and what makes it worth it." style="width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:82px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+                      <span style="font-size:12px; color:var(--grey);">The full story customers read on the product page.</span>
+                    </div>
+
+                    <!-- VARIATIONS -->
+                    <div style="border-top:1px solid var(--line); padding-top:14px;">
+                      <div style="font-weight:600; font-size:12.5px; margin-bottom:4px;">Variations</div>
+                      <div style="font-size:12px; color:var(--grey); margin-bottom:12px;">Options a customer chooses from, like colour or size. Skip if this product has none.</div>
+                      <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:12px;">
+                        <sc-for list="{{ p.variationRows }}" as="vr" hint-placeholder-count="0">
+                          <div style="background:#fff; border:1px solid var(--line); border-radius:12px; padding:14px;">
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                              <input value="{{ vr.name }}" onInput="{{ vr.onName }}" placeholder="Variation name (e.g. Colour)" style="flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                              <button onClick="{{ vr.remove }}" style="width:32px; height:32px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:15px; cursor:pointer; line-height:1; flex:0 0 auto;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+                            </div>
+                            <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:12px;">
+                              <sc-for list="{{ vr.optionRows }}" as="op" hint-placeholder-count="0">
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                  <input value="{{ op.label }}" onInput="{{ op.onLabel }}" placeholder="Option (e.g. Red)" style="flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                                  <sc-if value="{{ op.showPrice }}" hint-placeholder-val=""><input value="{{ op.price }}" onInput="{{ op.onPrice }}" placeholder="₦ price" style="width:110px; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" /></sc-if>
+                                  <button onClick="{{ op.remove }}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:14px; cursor:pointer; line-height:1; flex:0 0 auto;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+                                </div>
+                              </sc-for>
+                            </div>
+                            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                              <button onClick="{{ vr.addOption }}" style="display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border:1px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:14px; line-height:1;">+</span>Add option</button>
+                              <button onClick="{{ vr.togglePrice }}" style="display:inline-flex; align-items:center; gap:9px; background:none; border:none; cursor:pointer; padding:0;">
+                                <span style="font-size:12.5px; color:var(--grey);">Does price change per option?</span>
+                                <span style="{{ vr.trackStyle }}"><span style="{{ vr.knobStyle }}"></span></span>
+                              </button>
+                            </div>
+                          </div>
+                        </sc-for>
+                      </div>
+                      <button onClick="{{ p.addVariation }}" style="display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border:1px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:14px; line-height:1;">+</span>Add variation</button>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+            <button onClick="{{ shop.addProduct }}" style="display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:14px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add product</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 3 · HOME PAGE ===== -->
+      <sc-if value="{{ isStep2 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 03 · Home page</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Your storefront's first impression</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">The homepage is what most visitors see first. Give it the imagery and picks that show you at your best.</p>
+          <div style="display:flex; flex-direction:column; gap:24px;">
+
+            <div style="display:flex; flex-direction:column; gap:8px;">
+              <label style="font-weight:600; font-size:13px;">Images &amp; videos for the homepage</label>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                <label style="display:inline-flex; align-items:center; gap:8px; padding:10px 16px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:13.5px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" accept="image/*,video/*" multiple onChange="{{ home.onMedia }}" style="display:none;" />Upload media</label>
+                <sc-for list="{{ home.mediaChips }}" as="m" hint-placeholder-count="0">
+                  <span style="display:inline-flex; align-items:center; gap:7px; padding:6px 6px 6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;">{{ m.name }}<button onClick="{{ m.remove }}" style="width:20px; height:20px; border-radius:50%; border:none; background:rgba(217,113,78,0.2); color:var(--terra-dark); font-size:13px; cursor:pointer; line-height:1;">×</button></span>
+                </sc-for>
+              </div>
+              <span style="font-size:12.5px; color:var(--grey);">Lifestyle, landscape-orientation photos and short videos — people wearing or using the product, minimal background, product stays the focus.</span>
+            </div>
+
+            <!-- BEST SELLERS PICKER -->
+            <div style="border-top:1px solid var(--line); padding-top:22px; display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <label style="font-weight:600; font-size:13px;">Best sellers</label>
+                <span style="font-size:12.5px; font-weight:600; color:var(--terra-dark);">{{ home.best.countLabel }}</span>
+              </div>
+              <span style="font-size:12.5px; color:var(--grey);">Pick up to 12 products to feature — straight from the catalog you just built.</span>
+              <sc-if value="{{ home.catalogEmpty }}" hint-placeholder-val="">
+                <div style="border:1px dashed var(--line); border-radius:12px; padding:18px; text-align:center; font-size:13.5px; color:var(--grey);">Add products in the Shop page first, then choose your best sellers here.</div>
+              </sc-if>
+              <sc-if value="{{ home.hasCatalog }}" hint-placeholder-val="">
+                <div>
+                  <input value="{{ home.best.search }}" onInput="{{ home.best.onSearch }}" placeholder="Search your products" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none; margin-bottom:10px;" style-focus="border-color:var(--terra);" />
+                  <div style="display:flex; flex-direction:column; gap:6px; max-height:216px; overflow:auto; border:1px solid var(--line); border-radius:12px; padding:8px; background:#fff;">
+                    <sc-for list="{{ home.best.list }}" as="it" hint-placeholder-count="0">
+                      <button onClick="{{ it.toggle }}" style="{{ it.rowStyle }}"><span style="{{ it.boxStyle }}">{{ it.check }}</span><span style="flex:1; text-align:left; font-size:14px;">{{ it.label }}</span></button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- STYLING PICKS PICKER -->
+            <div style="border-top:1px solid var(--line); padding-top:22px; display:flex; flex-direction:column; gap:10px;">
+              <div style="display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <label style="font-weight:600; font-size:13px;">New in</label>
+                <span style="font-size:12.5px; font-weight:600; color:var(--terra-dark);">{{ home.style.countLabel }}</span>
+              </div>
+              <span style="font-size:12.5px; color:var(--grey);">Up to 12 of your newest or recently added products to feature as just arrived.</span>
+              <sc-if value="{{ home.catalogEmpty }}" hint-placeholder-val="">
+                <div style="border:1px dashed var(--line); border-radius:12px; padding:18px; text-align:center; font-size:13.5px; color:var(--grey);">These come from your catalog too — add products first.</div>
+              </sc-if>
+              <sc-if value="{{ home.hasCatalog }}" hint-placeholder-val="">
+                <div>
+                  <input value="{{ home.style.search }}" onInput="{{ home.style.onSearch }}" placeholder="Search your products" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none; margin-bottom:10px;" style-focus="border-color:var(--terra);" />
+                  <div style="display:flex; flex-direction:column; gap:6px; max-height:216px; overflow:auto; border:1px solid var(--line); border-radius:12px; padding:8px; background:#fff;">
+                    <sc-for list="{{ home.style.list }}" as="it" hint-placeholder-count="0">
+                      <button onClick="{{ it.toggle }}" style="{{ it.rowStyle }}"><span style="{{ it.boxStyle }}">{{ it.check }}</span><span style="flex:1; text-align:left; font-size:14px;">{{ it.label }}</span></button>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-if>
+            </div>
+
+            <!-- TESTIMONIALS -->
+            <div style="border-top:1px solid var(--line); padding-top:22px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">Customer testimonials</div>
+              <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">Real words from happy customers do more selling than anything you can write yourself.</div>
+              <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+                <sc-for list="{{ home.testimonialRows }}" as="t" hint-placeholder-count="0">
+                  <div style="background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                      <span style="font-family:var(--hd); font-weight:700; font-size:12px; color:var(--terra);">{{ t.num }}</span>
+                      <button onClick="{{ t.remove }}" style="background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra-dark);">Remove</button>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                      <input value="{{ t.name }}" onInput="{{ t.onName }}" placeholder="Customer name" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                      <textarea value="{{ t.quote }}" onInput="{{ t.onQuote }}" placeholder="What they said about you." style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none; min-height:64px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra);"></textarea>
+                      <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                        <label style="display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" accept="image/*" onChange="{{ t.onPhoto }}" style="display:none;" />Add photo (optional)</label>
+                        <sc-if value="{{ t.hasPhoto }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra);"></span>{{ t.photoName }}</span></sc-if>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <button onClick="{{ home.addTestimonial }}" style="display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:13.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add testimonial</button>
+            </div>
+
+            <div style="border-top:1px solid var(--line); padding-top:22px; display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">Short brand excerpt</label>
+              <textarea value="{{ home.excerpt }}" onInput="{{ home.onExcerpt }}" placeholder="A few sentences on who you are and why you exist." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:80px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+              <span style="font-size:12.5px; color:var(--grey);">Shown near the top of the homepage — keep it warm and short.</span>
+            </div>
+
+            <!-- DIFFERENTIATORS -->
+            <div style="border-top:1px solid var(--line); padding-top:22px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">What makes you different</div>
+              <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">Aim for 3–5 short reasons customers should buy from you over anyone else.</div>
+              <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+                <sc-for list="{{ home.diffRows }}" as="d" hint-placeholder-count="0">
+                  <div style="background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                      <span style="font-family:var(--hd); font-weight:700; font-size:12px; color:var(--terra);">{{ d.num }}</span>
+                      <button onClick="{{ d.remove }}" style="background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra-dark);">Remove</button>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                      <input value="{{ d.title }}" onInput="{{ d.onTitle }}" placeholder="Short title (e.g. Made to order)" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                      <input value="{{ d.text }}" onInput="{{ d.onText }}" placeholder="One-line explanation" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <button onClick="{{ home.addDiff }}" style="display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:13.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add reason</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 4 · ABOUT THE BRAND ===== -->
+      <sc-if value="{{ isStep3 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 04 · About the brand</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Tell your story</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">This fills your About page. Write it like you'd explain the brand to a new customer in person.</p>
+          <div style="display:flex; flex-direction:column; gap:20px;">
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">How it all started</label>
+              <textarea value="{{ v.story }}" onInput="{{ on.story }}" placeholder="The moment or reason you decided to start this." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:110px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+              <span style="font-size:12.5px; color:var(--grey);">The origin story — as long or short as feels true.</span>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-weight:600; font-size:13px;">Our vision</label>
+                <textarea value="{{ v.vision }}" onInput="{{ on.vision }}" placeholder="The change you want to see." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:88px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+                <span style="font-size:12.5px; color:var(--grey);">Where you're headed, in a sentence or two.</span>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-weight:600; font-size:13px;">Our mission</label>
+                <textarea value="{{ v.mission }}" onInput="{{ on.mission }}" placeholder="What you do for customers, every day." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:88px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+                <span style="font-size:12.5px; color:var(--grey);">The job you're here to do.</span>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:6px;">
+              <label style="font-weight:600; font-size:13px;">Why we're different</label>
+              <textarea value="{{ v.whyDiff }}" onInput="{{ on.whyDiff }}" placeholder="The fuller version of what sets you apart." style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:110px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+              <span style="font-size:12.5px; color:var(--grey);">The full story — deeper than the short homepage version.</span>
+            </div>
+
+            <div style="border-top:1px solid var(--line); padding-top:22px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">Our values</div>
+              <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">Add at least 3 — the principles that guide how you work.</div>
+              <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:14px;">
+                <sc-for list="{{ about.valueRows }}" as="vl" hint-placeholder-count="0">
+                  <div style="background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px;">
+                    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:10px;">
+                      <span style="font-family:var(--hd); font-weight:700; font-size:12px; color:var(--terra);">{{ vl.num }}</span>
+                      <button onClick="{{ vl.remove }}" style="background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra-dark);">Remove</button>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                      <input value="{{ vl.title }}" onInput="{{ vl.onTitle }}" placeholder="Value (e.g. Craft over speed)" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                      <input value="{{ vl.text }}" onInput="{{ vl.onText }}" placeholder="Short explanation" style="width:100%; padding:10px 13px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-if value="{{ err.values }}" hint-placeholder-val=""><div style="margin-bottom:12px; font-size:12.5px; color:var(--terra-dark); font-weight:500;">{{ err.values }}</div></sc-if>
+              <button onClick="{{ about.addValue }}" style="display:inline-flex; align-items:center; gap:7px; padding:9px 16px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:13.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add value</button>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 5 · CONTACT US ===== -->
+      <sc-if value="{{ isStep4 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 05 · Contact us page</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">How customers reach you</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">Confirm the details to display, then build the contact form customers fill in.</p>
+          <div style="display:flex; flex-direction:column; gap:24px;">
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px;">Contact details to display</div>
+              <span style="font-size:12.5px; color:var(--grey); margin-top:-8px;">Pre-filled from your business info — edit any line if this page should show something different.</span>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px;">
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <label style="font-weight:600; font-size:13px;">Phone</label>
+                  <input value="{{ contact.phone }}" onInput="{{ contact.onPhone }}" placeholder="+234 800 000 0000" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                </div>
+                <div style="display:flex; flex-direction:column; gap:6px;">
+                  <label style="font-weight:600; font-size:13px;">Email</label>
+                  <input value="{{ contact.email }}" onInput="{{ contact.onEmail }}" placeholder="hello@yourstore.com" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+                </div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <label style="font-weight:600; font-size:13px;">Address</label>
+                <input value="{{ contact.address }}" onInput="{{ contact.onAddress }}" placeholder="12 Awolowo Road, Ikoyi, Lagos" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+              </div>
+            </div>
+
+            <div style="border-top:1px solid var(--line); padding-top:22px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">Contact form</div>
+              <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">Add the fields customers fill in. Tap a field type to add it; mark each required or optional.</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+                <sc-for list="{{ contact.addButtons }}" as="ab" hint-placeholder-count="5">
+                  <button onClick="{{ ab.add }}" style="display:inline-flex; align-items:center; gap:6px; padding:8px 14px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:13px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:15px; line-height:1;">+</span>{{ ab.label }}</button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ contact.fieldsEmpty }}" hint-placeholder-val="">
+                <div style="border:1px dashed var(--line); border-radius:12px; padding:18px; text-align:center; font-size:13.5px; color:var(--grey);">No fields yet. Most stores start with Name, Email, and Message.</div>
+              </sc-if>
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <sc-for list="{{ contact.fieldRows }}" as="f" hint-placeholder-count="0">
+                  <div style="background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:14px 16px;">
+                    <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                      <span style="font-family:var(--hd); font-weight:600; font-size:14.5px; color:var(--ink); flex:1; min-width:120px;">{{ f.typeLabel }}</span>
+                      <button onClick="{{ f.toggleReq }}" style="display:inline-flex; align-items:center; gap:9px; background:none; border:none; cursor:pointer; padding:0;">
+                        <span style="font-size:12.5px; color:var(--grey); width:64px; text-align:right;">{{ f.reqLabel }}</span>
+                        <span style="{{ f.trackStyle }}"><span style="{{ f.knobStyle }}"></span></span>
+                      </button>
+                      <button onClick="{{ f.remove }}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:15px; cursor:pointer; line-height:1;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+                    </div>
+                    <sc-if value="{{ f.isDropdown }}" hint-placeholder-val="">
+                      <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--line);">
+                        <div style="font-size:12.5px; font-weight:600; margin-bottom:10px;">Reasons for enquiry</div>
+                        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;">
+                          <sc-for list="{{ f.reasonRows }}" as="r" hint-placeholder-count="0">
+                            <div style="display:flex; align-items:center; gap:8px;">
+                              <input value="{{ r.label }}" onInput="{{ r.onLabel }}" placeholder="Reason (e.g. Wholesale enquiry)" style="flex:1; padding:9px 12px; border:1px solid var(--line); border-radius:10px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                              <button onClick="{{ r.remove }}" style="width:30px; height:30px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:14px; cursor:pointer; line-height:1; flex:0 0 auto;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+                            </div>
+                          </sc-for>
+                        </div>
+                        <button onClick="{{ f.addReason }}" style="display:inline-flex; align-items:center; gap:6px; padding:7px 13px; border:1px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:14px; line-height:1;">+</span>Add reason</button>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 6 · DESIGN INSPIRATION ===== -->
+      <sc-if value="{{ isStep5 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 06 · Design inspiration</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Show us what you love</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">Sites, stores, or screenshots you admire — and a note on what caught your eye. Add as many as you like.</p>
+          <sc-if value="{{ inspo.empty }}" hint-placeholder-val="">
+            <div style="border:1px dashed var(--line); border-radius:16px; padding:26px; text-align:center; margin-bottom:16px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">Nothing added yet</div>
+              <div style="font-size:14px; color:var(--grey);">Paste a link or drop a screenshot of a look you'd like.</div>
+            </div>
+          </sc-if>
+          <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:16px;">
+            <sc-for list="{{ inspo.rows }}" as="i" hint-placeholder-count="0">
+              <div style="background:var(--cream); border:1px solid var(--line); border-radius:16px; padding:18px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:12px;">
+                  <span style="font-family:var(--hd); font-weight:700; font-size:12px; color:var(--terra);">{{ i.num }}</span>
+                  <button onClick="{{ i.remove }}" style="background:none; border:none; color:var(--grey); font-size:13px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra-dark);">Remove</button>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:10px;">
+                  <input value="{{ i.link }}" onInput="{{ i.onLink }}" placeholder="Paste a link (https://…)" style="width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <label style="display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" accept="image/*" onChange="{{ i.onShot }}" style="display:none;" />Upload screenshot</label>
+                    <sc-if value="{{ i.hasShot }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra);"></span>{{ i.shotName }}</span></sc-if>
+                  </div>
+                  <input value="{{ i.note }}" onInput="{{ i.onNote }}" placeholder="What do you like about it? (optional)" style="width:100%; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ inspo.add }}" style="display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:14px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add inspiration</button>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 7 · VISUAL IDENTITY ===== -->
+      <sc-if value="{{ isStep6 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 07 · Visual identity</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Your look and logos</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">Give us your brand's tone and logo files so everything matches from day one.</p>
+          <div style="display:flex; flex-direction:column; gap:24px;">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <label style="font-weight:600; font-size:13px;">Business tone</label>
+              <span style="font-size:12.5px; color:var(--grey); margin-top:-4px;">Pick one or two that fit best — this steers colours, type, and imagery. Not sure? The note under each one explains it in plain terms.</span>
+              <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:10px;">
+                <sc-for list="{{ identity.toneChips }}" as="tn" hint-placeholder-count="10">
+                  <button onClick="{{ tn.toggle }}" style="{{ tn.style }}">
+                    <span style="display:flex; align-items:center; gap:8px;"><span style="{{ tn.dotStyle }}"></span><span style="font-weight:600; font-size:14px;">{{ tn.label }}</span></span>
+                    <span style="{{ tn.descStyle }}">{{ tn.desc }}</span>
+                  </button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--line); padding-top:22px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">Logo files</div>
+              <div style="font-size:13px; color:var(--grey); margin-bottom:14px;">Upload whatever you have — we'll clean them up if needed.</div>
+              <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px;">
+                <sc-for list="{{ identity.logoSlots }}" as="ls" hint-placeholder-count="5">
+                  <div style="background:var(--cream); border:1px solid var(--line); border-radius:14px; padding:16px;">
+                    <div style="font-weight:600; font-size:13.5px; margin-bottom:2px;">{{ ls.label }}</div>
+                    <div style="font-size:12px; color:var(--grey); margin-bottom:12px;">{{ ls.hint }}</div>
+                    <label style="display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:12.5px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" onChange="{{ ls.onFile }}" style="display:none;" />Upload</label>
+                    <sc-if value="{{ ls.hasFile }}" hint-placeholder-val=""><div style="margin-top:10px; display:inline-flex; align-items:center; gap:7px; padding:6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra);"></span>{{ ls.fileName }}</div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--line); padding-top:22px; display:flex; flex-direction:column; gap:8px;">
+              <label style="font-weight:600; font-size:13px;">Base brand colour</label>
+              <span style="font-size:12.5px; color:var(--grey);">Your main brand colour. Pick it below, or paste the exact hex code if you already know it.</span>
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <label style="position:relative; width:48px; height:48px; border-radius:12px; border:1px solid var(--line); overflow:hidden; cursor:pointer; flex:0 0 auto; background:{{ identity.brandColorSwatch }};">
+                  <input type="color" value="{{ identity.brandColorPick }}" onInput="{{ identity.onColor }}" style="position:absolute; inset:-4px; width:calc(100% + 8px); height:calc(100% + 8px); border:none; padding:0; margin:0; cursor:pointer; opacity:0;" />
+                </label>
+                <input value="{{ identity.brandColor }}" onInput="{{ identity.onHex }}" placeholder="#D9714E" style="width:150px; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; font-family:var(--hd);" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);" />
+              </div>
+            </div>
+            <div style="border-top:1px solid var(--line); padding-top:22px; display:flex; flex-direction:column; gap:8px;">
+              <label style="font-weight:600; font-size:13px;">Brand guide <span style="font-weight:500; color:var(--grey);">— optional</span></label>
+              <span style="font-size:12.5px; color:var(--grey);">If you already have a brand or style guide (a PDF or doc), add it here. No guide yet? Skip this — we'll build one with you.</span>
+              <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                <label style="display:inline-flex; align-items:center; gap:7px; padding:9px 15px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:13px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);"><input type="file" onChange="{{ identity.onGuide }}" style="display:none;" />Upload brand guide</label>
+                <sc-if value="{{ identity.hasGuide }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center; gap:7px; padding:6px 6px 6px 12px; border-radius:999px; background:var(--tint); color:var(--terra-dark); font-size:12px; font-weight:500;">{{ identity.guideName }}<button onClick="{{ identity.removeGuide }}" style="width:20px; height:20px; border-radius:50%; border:none; background:rgba(217,113,78,0.2); color:var(--terra-dark); font-size:13px; cursor:pointer; line-height:1;">×</button></span></sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 8 · SOCIAL MEDIA ===== -->
+      <sc-if value="{{ isStep7 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 08 · Social media</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Link your profiles</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">We'll connect these to your store so customers can find and follow you.</p>
+          <sc-if value="{{ social.empty }}" hint-placeholder-val="">
+            <div style="border:1px dashed var(--line); border-radius:16px; padding:26px; text-align:center; margin-bottom:16px;">
+              <div style="font-family:var(--hd); font-weight:600; font-size:16px; margin-bottom:4px;">No profiles yet</div>
+              <div style="font-size:14px; color:var(--grey);">Add the platforms where customers already find you.</div>
+            </div>
+          </sc-if>
+          <div style="display:flex; flex-direction:column; gap:12px; margin-bottom:16px;">
+            <sc-for list="{{ social.rows }}" as="s" hint-placeholder-count="0">
+              <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                <select value="{{ s.platform }}" onChange="{{ s.onPlatform }}" style="flex:0 0 auto; width:150px; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:14px; color:var(--ink); outline:none; cursor:pointer;" style-focus="border-color:var(--terra);">
+                  <option value="Instagram">Instagram</option>
+                  <option value="TikTok">TikTok</option>
+                  <option value="Facebook">Facebook</option>
+                  <option value="X">X</option>
+                  <option value="Pinterest">Pinterest</option>
+                  <option value="YouTube">YouTube</option>
+                  <option value="LinkedIn">LinkedIn</option>
+                  <option value="Other">Other</option>
+                </select>
+                <input value="{{ s.link }}" onInput="{{ s.onLink }}" placeholder="Profile link" style="flex:1; min-width:180px; padding:11px 13px; border:1px solid var(--line); border-radius:11px; background:#fff; font-size:14px; color:var(--ink); outline:none;" style-focus="border-color:var(--terra);" />
+                <button onClick="{{ s.remove }}" style="width:34px; height:34px; border-radius:50%; border:1px solid var(--line); background:#fff; color:var(--grey); font-size:16px; cursor:pointer; line-height:1; flex:0 0 auto;" style-hover="border-color:var(--terra); color:var(--terra-dark);">×</button>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ social.add }}" style="display:inline-flex; align-items:center; gap:8px; padding:11px 18px; border:1.5px solid var(--terra); border-radius:999px; background:transparent; color:var(--terra-dark); font-weight:600; font-size:14px; cursor:pointer;" style-hover="background:var(--tint);"><span style="font-size:16px; line-height:1;">+</span>Add profile</button>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 9 · POLICY PAGES ===== -->
+      <sc-if value="{{ isStep8 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 09 · Policy pages</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">The fine print</h1>
+          <p style="margin:0 0 26px; font-size:15px; color:var(--grey); max-width:540px;">Write these in your own words, or tick the box and we'll draft them for you to approve.</p>
+          <div style="display:flex; flex-direction:column; gap:18px;">
+            <sc-for list="{{ policies.blocks }}" as="pb" hint-placeholder-count="3">
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                  <label style="font-weight:600; font-size:13px;">{{ pb.label }}</label>
+                  <button onClick="{{ pb.toggleDraft }}" style="display:inline-flex; align-items:center; gap:9px; background:none; border:none; cursor:pointer; padding:0;">
+                    <span style="font-size:12.5px; color:var(--grey);">Help me draft this</span>
+                    <span style="{{ pb.trackStyle }}"><span style="{{ pb.knobStyle }}"></span></span>
+                  </button>
+                </div>
+                <sc-if value="{{ pb.draft }}" hint-placeholder-val="">
+                  <div style="border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--tint); font-size:13.5px; color:var(--terra-dark);">Great — the Thyra team will draft your {{ pb.lower }} and send it for approval before launch.</div>
+                </sc-if>
+                <sc-if value="{{ pb.showText }}" hint-placeholder-val="{{ true }}">
+                  <textarea value="{{ pb.text }}" onInput="{{ pb.onText }}" placeholder="{{ pb.placeholder }}" style="width:100%; padding:12px 14px; border:1px solid var(--line); border-radius:12px; background:#fff; font-size:15px; color:var(--ink); outline:none; min-height:120px; resize:vertical; line-height:1.5;" style-focus="border-color:var(--terra); box-shadow:0 0 0 3px rgba(217,113,78,0.14);"></textarea>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ===== STEP 10 · REVIEW ===== -->
+      <sc-if value="{{ isStep9 }}" hint-placeholder-val="">
+        <div style="background:var(--paper); border:1px solid var(--line); border-radius:20px; padding:var(--cpad);">
+          <div style="font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--terra-dark); margin-bottom:12px;">Step 10 · Review &amp; confirm</div>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:30px; margin:0 0 8px;">Check everything over</h1>
+          <p style="margin:0 0 24px; font-size:15px; color:var(--grey); max-width:540px;">Edit anything that's off, then confirm. Nothing goes live until you say so.</p>
+          <div style="display:flex; flex-direction:column; gap:14px;">
+            <sc-for list="{{ reviewSections }}" as="sec" hint-placeholder-count="9">
+              <div style="border:1px solid var(--line); border-radius:16px; padding:20px; background:#fff;">
+                <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px;">
+                  <span style="display:inline-flex; align-items:center; gap:10px; font-family:var(--hd); font-weight:700; font-size:13px; color:var(--terra);">{{ sec.num }}<span style="font-family:var(--hd); font-weight:600; font-size:16px; color:var(--ink); letter-spacing:-0.01em;">{{ sec.title }}</span></span>
+                  <button onClick="{{ sec.edit }}" style="background:none; border:none; color:var(--terra-dark); font-size:13.5px; font-weight:600; cursor:pointer;" style-hover="color:var(--terra);">Edit</button>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:12px;">
+                  <sc-for list="{{ sec.rows }}" as="r" hint-placeholder-count="4">
+                    <div style="display:grid; grid-template-columns:160px 1fr; gap:16px; align-items:start;">
+                      <span style="font-size:13px; color:var(--grey);">{{ r.label }}</span>
+                      <span style="font-size:14px; color:var(--ink); overflow-wrap:anywhere; white-space:pre-wrap;">{{ r.value }}</span>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- SUCCESS -->
+      <sc-if value="{{ showSuccess }}" hint-placeholder-val="">
+        <div style="background:var(--charcoal); color:var(--cream); border-radius:20px; padding:48px 32px; text-align:center;">
+          <span style="display:inline-flex; align-items:center; gap:8px; padding:7px 15px; border:1px solid var(--line-d); border-radius:999px; font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--dmuted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra);"></span>Submitted</span>
+          <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.03em; font-size:40px; margin:22px 0 0;">You're all set.</h1>
+          <p style="max-width:460px; margin:16px auto 0; font-size:17px; font-weight:300; color:#E7E0D2;">We've got everything we need to start building. Your Thyra team will email {{ successEmail }} within one business day.</p>
+          <div style="margin-top:32px; display:flex; gap:12px; justify-content:center; flex-wrap:wrap;">
+            <button onClick="{{ goReview }}" style="padding:13px 26px; border:1.5px solid var(--dmuted); border-radius:999px; background:transparent; color:var(--cream); font-weight:600; font-size:15px; cursor:pointer;" style-hover="border-color:var(--cream);">Review my answers</button>
+            <button onClick="{{ reset }}" style="padding:13px 26px; border:none; border-radius:999px; background:var(--terra); color:#fff; font-weight:600; font-size:15px; cursor:pointer;" style-hover="background:var(--terra-dark);">Start a new store</button>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- NAV -->
+      <sc-if value="{{ showForm }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; align-items:center; gap:12px; margin-top:24px;">
+          <sc-if value="{{ showBack }}" hint-placeholder-val="">
+            <button onClick="{{ back }}" style="padding:14px 24px; border:1.5px solid var(--ink); border-radius:999px; background:transparent; color:var(--ink); font-weight:600; font-size:15px; cursor:pointer;" style-hover="background:var(--ink); color:var(--cream);">Back</button>
+          </sc-if>
+          <div style="flex:1;"></div>
+          <button onClick="{{ onPrimary }}" style="padding:14px 28px; border:none; border-radius:999px; background:var(--terra); color:#fff; font-weight:600; font-size:15px; cursor:pointer;" style-hover="background:var(--terra-dark);">{{ primaryLabel }}</button>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:920},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#D9714E&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#D9714E&quot;,&quot;#C7503C&quot;,&quot;#3E6B57&quot;,&quot;#3B5BA9&quot;],&quot;section&quot;:&quot;Theme&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;Comfortable&quot;,&quot;options&quot;:[&quot;Comfortable&quot;,&quot;Compact&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  KEY = 'thyra_onboarding_v2';
+  state = { step: 0, maxReached: 0, data: this.blank(), errors: {}, isMobile: false, confirmed: false, saved: false, resumed: false, bestSearch: '', styleSearch: '', contactSeeded: false };
+
+  blank() {
+    return {
+      business: { name: '', description: '', email: '', phone: '', address: '' },
+      shop: { count: '', categories: [], products: [] },
+      home: { media: [], bestSellers: [], stylingPicks: [], testimonials: [], excerpt: '', differentiators: [] },
+      about: { story: '', vision: '', mission: '', whyDiff: '', values: [] },
+      contact: { phone: '', email: '', address: '', fields: [] },
+      inspiration: [],
+      identity: { tones: [], logoPrimary: '', logoMark: '', logoLight: '', logoDark: '', favicon: '', brandColor: '', brandGuide: '' },
+      social: [],
+      policies: { privacy: { text: '', draft: false }, terms: { text: '', draft: false }, returns: { text: '', draft: false } }
+    };
+  }
+  uid() { return 'x' + Math.random().toString(36).slice(2, 9); }
+  blankProduct() { return { id: this.uid(), name: '', categories: [], subcategories: [], mainImage: '', images: [], shortDesc: '', longDesc: '', variations: [] }; }
+
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem(this.KEY);
+      if (raw) {
+        const p = JSON.parse(raw);
+        const data = Object.assign(this.blank(), p.data || {});
+        const step = p.step || 0;
+        this.setState({ data, step, maxReached: p.maxReached || step, confirmed: !!p.confirmed, contactSeeded: !!p.contactSeeded, resumed: step > 0 && !p.confirmed });
+      }
+    } catch (e) {}
+    if (typeof ResizeObserver !== 'undefined') {
+      this.ro = new ResizeObserver(es => {
+        const w = es[0].contentRect.width;
+        const m = w < 880;
+        if (m !== this.state.isMobile) this.setState({ isMobile: m });
+      });
+      if (this.root) this.ro.observe(this.root);
+    }
+  }
+  componentWillUnmount() { if (this.ro) this.ro.disconnect(); }
+
+  setRootVars() {
+    const el = this.root; if (!el) return;
+    const p = this.props || {};
+    el.style.setProperty('--terra', p.accent || '#D9714E');
+    const compact = p.density === 'Compact';
+    el.style.setProperty('--gap', compact ? '28px' : '44px');
+    el.style.setProperty('--py', compact ? '24px' : '36px');
+    el.style.setProperty('--cpad', compact ? '22px' : '30px');
+  }
+  componentDidUpdate() { this.setRootVars(); }
+
+  save() {
+    try { localStorage.setItem(this.KEY, JSON.stringify({ data: this.state.data, step: this.state.step, maxReached: this.state.maxReached, confirmed: this.state.confirmed, contactSeeded: this.state.contactSeeded })); } catch (e) {}
+    this.setState({ saved: true });
+    clearTimeout(this._t);
+    this._t = setTimeout(() => this.setState({ saved: false }), 1400);
+  }
+  upd(mut) { this.setState(s => { const d = structuredClone(s.data); mut(d); return { data: d }; }, () => this.save()); }
+  top() { requestAnimationFrame(() => { try { window.scrollTo({ top: 0, behavior: 'smooth' }); } catch (e) {} }); }
+
+  seedContact(cb) {
+    if (this.state.contactSeeded) { cb && cb(); return; }
+    this.setState(s => {
+      const d = structuredClone(s.data);
+      if (!d.contact.phone) d.contact.phone = d.business.phone;
+      if (!d.contact.email) d.contact.email = d.business.email;
+      if (!d.contact.address) d.contact.address = d.business.address;
+      return { data: d, contactSeeded: true };
+    }, () => { this.save(); cb && cb(); });
+  }
+
+  goTo(i) {
+    const apply = () => this.setState(s => ({ step: i, maxReached: Math.max(s.maxReached, i), errors: {}, confirmed: false, resumed: false }), () => { this.save(); this.top(); });
+    if (i === 4) this.seedContact(apply); else apply();
+  }
+  back() { this.setState(s => ({ step: Math.max(s.step - 1, 0), errors: {} }), () => this.top()); }
+  next() {
+    const e = this.validate(this.state.step);
+    if (Object.keys(e).length) { this.setState({ errors: e }); return; }
+    const target = Math.min(this.state.step + 1, 9);
+    const apply = () => this.setState(s => ({ step: target, maxReached: Math.max(s.maxReached, target), errors: {} }), () => { this.save(); this.top(); });
+    if (target === 4) this.seedContact(apply); else apply();
+  }
+  confirm() { this.setState({ confirmed: true }, () => { this.save(); this.top(); }); }
+  reset() { try { localStorage.removeItem(this.KEY); } catch (e) {} this.setState({ step: 0, maxReached: 0, data: this.blank(), errors: {}, confirmed: false, resumed: false, contactSeeded: false }, () => this.top()); }
+
+  validate(step) {
+    const d = this.state.data, e = {};
+    const req = (x) => !String(x || '').trim();
+    if (step === 0) {
+      if (req(d.business.name)) e.bizName = "Add your business name so customers know who they're buying from.";
+      if (req(d.business.description)) e.bizDesc = 'A one-line description helps people find you online.';
+      if (req(d.business.email)) e.bizEmail = 'Add a business email we can reach you on.';
+      else if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.business.email.trim())) e.bizEmail = "That email doesn't look right — check the format.";
+      if (req(d.business.phone)) e.bizPhone = 'Add a phone number customers can use.';
+      if (req(d.business.address)) e.bizAddress = 'Add your business address.';
+    }
+    if (step === 3) {
+      const filled = d.about.values.filter(v => String(v.title || '').trim()).length;
+      if (filled > 0 && filled < 3) e.values = 'Add at least 3 values, or remove the blank ones.';
+    }
+    return e;
+  }
+
+  icon(i) {
+    const P = [
+      ['M3 21V9l3-6h12l3 6v12', 'M3 9h18', 'M9 21v-6h6v6'],
+      ['M6 8h12l1 12H5z', 'M9 8a3 3 0 0 1 6 0'],
+      ['M3 11l9-8 9 8', 'M5 10v10h14V10', 'M10 20v-6h4v6'],
+      ['M4 5c2.5-1.5 6-1.5 8 0 2-1.5 5.5-1.5 8 0v13c-2.5-1.5-6-1.5-8 0-2-1.5-5.5-1.5-8 0z', 'M12 5v13'],
+      ['M3 6h18v12H3z', 'M3 7l9 6 9-6'],
+      ['M12 3l2.1 5.4L20 9l-4.5 3.4L17 18l-5-3.2L7 18l1.5-5.6L4 9l5.9-.6z'],
+      ['M12 3a9 9 0 1 0 0 18c1.7 0 2-1.3 1.2-2.3-.8-1 .1-2.2 1.3-2.2H18a3 3 0 0 0 3-3c0-4.9-4-8.5-9-8.5z', 'M7.5 12.5h.01', 'M10 8h.01', 'M14.5 8h.01'],
+      ['M18 8a3 3 0 1 0-2.8-4', 'M6 15a3 3 0 1 0 2.8 4', 'M8.6 13.5l6.8-4', 'M8.6 10.5l6.8 4'],
+      ['M12 3l8 3v5c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z', 'M9 12l2 2 4-4'],
+      ['M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18z', 'M8.5 12l2.2 2.2L15.5 9.5']
+    ];
+    return React.createElement('svg', { width: 18, height: 18, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 1.9, strokeLinecap: 'round', strokeLinejoin: 'round' }, P[i].map((d, k) => React.createElement('path', { key: k, d })));
+  }
+
+  sw(on, onClick) {
+    return {
+      onClick,
+      trackStyle: { width: '42px', height: '24px', borderRadius: '999px', padding: '2px', display: 'flex', alignItems: 'center', justifyContent: on ? 'flex-end' : 'flex-start', background: on ? '#D9714E' : 'rgba(26,23,20,0.18)', transition: 'all .15s', flex: '0 0 auto' },
+      knobStyle: { width: '20px', height: '20px', borderRadius: '50%', background: '#fff', display: 'block', boxShadow: '0 1px 2px rgba(0,0,0,0.2)' }
+    };
+  }
+
+  chip(active, onClick, name) {
+    const base = { padding: '8px 15px', borderRadius: '999px', border: '1.5px solid', cursor: 'pointer', fontSize: '13px', fontWeight: 600, fontFamily: "'Hanken Grotesk',sans-serif", transition: 'all .12s' };
+    if (active) return { name, toggle: onClick, style: { ...base, background: '#D9714E', color: '#fff', borderColor: '#D9714E' } };
+    return { name, toggle: onClick, style: { ...base, background: 'transparent', color: '#6B655C', borderColor: 'rgba(26,23,20,0.18)' } };
+  }
+
+  buildPicker(kind) {
+    const d = this.state.data;
+    const key = kind === 'best' ? 'bestSellers' : 'stylingPicks';
+    const searchKey = kind === 'best' ? 'bestSearch' : 'styleSearch';
+    const search = this.state[searchKey];
+    const sel = d.home[key];
+    const q = search.trim().toLowerCase();
+    const pad = (i) => String(i + 1).padStart(2, '0');
+    const list = d.home && d.shop.products.map((p, i) => ({ id: p.id, label: p.name.trim() || ('Product ' + pad(i)) }))
+      .filter(o => !q || o.label.toLowerCase().includes(q))
+      .map(o => {
+        const checked = sel.includes(o.id);
+        const atCap = sel.length >= 12 && !checked;
+        return {
+          label: o.label,
+          check: checked ? '\u2713' : '',
+          rowStyle: { display: 'flex', alignItems: 'center', gap: '10px', width: '100%', padding: '8px 10px', borderRadius: '9px', border: 'none', background: checked ? 'var(--tint)' : 'transparent', cursor: atCap ? 'not-allowed' : 'pointer', opacity: atCap ? 0.5 : 1, textAlign: 'left' },
+          boxStyle: { width: '20px', height: '20px', borderRadius: '6px', border: checked ? 'none' : '1.5px solid rgba(26,23,20,0.25)', background: checked ? '#D9714E' : '#fff', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '13px', flex: '0 0 auto' },
+          toggle: () => { if (atCap) return; this.upd(x => { const arr = x.home[key]; const idx = arr.indexOf(o.id); if (idx >= 0) arr.splice(idx, 1); else arr.push(o.id); }); }
+        };
+      });
+    return {
+      search, onSearch: (ev) => this.setState({ [searchKey]: ev.target.value }),
+      countLabel: sel.length + ' of 12 selected',
+      list
+    };
+  }
+
+  renderVals() {
+    const s = this.state, d = s.data, e = s.errors;
+    const pad = (i) => String(i + 1).padStart(2, '0');
+    const fileName = (ev) => { const f = ev.target.files && ev.target.files[0]; return f ? f.name : ''; };
+    const fileNames = (ev) => Array.from(ev.target.files || []).map(f => f.name);
+    const dash = '\u2014';
+    const val = (x) => String(x || '').trim() || dash;
+
+    const v = {
+      bizName: d.business.name, bizDesc: d.business.description, bizEmail: d.business.email, bizPhone: d.business.phone, bizAddress: d.business.address,
+      story: d.about.story, vision: d.about.vision, mission: d.about.mission, whyDiff: d.about.whyDiff
+    };
+    const on = {
+      bizName: (ev) => this.upd(x => x.business.name = ev.target.value),
+      bizDesc: (ev) => this.upd(x => x.business.description = ev.target.value),
+      bizEmail: (ev) => this.upd(x => x.business.email = ev.target.value),
+      bizPhone: (ev) => this.upd(x => x.business.phone = ev.target.value),
+      bizAddress: (ev) => this.upd(x => x.business.address = ev.target.value),
+      story: (ev) => this.upd(x => x.about.story = ev.target.value),
+      vision: (ev) => this.upd(x => x.about.vision = ev.target.value),
+      mission: (ev) => this.upd(x => x.about.mission = ev.target.value),
+      whyDiff: (ev) => this.upd(x => x.about.whyDiff = ev.target.value)
+    };
+
+    // SHOP
+    const categoryRows = d.shop.categories.map((c, i) => ({
+      name: c.name,
+      onName: (ev) => this.upd(x => x.shop.categories[i].name = ev.target.value),
+      remove: () => this.upd(x => { const cat = x.shop.categories[i]; const id = cat.id; const subIds = (cat.subcategories || []).map(s => s.id); x.shop.categories.splice(i, 1); x.shop.products.forEach(p => { const j = p.categories.indexOf(id); if (j >= 0) p.categories.splice(j, 1); if (p.subcategories) p.subcategories = p.subcategories.filter(sid => !subIds.includes(sid)); }); }),
+      addSub: () => this.upd(x => { const cat = x.shop.categories[i]; if (!cat.subcategories) cat.subcategories = []; cat.subcategories.push({ id: this.uid(), name: '' }); }),
+      subRows: (c.subcategories || []).map((sub, k) => ({
+        name: sub.name,
+        onName: (ev) => this.upd(x => x.shop.categories[i].subcategories[k].name = ev.target.value),
+        remove: () => this.upd(x => { const sid = x.shop.categories[i].subcategories[k].id; x.shop.categories[i].subcategories.splice(k, 1); x.shop.products.forEach(p => { if (p.subcategories) { const j = p.subcategories.indexOf(sid); if (j >= 0) p.subcategories.splice(j, 1); } }); })
+      }))
+    }));
+    const productRows = d.shop.products.map((p, i) => ({
+      num: pad(i), name: p.name, shortDesc: p.shortDesc, longDesc: p.longDesc,
+      noCats: d.shop.categories.length === 0,
+      onName: (ev) => this.upd(x => x.shop.products[i].name = ev.target.value),
+      onShort: (ev) => this.upd(x => x.shop.products[i].shortDesc = ev.target.value),
+      onLong: (ev) => this.upd(x => x.shop.products[i].longDesc = ev.target.value),
+      onImages: (ev) => { const ns = fileNames(ev); this.upd(x => x.shop.products[i].images.push(...ns)); },
+      onMain: (ev) => { const n = fileName(ev); this.upd(x => x.shop.products[i].mainImage = n); },
+      removeMain: () => this.upd(x => x.shop.products[i].mainImage = ''),
+      hasMain: !!p.mainImage, mainName: p.mainImage,
+      remove: () => this.upd(x => x.shop.products.splice(i, 1)),
+      addVariation: () => this.upd(x => x.shop.products[i].variations.push({ id: this.uid(), name: '', priceVaries: false, options: [] })),
+      imageChips: p.images.map((nm, k) => ({ name: nm, remove: () => this.upd(x => x.shop.products[i].images.splice(k, 1)) })),
+      catGroups: d.shop.categories.map((c, ci) => {
+        const subsArr = c.subcategories || [];
+        const selSubs = p.subcategories || [];
+        const catActive = p.categories.includes(c.id) || subsArr.some(sc => selSubs.includes(sc.id));
+        const co = { padding: '8px 15px', borderRadius: '999px', border: '1.5px solid', cursor: 'pointer', fontSize: '13px', fontWeight: 600, fontFamily: "'Hanken Grotesk',sans-serif", transition: 'all .12s' };
+        const sb = { padding: '6px 12px', borderRadius: '999px', border: '1px solid', cursor: 'pointer', fontSize: '12px', fontWeight: 600, fontFamily: "'Hanken Grotesk',sans-serif", transition: 'all .12s' };
+        return {
+          name: c.name.trim() || ('Category ' + pad(ci)),
+          hasSubs: subsArr.length > 0,
+          style: catActive ? { ...co, background: '#D9714E', color: '#fff', borderColor: '#D9714E' } : { ...co, background: 'transparent', color: '#6B655C', borderColor: 'rgba(26,23,20,0.18)' },
+          toggle: () => this.upd(x => {
+            const prod = x.shop.products[i];
+            if (!prod.subcategories) prod.subcategories = [];
+            const subs2 = x.shop.categories[ci].subcategories || [];
+            const active = prod.categories.includes(c.id) || subs2.some(sc => prod.subcategories.includes(sc.id));
+            if (active) { prod.categories = []; prod.subcategories = []; }
+            else { prod.categories = [c.id]; prod.subcategories = []; }
+          }),
+          subOptions: subsArr.map((sc, si) => {
+            const on = selSubs.includes(sc.id);
+            return {
+              name: sc.name.trim() || ('Subcategory ' + pad(si)),
+              style: on ? { ...sb, background: 'var(--tint)', color: '#C25E3D', borderColor: '#D9714E' } : { ...sb, background: 'transparent', color: '#6B655C', borderColor: 'rgba(26,23,20,0.18)' },
+              toggle: () => this.upd(x => {
+                const prod = x.shop.products[i];
+                if (!prod.subcategories) prod.subcategories = [];
+                const parentActive = prod.categories.includes(c.id);
+                const idx = prod.subcategories.indexOf(sc.id);
+                if (parentActive) { prod.subcategories = (idx >= 0) ? [] : [sc.id]; }
+                else { prod.categories = [c.id]; prod.subcategories = [sc.id]; }
+              })
+            };
+          })
+        };
+      }),
+      variationRows: p.variations.map((vr, j) => {
+        const t = this.sw(vr.priceVaries, () => this.upd(x => x.shop.products[i].variations[j].priceVaries = !x.shop.products[i].variations[j].priceVaries));
+        return {
+          name: vr.name,
+          onName: (ev) => this.upd(x => x.shop.products[i].variations[j].name = ev.target.value),
+          remove: () => this.upd(x => x.shop.products[i].variations.splice(j, 1)),
+          addOption: () => this.upd(x => x.shop.products[i].variations[j].options.push({ id: this.uid(), label: '', price: '' })),
+          togglePrice: t.onClick, trackStyle: t.trackStyle, knobStyle: t.knobStyle,
+          optionRows: vr.options.map((op, k) => ({
+            label: op.label, price: op.price, showPrice: vr.priceVaries,
+            onLabel: (ev) => this.upd(x => x.shop.products[i].variations[j].options[k].label = ev.target.value),
+            onPrice: (ev) => this.upd(x => x.shop.products[i].variations[j].options[k].price = ev.target.value),
+            remove: () => this.upd(x => x.shop.products[i].variations[j].options.splice(k, 1))
+          }))
+        };
+      })
+    }));
+
+    // HOME
+    const mediaChips = d.home.media.map((nm, i) => ({ name: nm, remove: () => this.upd(x => x.home.media.splice(i, 1)) }));
+    const testimonialRows = d.home.testimonials.map((t, i) => ({
+      num: pad(i), name: t.name, quote: t.quote, photoName: t.photo, hasPhoto: !!t.photo,
+      onName: (ev) => this.upd(x => x.home.testimonials[i].name = ev.target.value),
+      onQuote: (ev) => this.upd(x => x.home.testimonials[i].quote = ev.target.value),
+      onPhoto: (ev) => { const n = fileName(ev); this.upd(x => x.home.testimonials[i].photo = n); },
+      remove: () => this.upd(x => x.home.testimonials.splice(i, 1))
+    }));
+    const diffRows = d.home.differentiators.map((r, i) => ({
+      num: pad(i), title: r.title, text: r.text,
+      onTitle: (ev) => this.upd(x => x.home.differentiators[i].title = ev.target.value),
+      onText: (ev) => this.upd(x => x.home.differentiators[i].text = ev.target.value),
+      remove: () => this.upd(x => x.home.differentiators.splice(i, 1))
+    }));
+
+    // ABOUT values
+    const valueRows = d.about.values.map((r, i) => ({
+      num: pad(i), title: r.title, text: r.text,
+      onTitle: (ev) => this.upd(x => x.about.values[i].title = ev.target.value),
+      onText: (ev) => this.upd(x => x.about.values[i].text = ev.target.value),
+      remove: () => this.upd(x => x.about.values.splice(i, 1))
+    }));
+
+    // CONTACT
+    const typeLabels = { name: 'Name', phone: 'Phone number', email: 'Email', message: 'Message', dropdown: 'Dropdown' };
+    const addButtons = [['name', 'Name'], ['phone', 'Phone number'], ['email', 'Email'], ['message', 'Message'], ['dropdown', 'Dropdown']].map(([type, label]) => ({
+      label, add: () => this.upd(x => x.contact.fields.push({ id: this.uid(), type, required: false, reasons: [] }))
+    }));
+    const fieldRows = d.contact.fields.map((f, i) => {
+      const t = this.sw(f.required, () => this.upd(x => x.contact.fields[i].required = !x.contact.fields[i].required));
+      return {
+        typeLabel: typeLabels[f.type], reqLabel: f.required ? 'Required' : 'Optional',
+        toggleReq: t.onClick, trackStyle: t.trackStyle, knobStyle: t.knobStyle,
+        isDropdown: f.type === 'dropdown',
+        remove: () => this.upd(x => x.contact.fields.splice(i, 1)),
+        addReason: () => this.upd(x => x.contact.fields[i].reasons.push({ id: this.uid(), label: '' })),
+        reasonRows: (f.reasons || []).map((r, k) => ({
+          label: r.label,
+          onLabel: (ev) => this.upd(x => x.contact.fields[i].reasons[k].label = ev.target.value),
+          remove: () => this.upd(x => x.contact.fields[i].reasons.splice(k, 1))
+        }))
+      };
+    });
+
+    // INSPIRATION
+    const inspoRows = d.inspiration.map((it, i) => ({
+      num: pad(i), link: it.link, note: it.note, shotName: it.shot, hasShot: !!it.shot,
+      onLink: (ev) => this.upd(x => x.inspiration[i].link = ev.target.value),
+      onNote: (ev) => this.upd(x => x.inspiration[i].note = ev.target.value),
+      onShot: (ev) => { const n = fileName(ev); this.upd(x => x.inspiration[i].shot = n); },
+      remove: () => this.upd(x => x.inspiration.splice(i, 1))
+    }));
+
+    // IDENTITY
+    const tones = [
+      ['Professional', 'Polished and trustworthy — feels like an established business.'],
+      ['Casual', 'Relaxed and friendly, like chatting with a mate.'],
+      ['Premium', 'High-end and considered, worth paying more for.'],
+      ['Playful', 'Fun and cheerful, with personality and colour.'],
+      ['Minimal', 'Clean and simple — lots of space, little clutter.'],
+      ['Bold', 'Loud and confident, with strong colours and big type.'],
+      ['Elegant', 'Refined and graceful, understated and tasteful.'],
+      ['Warm', 'Homely and welcoming, soft and personal.'],
+      ['Modern', 'Current and sleek, in step with the latest look.'],
+      ['Luxury', 'Exclusive and indulgent — the finest of everything.']
+    ];
+    const atToneCap = d.identity.tones.length >= 2;
+    const toneChips = tones.map(([tn, desc]) => {
+      const active = d.identity.tones.includes(tn);
+      const locked = atToneCap && !active;
+      return {
+        label: tn, desc,
+        toggle: () => this.upd(x => { const arr = x.identity.tones; const idx = arr.indexOf(tn); if (idx >= 0) arr.splice(idx, 1); else if (arr.length < 2) arr.push(tn); }),
+        style: { display: 'flex', flexDirection: 'column', gap: '5px', alignItems: 'flex-start', textAlign: 'left', padding: '13px 15px', borderRadius: '14px', cursor: locked ? 'not-allowed' : 'pointer', opacity: locked ? 0.45 : 1, border: '1.5px solid ' + (active ? '#D9714E' : 'rgba(26,23,20,0.14)'), background: active ? 'var(--tint)' : '#fff', color: '#1A1714', fontFamily: "'Hanken Grotesk',sans-serif", transition: 'all .12s' },
+        dotStyle: { width: '9px', height: '9px', borderRadius: '50%', flex: '0 0 auto', background: active ? '#D9714E' : 'rgba(26,23,20,0.18)' },
+        descStyle: { fontSize: '12px', color: '#6B655C', lineHeight: '1.45' }
+      };
+    });
+    const logoDefs = [
+      ['logoPrimary', 'Primary logo', 'Your main, full logo.'],
+      ['logoMark', 'Icon / mark only', 'The symbol without text.'],
+      ['logoLight', 'For light backgrounds', 'A version that reads on cream/white.'],
+      ['logoDark', 'For dark backgrounds', 'A version that reads on charcoal/black.'],
+      ['favicon', 'Favicon', 'The tiny icon in the browser tab.']
+    ];
+    const logoSlots = logoDefs.map(([k, label, hint]) => ({
+      label, hint, fileName: d.identity[k], hasFile: !!d.identity[k],
+      onFile: (ev) => { const n = fileName(ev); this.upd(x => x.identity[k] = n); }
+    }));
+
+    // SOCIAL
+    const socialRows = d.social.map((sc, i) => ({
+      platform: sc.platform, link: sc.link,
+      onPlatform: (ev) => this.upd(x => x.social[i].platform = ev.target.value),
+      onLink: (ev) => this.upd(x => x.social[i].link = ev.target.value),
+      remove: () => this.upd(x => x.social.splice(i, 1))
+    }));
+
+    // POLICIES
+    const polDefs = [['privacy', 'Privacy policy', 'How you handle customer data.'], ['terms', 'Terms and conditions', 'The rules of buying from you.'], ['returns', 'Cancellation and returns policy', 'When and how customers can cancel or return.']];
+    const policyBlocks = polDefs.map(([k, label, ph]) => {
+      const blk = d.policies[k];
+      const t = this.sw(blk.draft, () => this.upd(x => x.policies[k].draft = !x.policies[k].draft));
+      return {
+        label, lower: label.toLowerCase(), placeholder: ph, text: blk.text, draft: blk.draft, showText: !blk.draft,
+        onText: (ev) => this.upd(x => x.policies[k].text = ev.target.value),
+        toggleDraft: t.onClick, trackStyle: t.trackStyle, knobStyle: t.knobStyle
+      };
+    });
+
+    // RAIL
+    const labels = ['Business info', 'Shop page', 'Home page', 'About the brand', 'Contact us', 'Design inspiration', 'Visual identity', 'Social media', 'Policy pages', 'Review & confirm'];
+    const railItems = labels.map((lab, i) => {
+      const isCurrent = i === s.step && !s.confirmed;
+      const isDone = (i < s.step) || s.confirmed;
+      const clickable = i <= s.maxReached;
+      const iconStyle = { width: '34px', height: '34px', borderRadius: '999px', display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', transition: 'all .15s' };
+      if (isDone) { iconStyle.background = '#D9714E'; iconStyle.color = '#fff'; }
+      else if (isCurrent) { iconStyle.background = 'transparent'; iconStyle.color = '#C25E3D'; iconStyle.border = '2px solid #D9714E'; }
+      else { iconStyle.background = 'rgba(26,23,20,0.05)'; iconStyle.color = '#9A9082'; }
+      return {
+        label: lab, num: pad(i), icon: this.icon(i),
+        iconStyle,
+        numStyle: { fontFamily: "'Geist',sans-serif", fontWeight: 700, fontSize: '12px', color: (isCurrent || isDone) ? '#C25E3D' : '#B5AEA2', flex: '0 0 auto' },
+        rowStyle: { display: 'flex', alignItems: 'center', gap: '12px', width: '100%', padding: '9px 12px', borderRadius: '12px', border: 'none', cursor: clickable ? 'pointer' : 'default', background: isCurrent ? 'var(--tint)' : 'transparent', color: (isCurrent || isDone) ? '#1A1714' : '#6B655C', fontWeight: (isCurrent || isDone) ? 600 : 500, fontSize: '13.5px', fontFamily: "'Hanken Grotesk',sans-serif", opacity: clickable ? 1 : 0.55, transition: 'all .12s' },
+        go: () => { if (clickable) this.goTo(i); }
+      };
+    });
+
+    // REVIEW
+    const catName = (id) => { const c = d.shop.categories.find(c => c.id === id); return c ? (c.name.trim() || 'Untitled') : ''; };
+    const prodName = (id) => { const idx = d.shop.products.findIndex(p => p.id === id); if (idx < 0) return ''; const p = d.shop.products[idx]; return p.name.trim() || ('Product ' + pad(idx)); };
+    const polStatus = (b) => b.draft ? 'Thyra to draft' : (b.text.trim() ? 'Written' : 'Left blank');
+    const rawSections = [
+      { title: 'Business info', step: 0, rows: [
+        { label: 'Business name', value: val(d.business.name) },
+        { label: 'Description', value: val(d.business.description) },
+        { label: 'Email', value: val(d.business.email) },
+        { label: 'Phone', value: val(d.business.phone) },
+        { label: 'Address', value: val(d.business.address) }
+      ] },
+      { title: 'Shop page', step: 1, rows: [
+        { label: 'Approx. products', value: val(d.shop.count) },
+        { label: 'Categories', value: d.shop.categories.length ? d.shop.categories.map(c => { const subs = (c.subcategories || []).filter(x => String(x.name || '').trim()).length; return (c.name.trim() || 'Untitled') + (subs ? ' (' + subs + ' sub)' : ''); }).join(', ') : 'None added' },
+        { label: 'Products added', value: d.shop.products.length ? d.shop.products.map((p, i) => (p.name.trim() || 'Product ' + pad(i)) + (p.variations.length ? ' (' + p.variations.length + ' variation' + (p.variations.length > 1 ? 's' : '') + ')' : '')).join('\n') : 'None added' }
+      ] },
+      { title: 'Home page', step: 2, rows: [
+        { label: 'Homepage media', value: d.home.media.length ? d.home.media.length + ' file' + (d.home.media.length > 1 ? 's' : '') : 'None' },
+        { label: 'Best sellers', value: d.home.bestSellers.length ? d.home.bestSellers.map(prodName).filter(Boolean).join(', ') : 'None' },
+        { label: 'New in', value: d.home.stylingPicks.length ? d.home.stylingPicks.map(prodName).filter(Boolean).join(', ') : 'None' },
+        { label: 'Testimonials', value: d.home.testimonials.length ? d.home.testimonials.length + ' added' : 'None' },
+        { label: 'Brand excerpt', value: d.home.excerpt.trim() ? 'Written' : 'Blank' },
+        { label: 'Differentiators', value: d.home.differentiators.length ? d.home.differentiators.map(r => r.title.trim() || 'Untitled').join(', ') : 'None' }
+      ] },
+      { title: 'About the brand', step: 3, rows: [
+        { label: 'How it started', value: d.about.story.trim() ? 'Written' : dash },
+        { label: 'Vision', value: val(d.about.vision) },
+        { label: 'Mission', value: val(d.about.mission) },
+        { label: "Why we're different", value: d.about.whyDiff.trim() ? 'Written' : dash },
+        { label: 'Values', value: d.about.values.length ? d.about.values.map(r => r.title.trim() || 'Untitled').join(', ') : 'None' }
+      ] },
+      { title: 'Contact us', step: 4, rows: [
+        { label: 'Phone', value: val(d.contact.phone) },
+        { label: 'Email', value: val(d.contact.email) },
+        { label: 'Address', value: val(d.contact.address) },
+        { label: 'Form fields', value: d.contact.fields.length ? d.contact.fields.map(f => typeLabels[f.type] + (f.required ? ' (required)' : '')).join(', ') : 'None' }
+      ] },
+      { title: 'Design inspiration', step: 5, rows: [
+        { label: 'References', value: d.inspiration.length ? d.inspiration.length + ' added' : 'None' }
+      ] },
+      { title: 'Visual identity', step: 6, rows: [
+        { label: 'Tone', value: d.identity.tones.length ? d.identity.tones.join(', ') : dash },
+        { label: 'Base brand colour', value: val(d.identity.brandColor) },
+        { label: 'Logos uploaded', value: ['logoPrimary', 'logoMark', 'logoLight', 'logoDark', 'favicon'].filter(k => d.identity[k]).length + ' of 5' },
+        { label: 'Brand guide', value: d.identity.brandGuide ? 'Added' : 'Not provided' }
+      ] },
+      { title: 'Social media', step: 7, rows: [
+        { label: 'Profiles', value: d.social.length ? d.social.map(x => x.platform + ': ' + (x.link.trim() || dash)).join('\n') : 'None' }
+      ] },
+      { title: 'Policy pages', step: 8, rows: [
+        { label: 'Privacy policy', value: polStatus(d.policies.privacy) },
+        { label: 'Terms & conditions', value: polStatus(d.policies.terms) },
+        { label: 'Cancellation & returns', value: polStatus(d.policies.returns) }
+      ] }
+    ];
+    const reviewSections = rawSections.map((sec, i) => ({ ...sec, num: pad(i), edit: () => this.goTo(sec.step) }));
+
+    return {
+      setRoot: (el) => { this.root = el; this.setRootVars(); if (el && this.ro) this.ro.observe(el); },
+      v, on, err: e,
+      shop: {
+        count: d.shop.count, onCount: (ev) => this.upd(x => x.shop.count = ev.target.value),
+        categoryRows, addCategory: () => this.upd(x => x.shop.categories.push({ id: this.uid(), name: '', subcategories: [] })),
+        productRows, addProduct: () => this.upd(x => x.shop.products.push(this.blankProduct())),
+        productsEmpty: d.shop.products.length === 0
+      },
+      home: {
+        mediaChips, onMedia: (ev) => { const ns = fileNames(ev); this.upd(x => x.home.media.push(...ns)); },
+        best: this.buildPicker('best'), style: this.buildPicker('style'),
+        hasCatalog: d.shop.products.length > 0, catalogEmpty: d.shop.products.length === 0,
+        testimonialRows, addTestimonial: () => this.upd(x => x.home.testimonials.push({ id: this.uid(), name: '', quote: '', photo: '' })),
+        excerpt: d.home.excerpt, onExcerpt: (ev) => this.upd(x => x.home.excerpt = ev.target.value),
+        diffRows, addDiff: () => this.upd(x => x.home.differentiators.push({ id: this.uid(), title: '', text: '' }))
+      },
+      about: { valueRows, addValue: () => this.upd(x => x.about.values.push({ id: this.uid(), title: '', text: '' })) },
+      contact: {
+        phone: d.contact.phone, email: d.contact.email, address: d.contact.address,
+        onPhone: (ev) => this.upd(x => x.contact.phone = ev.target.value),
+        onEmail: (ev) => this.upd(x => x.contact.email = ev.target.value),
+        onAddress: (ev) => this.upd(x => x.contact.address = ev.target.value),
+        addButtons, fieldRows, fieldsEmpty: d.contact.fields.length === 0
+      },
+      inspo: { rows: inspoRows, empty: d.inspiration.length === 0, add: () => this.upd(x => x.inspiration.push({ id: this.uid(), link: '', shot: '', note: '' })) },
+      identity: (() => {
+        const raw = String(d.identity.brandColor || '').trim();
+        const validHex = /^#?[0-9a-fA-F]{6}$/.test(raw);
+        const hexNorm = validHex ? ('#' + raw.replace('#', '')) : '#D9714E';
+        return {
+          toneChips, logoSlots,
+          brandColor: d.identity.brandColor,
+          brandColorPick: hexNorm,
+          brandColorSwatch: validHex ? hexNorm : '#F5F1E7',
+          onColor: (ev) => this.upd(x => x.identity.brandColor = ev.target.value),
+          onHex: (ev) => this.upd(x => x.identity.brandColor = ev.target.value),
+          onGuide: (ev) => { const n = fileName(ev); this.upd(x => x.identity.brandGuide = n); },
+          removeGuide: () => this.upd(x => x.identity.brandGuide = ''),
+          hasGuide: !!d.identity.brandGuide, guideName: d.identity.brandGuide
+        };
+      })(),
+      social: { rows: socialRows, empty: d.social.length === 0, add: () => this.upd(x => x.social.push({ id: this.uid(), platform: 'Instagram', link: '' })) },
+      policies: { blocks: policyBlocks },
+      reviewSections,
+      railItems,
+      isMobile: s.isMobile, showRail: !s.isMobile,
+      saved: s.saved, resumed: s.resumed, dismissResume: () => this.setState({ resumed: false }),
+      isStep0: s.step === 0 && !s.confirmed, isStep1: s.step === 1 && !s.confirmed, isStep2: s.step === 2 && !s.confirmed,
+      isStep3: s.step === 3 && !s.confirmed, isStep4: s.step === 4 && !s.confirmed, isStep5: s.step === 5 && !s.confirmed,
+      isStep6: s.step === 6 && !s.confirmed, isStep7: s.step === 7 && !s.confirmed, isStep8: s.step === 8 && !s.confirmed,
+      isStep9: s.step === 9 && !s.confirmed,
+      showSuccess: s.confirmed, showForm: !s.confirmed, showBack: s.step > 0 && !s.confirmed,
+      back: () => this.back(),
+      primaryLabel: s.step === 9 ? 'Confirm details' : 'Save and continue',
+      onPrimary: s.step === 9 ? () => this.confirm() : () => this.next(),
+      goReview: () => this.setState({ confirmed: false, step: 9 }, () => this.top()),
+      mobileCounter: s.step === 9 ? 'Final review' : ('Step ' + (s.step + 1) + ' of 9'),
+      currentLabel: labels[s.step],
+      barStyle: { height: '100%', borderRadius: '999px', background: '#D9714E', width: Math.round(((s.step + 1) / 10) * 100) + '%', transition: 'width .3s ease' },
+      successEmail: d.business.email.trim() || 'your inbox',
+      reset: () => this.reset()
+    };
+  }
+}
+</script>
+</body>
+</html>

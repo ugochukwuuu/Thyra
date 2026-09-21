@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  @keyframes thyraPing{0%{transform:scale(1);opacity:0.55}70%,100%{transform:scale(2.6);opacity:0}}
+</style>
+</helmet>
+<div style="--cream:#F5F1E7; --paper:#FBFAF6; --charcoal:#1A1714; --terra:#D9714E; --terra-dark:#C25E3D; --grey:#6B655C; --ink:#1A1714; --line:rgba(26,23,20,0.12); --line-d:rgba(245,241,231,0.14); --dmuted:#9A9082; --hd:'Geist',system-ui,sans-serif; --bd:'Hanken Grotesk',system-ui,sans-serif; --sp:104px; font-family:var(--bd); color:var(--ink); background:var(--cream); -webkit-font-smoothing:antialiased; line-height:1.5;">
+
+  <!-- HEADER -->
+  <header style="position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:16px; padding:14px 24px; background:rgba(245,241,231,0.86); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); border-bottom:1px solid var(--line); color:var(--ink);">
+    <div style="display:flex; align-items:center; gap:10px; font-family:var(--hd); font-weight:700; font-size:18px; letter-spacing:-0.02em;">
+      <span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#1A1714;"></span><span style="flex:1; height:4px; background:#1A1714;"></span></span><span style="position:relative; height:14px; border:2px solid #1A1714; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#1A1714; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span>
+    </div>
+    <div style="flex:1;"></div>
+    <a href="Thyra Pre-Call Qualifier.dc.html" style="display:inline-flex; padding:10px 20px; border-radius:999px; background:var(--terra); color:#fff; font-weight:600; font-size:14px; white-space:nowrap;" style-hover="background:var(--terra-dark);">Book a call to implement</a>
+  </header>
+
+  <!-- SECTION 1 — HERO (charcoal) -->
+  <section style="background:var(--charcoal); color:var(--cream); padding:calc(var(--sp) + 24px) 24px calc(var(--sp) - 20px);">
+    <div style="max-width:900px; margin:0 auto; text-align:center;">
+      <h1 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.035em; line-height:0.98; font-size:clamp(38px,6.5vw,72px); margin:0; text-wrap:balance;">Sell every single day — without opening your physical store.</h1>
+      <p style="max-width:660px; margin:26px auto 0; font-size:clamp(17px,2vw,20px); font-weight:300; color:#E7E0D2; text-wrap:pretty;">Give your store more visibility than posting on your WhatsApp status ever could. We build and run the exact system that gets your products selling around the clock — no more relying on your contact list to buy.</p>
+      <div style="margin-top:40px;">
+        <a href="Thyra Pre-Call Qualifier.dc.html" style="display:inline-flex; padding:16px 32px; border-radius:999px; background:var(--terra); color:#fff; font-weight:600; font-size:16px;" style-hover="background:var(--terra-dark);">Book a call to implement</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 — THE PAIN (cream) -->
+  <section style="background:var(--cream); padding:var(--sp) 24px;">
+    <div style="max-width:760px; margin:0 auto;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; line-height:1.05; font-size:clamp(30px,4.6vw,48px); margin:0; text-wrap:balance;">Same routine, every day.</h2>
+      <p style="font-size:18px; color:var(--grey); margin:24px 0 0; text-wrap:pretty;">You open the store. You sit down. You pray customers walk in. Some days you get a handful. Some days, nothing.<br><br>Your products sit on the same shelves for months. That's not because your product is bad. It's painful, and I get it — but here's the truth:</p>
+      <p style="font-family:var(--hd); font-weight:700; letter-spacing:-0.02em; line-height:1.2; font-size:clamp(26px,3.6vw,38px); color:var(--ink); margin:40px 0; padding-left:20px; border-left:3px solid var(--terra);">Your product isn't the problem. You just don't understand marketing yet.</p>
+      <p style="font-size:18px; color:var(--grey); margin:0; text-wrap:pretty;">If "marketing" to you means posting on your WhatsApp status and hoping — how far has that actually taken you?</p>
+    </div>
+  </section>
+
+  <!-- SECTION 3 — THE TURN (charcoal) -->
+  <section style="background:var(--charcoal); color:var(--cream); padding:var(--sp) 24px;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; line-height:1.05; font-size:clamp(30px,4.6vw,48px); margin:0; max-width:760px; text-wrap:balance;">Is there a way out of this? Yes — and it doesn't depend on luck.</h2>
+      <p style="font-size:18px; color:#E7E0D2; margin:22px 0 0; max-width:640px;">This is exactly what we've implemented for 20+ businesses — helping them sell consistently, without living on WhatsApp status updates.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:16px; margin-top:56px;">
+        <sc-for list="{{ turnTestimonials }}" as="t" hint-placeholder-count="3">
+          <div style="{{ t.wrapStyle }}">
+            <div style="height:180px; border-radius:16px; background:repeating-linear-gradient(45deg,#211D19,#211D19 10px,#191512 10px,#191512 20px); display:flex; align-items:center; justify-content:center; margin-bottom:16px;"><span style="font-family:var(--hd); font-size:10px; letter-spacing:0.1em; color:var(--dmuted); text-transform:uppercase;">[ Client photo ]</span></div>
+            <p style="font-size:15px; color:#E7E0D2; margin:0 0 10px; font-style:italic;">"[Quote goes here]"</p>
+            <div style="font-family:var(--hd); font-weight:600; font-size:13.5px; color:var(--dmuted);">[Client name, business]</div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 — THE OFFER (cream) -->
+  <section style="background:var(--cream); padding:var(--sp) 24px calc(var(--sp) - 40px);">
+    <div style="max-width:1100px; margin:0 auto;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; line-height:1.05; font-size:clamp(30px,4.6vw,48px); margin:0; max-width:760px; text-wrap:balance;">Introducing the 30-Day Ecom Launchpad.</h2>
+      <p style="font-size:18px; color:var(--grey); margin:22px 0 0; max-width:700px; text-wrap:pretty;">The step-by-step system that turns your physical product business into one that sells without you chasing customers — where people are asking "do you have stock?" instead of the other way around.<br><br>We do the heavy lifting: the branding, the website, the marketing strategy. You create the content and sell as much as you want.</p>
+
+      <div style="display:flex; align-items:center; gap:12px; margin:52px 0 24px;">
+        <span style="font-size:12px; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--grey);">Here's what's inside</span>
+        <span style="height:1px; flex:1; background:var(--line);"></span>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(310px,1fr)); gap:16px;">
+        <sc-for list="{{ offerItems }}" as="it" hint-placeholder-count="7">
+          <div style="{{ it.cardStyle }}">
+            <span style="{{ it.numStyle }}">{{ it.num }}</span>
+            <h3 style="font-family:var(--hd); font-weight:600; font-size:19px; letter-spacing:-0.01em; margin:18px 0 10px;">{{ it.title }}</h3>
+            <p style="margin:0; font-size:14.5px; {{ it.bodyColor }}">{{ it.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- BONUS BAND (charcoal, part of the offer) -->
+  <section style="background:var(--charcoal); color:var(--cream); padding:var(--sp) 24px;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <span style="display:inline-flex; align-items:center; gap:8px; padding:7px 15px; border:1px solid var(--line-d); border-radius:999px; font-size:12px; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--dmuted);"><span style="width:6px; height:6px; border-radius:50%; background:var(--terra);"></span>Bonus stack</span>
+      <h3 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.02em; font-size:clamp(24px,3.4vw,34px); margin:20px 0 36px;">Plus, when you start this month:</h3>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px;">
+        <sc-for list="{{ bonusItems }}" as="b" hint-placeholder-count="4">
+          <div style="border:1px solid var(--line-d); border-radius:18px; padding:24px;">
+            <span style="width:8px; height:8px; border-radius:50%; background:var(--terra); display:inline-block; margin-bottom:14px;"></span>
+            <h4 style="font-family:var(--hd); font-weight:600; font-size:16.5px; letter-spacing:-0.01em; margin:0 0 8px;">{{ b.title }}</h4>
+            <p style="margin:0; font-size:14px; color:var(--dmuted);">{{ b.body }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 — TRUST (cream) -->
+  <section style="background:var(--cream); padding:var(--sp) 24px;">
+    <div style="max-width:1100px; margin:0 auto;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; line-height:1.05; font-size:clamp(28px,4.2vw,44px); margin:0; max-width:700px; text-wrap:balance;">Still wondering if this is right for your business?</h2>
+      <p style="font-size:18px; color:var(--grey); margin:22px 0 0; max-width:640px;">Founder Eze Mitchell has helped business owners sell consistently — without living off foot traffic alone.</p>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:16px; margin-top:48px;">
+        <sc-for list="{{ trustTestimonials }}" as="t" hint-placeholder-count="3">
+          <div style="background:var(--paper); border:1px solid var(--line); border-radius:18px; padding:26px;">
+            <div style="display:flex; align-items:center; gap:12px; margin-bottom:16px;">
+              <span style="width:44px; height:44px; border-radius:50%; background:repeating-linear-gradient(45deg,#E4DDCC,#E4DDCC 8px,#D8CFB9 8px,#D8CFB9 16px); flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-size:8px; color:var(--grey); text-align:center; font-family:var(--hd); text-transform:uppercase;">Photo</span>
+              <div>
+                <div style="font-family:var(--hd); font-weight:600; font-size:14px;">[Client name]</div>
+                <div style="font-size:12.5px; color:var(--grey);">[Business]</div>
+              </div>
+            </div>
+            <p style="margin:0; font-size:15px; color:var(--ink); font-style:italic;">"[Quote goes here]"</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 — FAQ (charcoal) -->
+  <section style="background:var(--charcoal); color:var(--cream); padding:var(--sp) 24px;">
+    <div style="max-width:820px; margin:0 auto;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.025em; font-size:clamp(28px,4.2vw,44px); margin:0 0 40px;">Questions, answered plainly.</h2>
+      <div style="border-top:1px solid var(--line-d);">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="4">
+          <div style="border-bottom:1px solid var(--line-d);">
+            <button onClick="{{ f.toggle }}" style="width:100%; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 4px; background:none; border:none; cursor:pointer; text-align:left; font-family:var(--hd); font-weight:600; font-size:17px; color:var(--cream);">
+              <span>{{ f.q }}</span>
+              <span style="flex:0 0 auto; width:30px; height:30px; border-radius:50%; border:1.5px solid var(--line-d); display:flex; align-items:center; justify-content:center; font-size:18px; color:var(--terra);">{{ f.sign }}</span>
+            </button>
+            <div style="{{ f.ansStyle }}">
+              <p style="margin:0; padding:0 4px 24px; font-size:15.5px; color:var(--dmuted); max-width:640px;">{{ f.a }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 — CLOSING (charcoal) -->
+  <section style="background:#15120F; padding:calc(var(--sp) + 10px) 24px; border-top:1px solid var(--line-d);">
+    <div style="max-width:800px; margin:0 auto; text-align:center;">
+      <h2 style="font-family:var(--hd); font-weight:700; letter-spacing:-0.03em; line-height:1.03; font-size:clamp(32px,5.6vw,58px); margin:0; color:var(--cream); text-wrap:balance;">Ready to implement? Book a call now.</h2>
+      <div style="margin-top:36px;">
+        <a href="Thyra Pre-Call Qualifier.dc.html" style="display:inline-flex; padding:16px 34px; border-radius:999px; background:var(--terra); color:#fff; font-weight:600; font-size:16px;" style-hover="background:var(--terra-dark);">Book a call to implement</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#15120F; color:var(--dmuted); border-top:1px solid var(--line-d); padding:24px; text-align:center; font-size:12.5px; letter-spacing:0.04em;">
+    Thyra Technologies · © 2026
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { openFaq: 1 };
+
+  renderVals() {
+    const offerData = [
+      { title: 'The Foundation — Brand Strategy & Identity', body: "If you don't manufacture your own products, you're likely selling what thousands of others sell too. You need to look different, sound different, and reach an audience your competitors aren't touching. We map your brand strategy and design your full brand guide — colors, type, logo, voice, the works." },
+      { title: 'Your Fully Built Ecommerce Store', body: 'A real online storefront — home page, shop page, product pages, checkout — built around your products and branded to match. Not a template. Not a placeholder site. Somewhere customers can actually buy, any hour of the day.' },
+      { title: 'Your Marketing Strategy & Assets', body: "We structure your entire marketing plan and design/build every asset it needs — social graphics, email designs, product photography direction, promotional content templates you can keep using long after launch." },
+      { title: 'Your Ad Campaigns — Set Up & Managed', body: "We set up and run your paid ad campaigns across the platforms that make sense for your product, so new customers are finding you daily — not just the people already in your contacts." },
+      { title: 'Performance Monitoring & Optimization', body: "We track what's converting and what isn't, and adjust the store and the ads as real customer behavior comes in — not guesswork." },
+      { title: 'Your Own Store Dashboard', body: 'See your orders, your customers, and what\u2019s actually selling — in one place, without digging through a notebook or a chat thread.' },
+      { title: 'Policy & Trust Pages, Done For You', body: 'Privacy policy, terms and conditions, returns policy — the pages customers check before they trust a new store enough to pay you, written and ready before launch.' }
+    ];
+    const offerItems = offerData.map((o, i) => {
+      const dark = i % 2 === 1;
+      return {
+        num: String(i + 1).padStart(2, '0'),
+        title: o.title,
+        body: o.body,
+        bodyColor: dark ? 'color:#C9C1B2;' : 'color:#6B655C;',
+        cardStyle: dark
+          ? 'background:#241F1A; color:#F5F1E7; border:1px solid rgba(245,241,231,0.14); border-radius:20px; padding:28px;'
+          : 'background:#FBFAF6; color:#1A1714; border:1px solid rgba(26,23,20,0.12); border-radius:20px; padding:28px;',
+        numStyle: dark
+          ? 'display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:999px; background:#D9714E; color:#fff; font-family:Geist,system-ui,sans-serif; font-weight:700; font-size:13px;'
+          : 'display:inline-flex; align-items:center; justify-content:center; width:34px; height:34px; border-radius:999px; background:rgba(217,113,78,0.12); color:#C25E3D; font-family:Geist,system-ui,sans-serif; font-weight:700; font-size:13px;'
+      };
+    });
+
+    const bonusItems = [
+      { title: '3 months of free ecommerce website maintenance', body: 'Hosting, updates, and fixes handled, so nothing breaks in your first quarter live.' },
+      { title: '3 high-quality launch videos for your top product', body: 'Professional video content showcasing your best-selling item, ready to use across ads, social, and your new store — the exact kind of content that gets a store noticed in its first week live.' },
+      { title: '24/7 support for your first 3 months live', body: "Direct access to our team any time something breaks, needs changing, or you're unsure how to use the system — no waiting on a ticket queue while your store is down." },
+      { title: 'Priority slot in our next design refresh', body: 'When we next revisit branding and design work for clients, you get first access — ahead of the queue.' }
+    ];
+
+    const turnTestimonials = [0, 1, 2].map(i => ({ wrapStyle: i % 2 === 1 ? 'margin-top:24px;' : '' }));
+    const trustTestimonials = [0, 1, 2].map(() => ({}));
+
+    const faqData = [
+      { q: 'Do I need a website already?', a: 'No. Most businesses we work with start exactly where you are — selling manually, no store at all.' },
+      { q: "How long until I'm actually taking orders online?", a: 'The full Launchpad system is built to get you live and selling within 30 days.' },
+      { q: 'What do I need to do on the call?', a: "Just show up. We'll walk through your business, your products, and map out your first 30 days on the Launchpad." },
+      { q: 'Do you run the ads too, or just build the website?', a: "Both. The store and the ads work together — a store with no traffic doesn't sell, and ads with nowhere good to land don't convert." }
+    ];
+
+    return {
+      offerItems,
+      bonusItems,
+      turnTestimonials,
+      trustTestimonials,
+      faqs: faqData.map((f, i) => ({
+        q: f.q,
+        a: f.a,
+        sign: this.state.openFaq === i ? '\u2013' : '+',
+        toggle: () => this.setState(s => ({ openFaq: s.openFaq === i ? -1 : i })),
+        ansStyle: { display: this.state.openFaq === i ? 'block' : 'none' }
+      }))
+    };
+  }
+}
+
+</script>
+</body>
+</html>
