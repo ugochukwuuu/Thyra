@@ -98,19 +98,26 @@ All routes start with `/api`. Clients are identified by an httpOnly cookie that 
 
 ## Deploying to Railway
 
-The API serves the built website, so one Railway service is enough.
+The API serves the built website, so one Railway service is enough. `railway.json` in the root of the repository already tells Railway to build with `npm run build` and start with `npm start`, so you do not need to type those in.
 
-1. Create a project with a PostgreSQL database and one service from this repository.
-2. Set the build command to `npm run build` and the start command to `npm start`.
-3. Add these variables to the service. Use the `DATABASE_URL` that Railway shows for the database.
+1. On [railway.app](https://railway.app), start a new project from this GitHub repository, `ugochukwuuu/Thyra`. Railway may ask for access to the repository the first time.
+2. In the same project, add a PostgreSQL database. Click "New", then "Database", then "Add PostgreSQL".
+3. Open the web service, the one built from the repository, and add these variables under its Variables tab.
    - `NODE_ENV=production`
-   - `DATABASE_URL`
-   - `JWT_SECRET`
-   - `CLIENT_URL` set to the public address of the service
+   - `DATABASE_URL` set to a reference to the database, not typed by hand. Click "Add Reference" and pick the Postgres service's `DATABASE_URL`. Railway writes this as `${{Postgres.DATABASE_URL}}`, and it uses Railway's private network, so leave `DATABASE_SSL` unset.
+   - `JWT_SECRET`, a random string of at least 32 characters. You can make one with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`.
+   - `CLIENT_URL`, the public address you plan to use, for example `https://app.thyratechnology.com`. You can fill this in after step 5 once you know it, then let Railway redeploy.
    - `RESEND_API_KEY` and `EMAIL_FROM`
    - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`
-4. Deploy. The API creates the database tables the first time it starts.
-5. Create your first admin by running the seed command with Railway's command line tool.
+4. Deploy. The API creates the database tables the first time it starts, and `/api/health` is what Railway checks to see that it is up.
+5. To use your own domain instead of the `*.up.railway.app` address Railway gives you, open the service's Settings, then Networking, then Custom Domain, and enter the subdomain you want, for example `app.thyratechnology.com`. Railway shows a CNAME record to add.
+
+   If `thyratechnology.com` is already hosting a WordPress site elsewhere, for example on Hostinger, add that CNAME record on a subdomain, not on the bare domain, so the existing site keeps working. In Hostinger's hPanel, open the domain's DNS settings and add a record with type CNAME, name `app` (or whichever subdomain you chose), and the value Railway gave you. Railway issues its own certificate for the subdomain once the record is in place, usually within a few minutes.
+6. Create your first admin account. Install the Railway command line tool, run `railway login` and `railway link` to connect it to this project, then run:
+
+   ```bash
+   railway run npm run seed:admin -- you@thyra.co "a long passphrase"
+   ```
 
 ## Things to know
 
