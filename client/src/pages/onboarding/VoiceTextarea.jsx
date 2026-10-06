@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 import { Field } from '../../components/Field.jsx'
 
 const Recognition = typeof window !== 'undefined' ? window.SpeechRecognition || window.webkitSpeechRecognition : undefined
@@ -13,6 +13,10 @@ const ERROR_MESSAGES = {
   'audio-capture': "We couldn't find a microphone on this device.",
   network: 'Voice input needs an internet connection.',
 }
+
+/** Admins can switch voice input off in Settings; the wizard provides this flag. */
+// eslint-disable-next-line react-refresh/only-export-components
+export const VoiceEnabled = createContext(true)
 
 // Only one field listens at a time; starting another stops the previous one.
 let stopActive = null
@@ -32,6 +36,7 @@ function MicIcon() {
  * the app except through the browser's own speech service.
  */
 export function VoiceTextarea({ label, hint, error, value, onChange, placeholder, rows = 5, disabled, hideLabel }) {
+  const voiceOn = useContext(VoiceEnabled)
   const [listening, setListening] = useState(false)
   const [interim, setInterim] = useState('')
   const [message, setMessage] = useState('')
@@ -114,7 +119,7 @@ export function VoiceTextarea({ label, hint, error, value, onChange, placeholder
             onChange={(e) => onChange(e.target.value)}
             {...aria}
           />
-          {!disabled && (
+          {!disabled && voiceOn && (
             <div className="voice-bar">
               <button
                 type="button"

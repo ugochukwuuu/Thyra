@@ -106,6 +106,7 @@ router.get('/clients', async (_req, res) => {
 
 router.get('/clients/:id', async (req, res) => {
   const row = await loadClient(req.params.id);
+  const { includeNoImages } = await getSettings('export');
   const { rows: requests } = await query(
     `SELECT c.*, u.full_name AS created_by_name FROM change_requests c
      LEFT JOIN users u ON u.id = c.created_by
@@ -116,6 +117,8 @@ router.get('/clients/:id', async (req, res) => {
     client: clientSummary(row),
     submission: Object.fromEntries(Object.entries(SECTIONS).map(([key, { column }]) => [key, row[column]])),
     issues: productIssues(row),
+    // Lets the page warn that products without images will be left out of the CSV.
+    exportIncludesNoImages: includeNoImages,
     changeRequests: requests.map((c) => ({
       id: c.id,
       step: c.step,

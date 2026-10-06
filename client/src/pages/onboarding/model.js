@@ -49,8 +49,6 @@ export const CONTACT_FIELD_TYPES = [
 ]
 export const contactTypeLabel = (type) => CONTACT_FIELD_TYPES.find(([t]) => t === type)?.[1] ?? type
 
-export const PLATFORMS = ['Instagram', 'TikTok', 'Facebook', 'X', 'Pinterest', 'YouTube', 'LinkedIn', 'Other']
-
 export const POLICIES = [
   ['privacy', 'Privacy policy', 'How you handle customer data.'],
   ['terms', 'Terms and conditions', 'The rules of buying from you.'],

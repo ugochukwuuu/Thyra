@@ -7,12 +7,25 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
 
+  /** Re-reads the signed-in user from the server, e.g. after sign-up or confirming an email. */
+  const refresh = useCallback(async () => {
+    try {
+      const data = await api('/auth/me')
+      setUser(data.user)
+      return data.user
+    } catch (err) {
+      // 401 just means "not logged in"; anything else also leaves us logged out.
+      if (!(err instanceof ApiError) || err.status !== 401) console.error(err)
+      setUser(null)
+      return null
+    }
+  }, [])
+
   useEffect(() => {
     let cancelled = false
     api('/auth/me')
       .then((data) => !cancelled && setUser(data.user))
       .catch((err) => {
-        // 401 just means "not logged in"; anything else also leaves us logged out.
         if (!(err instanceof ApiError) || err.status !== 401) console.error(err)
       })
       .finally(() => !cancelled && setLoading(false))
@@ -21,14 +34,8 @@ export function AuthProvider({ children }) {
     }
   }, [])
 
-  const login = useCallback(async (email, password) => {
-    const data = await api('/auth/login', { method: 'POST', body: { email, password } })
-    setUser(data.user)
-    return data.user
-  }, [])
-
-  const register = useCallback(async (fields) => {
-    const data = await api('/auth/register', { method: 'POST', body: fields })
+  const login = useCallback(async (email, password, scope = 'any') => {
+    const data = await api('/auth/login', { method: 'POST', body: { email, password, scope } })
     setUser(data.user)
     return data.user
   }, [])
@@ -45,8 +52,8 @@ export function AuthProvider({ children }) {
   const sessionExpired = useCallback(() => setUser(null), [])
 
   const value = useMemo(
-    () => ({ user, loading, login, register, logout, sessionExpired }),
-    [user, loading, login, register, logout, sessionExpired],
+    () => ({ user, loading, login, logout, refresh, setUser, sessionExpired }),
+    [user, loading, login, logout, refresh, sessionExpired],
   )
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
@@ -59,4 +66,7 @@ export function useAuth() {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-export const homePathFor = (user) => (user?.role === 'admin' ? '/admin' : '/onboarding')
+export const isStaff = (user) => user?.role === 'admin' || user?.role === 'viewer'
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const homePathFor = (user) => (isStaff(user) ? '/admin/submissions' : '/onboarding')

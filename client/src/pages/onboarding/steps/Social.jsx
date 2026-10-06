@@ -1,8 +1,11 @@
-import { PLATFORMS, uid } from '../model.js'
+import { uid } from '../model.js'
 import { AddButton, EmptyState, ErrorLine, RemoveButton, StepCard } from '../ui.jsx'
 
-export default function Social({ data, update, errors, clearError }) {
+export default function Social({ data, update, errors, clearError, options }) {
   const items = data.socialMedia.items
+  const platforms = options.socialPlatforms.length ? options.socialPlatforms : ['Instagram']
+  // Keep a platform the client already chose, even if an admin has since removed it from the list.
+  const choicesFor = (current) => (platforms.includes(current) ? platforms : [current, ...platforms])
 
   const edit = (mutate, errorKey) =>
     update('socialMedia', (d) => {
@@ -23,7 +26,7 @@ export default function Social({ data, update, errors, clearError }) {
           <div key={s.id}>
             <div className="social-row">
               <select className="select" aria-label={`Platform for profile ${i + 1}`} value={s.platform} onChange={(e) => edit((d) => (d.items[i].platform = e.target.value))}>
-                {PLATFORMS.map((p) => (
+                {choicesFor(s.platform).map((p) => (
                   <option key={p} value={p}>
                     {p}
                   </option>
@@ -43,7 +46,7 @@ export default function Social({ data, update, errors, clearError }) {
           </div>
         ))}
       </div>
-      <AddButton onClick={() => edit((d) => d.items.push({ id: uid(), platform: 'Instagram', link: '' }))}>Add profile</AddButton>
+      <AddButton onClick={() => edit((d) => d.items.push({ id: uid(), platform: platforms[0], link: '' }))}>Add profile</AddButton>
     </StepCard>
   )
 }

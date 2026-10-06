@@ -36,6 +36,11 @@ export function useOnboarding() {
   const [resumed, setResumed] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState('')
+  const [needsVerification, setNeedsVerification] = useState(false)
+  // Open requests from the Thyra team, each tied to a step, shown at the top of that step.
+  const [changeRequests, setChangeRequests] = useState([])
+  // Choices the admin controls in Settings: which social platforms to offer, and whether voice input is on.
+  const [options, setOptions] = useState({ socialPlatforms: [], voiceInput: true })
 
   // Refs hold the latest values for the save loop, which outlives any single render.
   const dataRef = useRef(data)
@@ -49,11 +54,18 @@ export function useOnboarding() {
   useEffect(() => {
     statusRef.current = status
   }, [status])
+  // Read through a ref, so refreshing the user (e.g. after confirming an email) doesn't reload the form.
+  const userRef = useRef(user)
+  useEffect(() => {
+    userRef.current = user
+  }, [user])
 
   const load = useCallback(async () => {
     try {
-      const { submission } = await api('/onboarding')
-      const hydrated = hydrate(submission, user)
+      const [{ submission }, { options: opts }] = await Promise.all([api('/onboarding'), api('/onboarding/options')])
+      setOptions(opts)
+      setChangeRequests(submission.changeRequests ?? [])
+      const hydrated = hydrate(submission, userRef.current)
       dataRef.current = hydrated
       maxRef.current = submission.currentStep
       setData(hydrated)
@@ -67,7 +79,7 @@ export function useOnboarding() {
       setLoadError(err instanceof ApiError ? err.message : 'Something went wrong.')
       setPhase('failed')
     }
-  }, [user, sessionExpired])
+  }, [sessionExpired])
 
   useEffect(() => {
     // Fetching on mount; state is only set after the request resolves.
@@ -255,10 +267,15 @@ export function useOnboarding() {
       await flush()
       const { submission } = await api('/onboarding/submit', { method: 'POST', body: {} })
       setStatus(submission.status)
+      setChangeRequests([])
+      setNeedsVerification(false)
       scrollTop()
     } catch (err) {
       if (err instanceof ApiError && err.status === 401) return sessionExpired()
-      if (err instanceof ApiError && err.status === 422) {
+      if (err instanceof ApiError && err.status === 403) {
+        setNeedsVerification(true)
+        setSubmitError(err.message)
+      } else if (err instanceof ApiError && err.status === 422) {
         setProblemSteps([...new Set(err.problems.map((p) => p.step))])
       } else {
         setSubmitError(err instanceof ApiError ? err.message : 'Something went wrong. Please try again.')
@@ -286,6 +303,17 @@ export function useOnboarding() {
 
   const flushNow = useCallback(() => flush(), [flush])
 
+  /** Sends a fresh confirmation link to the client's email. Returns a message to show. */
+  const resendVerification = useCallback(async () => {
+    try {
+      const { message } = await api('/auth/resend-verification', { method: 'POST', body: {} })
+      return message
+    } catch (err) {
+      if (err instanceof ApiError && err.status === 401) sessionExpired()
+      return err instanceof ApiError ? err.message : 'Something went wrong. Please try again.'
+    }
+  }, [sessionExpired])
+
   return {
     phase,
     loadError,
@@ -309,5 +337,9 @@ export function useOnboarding() {
     confirm,
     uploadFiles,
     flushNow,
+    changeRequests,
+    options,
+    needsVerification,
+    resendVerification,
   }
 }

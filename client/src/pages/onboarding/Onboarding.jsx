@@ -13,13 +13,15 @@ import Policies from './steps/Policies.jsx'
 import Review from './steps/Review.jsx'
 import Shop from './steps/Shop.jsx'
 import Social from './steps/Social.jsx'
+import { ChangeNotes, VerifyBanner } from './banners.jsx'
 import { StepIcon } from './ui.jsx'
+import { VoiceEnabled } from './VoiceTextarea.jsx'
 import { useOnboarding } from './useOnboarding.js'
 
 const SAVE_LABEL = { saving: 'Saving…', saved: 'Progress saved', error: "Couldn't save — retrying" }
 
 export default function Onboarding() {
-  const { logout } = useAuth()
+  const { user, logout } = useAuth()
   const ob = useOnboarding()
   const [reviewing, setReviewing] = useState(false) // after submission: false = thank-you card, true = read-only answers
   const mainRef = useRef(null)
@@ -60,7 +62,10 @@ export default function Onboarding() {
     errors: ob.errors,
     clearError: ob.clearError,
     uploadFiles: ob.uploadFiles,
+    options: ob.options,
   }
+  const flaggedSteps = new Set(ob.changeRequests.map((c) => c.step))
+  const stepNotes = ob.changeRequests.filter((c) => c.step === step)
 
   let content
   if (submitted && !reviewing) {
@@ -93,6 +98,7 @@ export default function Onboarding() {
   } else {
     content = (
       <>
+        <ChangeNotes requests={stepNotes} />
         {step === 0 && <BusinessInfo {...stepProps} />}
         {step === 1 && <Shop {...stepProps} />}
         {step === 2 && <Home {...stepProps} />}
@@ -105,9 +111,12 @@ export default function Onboarding() {
         {step === REVIEW_STEP && <Review data={ob.data} goTo={ob.goTo} readOnly={false} problemSteps={ob.problemSteps} />}
 
         {ob.submitError && (
-          <p className="error-text" role="alert" style={{ marginTop: 16, textAlign: 'right' }}>
-            {ob.submitError}
-          </p>
+          <div style={{ marginTop: 16, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 6 }}>
+            <p className="error-text" role="alert" style={{ margin: 0, textAlign: 'right' }}>
+              {ob.submitError}
+            </p>
+            {ob.needsVerification && <ResendLink resend={ob.resendVerification} />}
+          </div>
         )}
         <div className="ob-nav">
           {step > 0 && (
@@ -150,6 +159,24 @@ export default function Onboarding() {
         </button>
       </header>
 
+      {!submitted && user && !user.emailVerified && <VerifyBanner email={user.email} resend={ob.resendVerification} />}
+
+      {ob.status === 'changes_requested' && (
+        <div className="resume-banner changes-banner" role="status">
+          <i />
+          <span>
+            The Thyra team asked for a few changes. Update the sections marked below, then confirm your details again.
+          </span>
+          <span className="changes-links">
+            {[...flaggedSteps].sort((a, b) => a - b).map((s) => (
+              <button key={s} type="button" className="link-btn" onClick={() => ob.goTo(s)}>
+                {STEPS[s].label}
+              </button>
+            ))}
+          </span>
+        </div>
+      )}
+
       {ob.resumed && !submitted && (
         <div className="resume-banner">
           <i />
@@ -172,7 +199,10 @@ export default function Onboarding() {
                   <span className="rail-icon">
                     <StepIcon name={s.key} />
                   </span>
-                  <span className="rail-label">{s.label}</span>
+                  <span className="rail-label">
+                    {s.label}
+                    {flaggedSteps.has(i) && <span className="rail-flag">Changes requested</span>}
+                  </span>
                   <span className="rail-num">{String(i + 1).padStart(2, '0')}</span>
                 </button>
               )
@@ -193,9 +223,28 @@ export default function Onboarding() {
               </div>
             </div>
           )}
-          {content}
+          <VoiceEnabled.Provider value={ob.options.voiceInput !== false}>{content}</VoiceEnabled.Provider>
         </main>
       </div>
     </div>
+  )
+}
+
+function ResendLink({ resend }) {
+  const [note, setNote] = useState('')
+  const [busy, setBusy] = useState(false)
+  if (note) return <span className="hint">{note}</span>
+  return (
+    <button
+      type="button"
+      className="link-btn"
+      disabled={busy}
+      onClick={async () => {
+        setBusy(true)
+        setNote(await resend())
+      }}
+    >
+      Send me a new confirmation link
+    </button>
   )
 }
