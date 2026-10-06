@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F5F1E7}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  ::placeholder{color:#A79F93}
+  input,button,select,textarea{font-family:inherit}
+  @keyframes thyraDot{0%,100%{opacity:1}50%{opacity:0.28}}
+</style>
+<script src="./admin-data.js"></script>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100vh; display:flex; flex-wrap:wrap; align-items:flex-start; background:#F5F1E7; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#1A1714; -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.45;">
+
+  <!-- SIDEBAR (desktop) -->
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:sticky; top:0; height:100vh; flex:0 0 232px; background:#1A1714; color:#EDE7DA; display:flex; flex-direction:column; padding:24px 16px;">
+      <div style="padding:0 8px;"><div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div></div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:40px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">Eze Mitchel</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div>
+    </aside>
+  </sc-if>
+
+  <!-- TOP BAR (mobile) -->
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+    <div style="position:sticky; top:0; z-index:50; flex:1 0 100%; display:flex; align-items:center; gap:12px; min-height:60px; padding:8px 8px 8px 20px; background:#1A1714;">
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+      <div style="flex:1;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#EDE7DA;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="">
+    <div role="dialog" aria-label="Menu" style="position:fixed; inset:0; z-index:90; background:#1A1714; display:flex; flex-direction:column; padding:8px 8px 24px 20px;">
+      <div style="display:flex; align-items:center; min-height:60px;">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+        <div style="flex:1;"></div>
+        <button onClick="{{ closeMenu }}" aria-label="Close menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#EDE7DA; font-size:26px; line-height:1;">×</button>
+      </div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:24px; padding-right:12px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="padding-right:12px;"><div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">Eze Mitchel</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div></div>
+    </div>
+  </sc-if>
+
+  <main style="{{ mainStyle }}">
+    <div style="max-width:1200px; margin:0 auto;">
+      <a href="Submissions.dc.html" style="display:inline-flex; align-items:center; gap:8px; min-height:44px; font-size:13.5px; font-weight:600; color:#6B655C;" style-hover="color:#C25E3D;">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>All submissions
+      </a>
+
+      <sc-if value="{{ notFound }}" hint-placeholder-val="">
+        <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; margin-top:12px; padding:56px 24px; text-align:center; color:#6B655C; font-size:14.5px;">This client no longer exists.</div>
+      </sc-if>
+
+      <sc-if value="{{ found }}" hint-placeholder-val="{{ true }}">
+        <div>
+          <sc-if value="{{ isArchived }}" hint-placeholder-val="">
+            <div role="status" style="display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-top:12px; padding:8px 8px 8px 18px; border:1px solid rgba(26,23,20,0.14); border-radius:16px; background:#EFEAE0;">
+              <span style="flex:1 1 240px; font-size:14px;">Archived. This client is hidden from your inbox.</span>
+              <button onClick="{{ restore }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; color:#1A1714; font-weight:600; font-size:14px; cursor:pointer; white-space:nowrap; font-size:13.5px;" style-hover="border-color:#D9714E; color:#C25E3D;">Restore</button>
+            </div>
+          </sc-if>
+
+          <!-- HEADER -->
+          <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; margin-top:12px; padding:20px clamp(18px,3vw,28px); display:flex; align-items:center; gap:16px 24px; flex-wrap:wrap;">
+            <div style="flex:1 1 320px; min-width:0;">
+              <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+                <h1 style="font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.025em; font-size:clamp(24px,3vw,28px); line-height:1.1; margin:0;">{{ bizName }}</h1>
+                <span style="{{ pillStyle }}">{{ statusLabel }}</span>
+              </div>
+              <div style="display:flex; align-items:center; gap:4px 16px; flex-wrap:wrap; margin-top:8px; font-size:13.5px; color:#6B655C;">
+                <span>{{ dateLabel }}</span>
+                <a href="{{ mailto }}" style="display:inline-flex; align-items:center; min-height:32px; color:#1A1714; overflow-wrap:anywhere;" style-hover="color:#C25E3D;">{{ email }}</a>
+                <sc-if value="{{ phone }}" hint-placeholder-val=""><a href="{{ tel }}" style="display:inline-flex; align-items:center; min-height:32px; color:#1A1714;" style-hover="color:#C25E3D;">{{ phone }}</a></sc-if>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap; position:relative;">
+              <button onClick="{{ downloadAll }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; color:#1A1714; font-weight:600; font-size:14px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#D9714E; color:#C25E3D;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7.5 10.5L12 15l4.5-4.5"></path><path d="M5 19.5h14"></path></svg>Download all assets</button>
+              <button onClick="{{ exportCsv }}" style="{{ exportStyle }}" style-hover="background:#C25E3D;">
+                <sc-if value="{{ exporting }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center;">Exporting<span style="display:inline-flex; gap:4px; margin-left:9px;"><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.18s;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.36s;"></span></span></span></sc-if>
+                <sc-if value="{{ notExporting }}" hint-placeholder-val="{{ true }}"><span>Export products (CSV)</span></sc-if>
+              </button>
+              <button onClick="{{ toggleMenu }}" aria-label="More actions" aria-expanded="{{ menuAria }}" style="width:44px; height:44px; flex:0 0 auto; border:1px solid rgba(26,23,20,0.2); border-radius:50%; background:transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#1A1714;" style-hover="border-color:#D9714E; color:#C25E3D;"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"></circle><circle cx="12" cy="12" r="1.8"></circle><circle cx="19" cy="12" r="1.8"></circle></svg></button>
+              <sc-if value="{{ overflowOpen }}" hint-placeholder-val="">
+                <div onClick="{{ toggleMenu }}" style="position:fixed; inset:0; z-index:55;"></div>
+                <div role="menu" style="position:absolute; right:0; top:calc(100% + 8px); z-index:56; min-width:200px; padding:6px; background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; border-radius:16px; box-shadow:0 12px 32px rgba(26,23,20,0.14);">
+                  <sc-if value="{{ notArchivedMenu }}" hint-placeholder-val="{{ true }}"><button role="menuitem" onClick="{{ askArchive }}" style="display:flex; align-items:center; width:100%; min-height:44px; padding:0 12px; border:none; border-radius:10px; background:none; cursor:pointer; font-size:14px; font-weight:500; color:#1A1714; text-align:left;" style-hover="background:#F5F1E7;">Archive client</button></sc-if>
+                  <sc-if value="{{ isArchived }}" hint-placeholder-val=""><button role="menuitem" onClick="{{ restore }}" style="display:flex; align-items:center; width:100%; min-height:44px; padding:0 12px; border:none; border-radius:10px; background:none; cursor:pointer; font-size:14px; font-weight:500; color:#1A1714; text-align:left;" style-hover="background:#F5F1E7;">Restore client</button></sc-if>
+                  <button role="menuitem" onClick="{{ askDelete }}" style="display:flex; align-items:center; width:100%; min-height:44px; padding:0 12px; border:none; border-radius:10px; background:none; cursor:pointer; font-size:14px; font-weight:600; color:#A9492A; text-align:left;" style-hover="background:rgba(217,113,78,0.08);">Delete client</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+          <!-- BODY -->
+          <div style="{{ bodyGrid }}">
+            <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+              <div style="position:sticky; top:24px; background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:10px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 10px 10px;">
+                  <span style="font-size:11.5px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; color:#6B655C;">Sections</span>
+                  <span style="font-size:12px; color:#6B655C;">{{ doneLabel }}</span>
+                </div>
+                <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="9">
+                  <button onClick="{{ n.onClick }}" style="{{ n.style }}">
+                    <span style="{{ n.numStyle }}">{{ n.num }}</span>
+                    <span style="flex:1; min-width:0;">{{ n.title }}</span>
+                    <sc-if value="{{ n.complete }}" hint-placeholder-val="{{ true }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><path d="M5.5 12.5l4 4 9-9"></path></svg></sc-if>
+                    <sc-if value="{{ n.flagged }}" hint-placeholder-val=""><span style="flex:0 0 auto; font-size:11.5px; font-weight:600; color:#A9492A;">Changes requested</span></sc-if>
+                    <sc-if value="{{ n.notStarted }}" hint-placeholder-val=""><span style="flex:0 0 auto; font-size:11.5px; font-weight:500; color:#8A8378;">Not started</span></sc-if>
+                  </button>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+              <div style="display:flex; gap:8px; overflow-x:auto; margin:0 -16px; padding:0 16px 2px;">
+                <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="9">
+                  <button onClick="{{ n.onClick }}" style="{{ n.chipStyle }}"><span style="{{ n.numStyle }}">{{ n.num }}</span>{{ n.title }}<sc-if value="{{ n.flagged }}" hint-placeholder-val=""><span style="width:7px; height:7px; border-radius:50%; background:#D9714E;"></span></sc-if></button>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <!-- SECTION CONTENT -->
+            <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; overflow:hidden; min-width:0;">
+              <div style="display:flex; align-items:center; gap:10px 14px; flex-wrap:wrap; padding:18px clamp(18px,3vw,28px); border-bottom:1px solid rgba(26,23,20,0.08);">
+                <span style="font-family:'Geist',sans-serif; font-weight:700; font-size:13px; color:#D9714E;">{{ activeNum }}</span>
+                <h2 style="flex:1 1 auto; font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:20px; margin:0;">{{ activeTitle }}</h2>
+                <sc-if value="{{ activeFlagged }}" hint-placeholder-val=""><span style="{{ changesPill }}">Changes requested</span></sc-if>
+                <sc-if value="{{ canRequest }}" hint-placeholder-val="{{ true }}"><button onClick="{{ openReq }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; color:#1A1714; font-weight:600; font-size:14px; cursor:pointer; white-space:nowrap; padding:8px 16px; font-size:13.5px;" style-hover="border-color:#D9714E; color:#C25E3D;">Request changes</button></sc-if>
+              </div>
+
+              <sc-if value="{{ reqOpen }}" hint-placeholder-val="">
+                <div style="margin:16px clamp(18px,3vw,28px) 4px; padding:18px; border:1px solid rgba(217,113,78,0.35); border-radius:16px; background:#F8F5EE; display:flex; flex-direction:column; gap:14px;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">What does the client need to fix?</label>
+                    <textarea value="{{ reqText }}" onInput="{{ onReqText }}" placeholder="Be specific — the client sees this note at the top of the section." style="width:100%; min-height:46px; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:15px; color:#1A1714; outline:none; min-height:110px; resize:vertical; line-height:1.5;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);"></textarea>
+                    <sc-if value="{{ reqErr }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ reqErr }}</span></sc-if>
+                  </div>
+                  <sc-if value="{{ hasFlagItems }}" hint-placeholder-val="">
+                    <div>
+                      <div style="font-weight:600; font-size:13px;">{{ flagTitle }} <span style="font-weight:400; color:#6B655C;">(optional)</span></div>
+                      <div style="display:flex; flex-direction:column; margin-top:4px;">
+                        <sc-for list="{{ flagItems }}" as="fi" hint-placeholder-count="3">
+                          <button role="checkbox" aria-checked="{{ fi.aria }}" onClick="{{ fi.toggle }}" style="display:flex; align-items:center; gap:12px; min-height:44px; padding:0 4px; border:none; background:none; cursor:pointer; text-align:left; font-size:14px; color:#1A1714;">
+                            <span style="{{ fi.boxStyle }}">{{ fi.mark }}</span><span style="overflow-wrap:anywhere;">{{ fi.label }}</span>
+                          </button>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;">
+                    <button onClick="{{ closeReq }}" style="display:inline-flex; align-items:center; min-height:44px; padding:0 6px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; white-space:nowrap; color:#6B655C; padding:0 12px;" style-hover="color:#1A1714;">Cancel</button>
+                    <button onClick="{{ sendReq }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:11px 22px; border:none; border-radius:999px; background:#D9714E; color:#fff; font-weight:600; font-size:14.5px; cursor:pointer; white-space:nowrap; min-width:150px;" style-hover="background:#C25E3D;">
+                      <sc-if value="{{ sendingReq }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center;">Sending<span style="display:inline-flex; gap:4px; margin-left:9px;"><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.18s;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.36s;"></span></span></span></sc-if>
+                      <sc-if value="{{ notSendingReq }}" hint-placeholder-val="{{ true }}"><span>Send to client</span></sc-if>
+                    </button>
+                  </div>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ activeNotStarted }}" hint-placeholder-val="">
+                <div style="padding:56px 24px; display:flex; flex-direction:column; align-items:center; text-align:center; gap:10px;">
+                  <span style="width:44px; height:44px; border-radius:50%; border:1.5px dashed rgba(26,23,20,0.25);"></span>
+                  <p style="margin:6px 0 0; font-weight:600; font-size:15px;">Not started</p>
+                  <p style="margin:0; max-width:340px; color:#6B655C; font-size:14px;">The client hasn't reached this section yet. It will appear here once they fill it in.</p>
+                </div>
+              </sc-if>
+
+              <sc-if value="{{ activeStarted }}" hint-placeholder-val="{{ true }}">
+                <div style="padding:4px clamp(18px,3vw,28px) 24px;">
+                  <sc-for list="{{ fields }}" as="f" hint-placeholder-count="5">
+                    <div style="display:flex; flex-wrap:wrap; gap:8px 24px; padding:18px 0; border-bottom:1px solid rgba(26,23,20,0.07);">
+                      <span style="flex:0 0 200px; font-size:13px; font-weight:600; color:#6B655C; padding-top:1px;">{{ f.label }}</span>
+                      <div style="flex:1 1 320px; min-width:0;">
+                        <sc-if value="{{ f.isText }}" hint-placeholder-val="{{ true }}"><span style="{{ f.textStyle }}">{{ f.value }}</span></sc-if>
+                        <sc-if value="{{ f.isList }}" hint-placeholder-val="">
+                          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+                            <sc-for list="{{ f.items }}" as="it" hint-placeholder-count="3"><span style="display:inline-flex; padding:5px 12px; border:1px solid rgba(26,23,20,0.14); border-radius:999px; font-size:13px; background:#F5F1E7;">{{ it }}</span></sc-for>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ f.isColor }}" hint-placeholder-val="">
+                          <div style="display:flex; align-items:center; gap:12px;"><span style="{{ f.swatchStyle }}"></span><span style="font-family:ui-monospace,Menlo,monospace; font-size:13px;">{{ f.value }}</span></div>
+                        </sc-if>
+                        <sc-if value="{{ f.isLong }}" hint-placeholder-val="">
+                          <div style="position:relative; background:#F5F1E7; border:1px solid rgba(26,23,20,0.08); border-radius:14px; padding:14px 60px 16px 18px;">
+                            <p style="margin:0; font-size:14.5px; line-height:1.6; white-space:pre-wrap; max-width:640px; text-wrap:pretty;">{{ f.value }}</p>
+                            <button onClick="{{ f.onCopy }}" aria-label="Copy" style="position:absolute; top:6px; right:6px; display:inline-flex; align-items:center; justify-content:center; gap:6px; min-width:44px; height:44px; padding:0 10px; border:none; border-radius:999px; background:none; cursor:pointer; font-size:12px; font-weight:600; color:#6B655C;" style-hover="color:#C25E3D;">
+                              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="8.5" y="8.5" width="11" height="11" rx="2"></rect><path d="M15.5 8.5V6a1.5 1.5 0 0 0-1.5-1.5H6A1.5 1.5 0 0 0 4.5 6v8A1.5 1.5 0 0 0 6 15.5h2.5"></path></svg>
+                              <sc-if value="{{ f.copied }}" hint-placeholder-val=""><span>Copied</span></sc-if>
+                            </button>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ f.isFiles }}" hint-placeholder-val="">
+                          <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:12px;">
+                            <sc-for list="{{ f.files }}" as="fl" hint-placeholder-count="3">
+                              <div style="border:1px solid rgba(26,23,20,0.1); border-radius:14px; overflow:hidden; background:#FBFAF6;">
+                                <div style="{{ fl.thumbStyle }}"><span style="font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:#6B655C;">{{ fl.ext }}</span></div>
+                                <div style="display:flex; align-items:center; gap:4px; padding:4px 4px 4px 12px;">
+                                  <div style="flex:1; min-width:0;">
+                                    <div style="font-size:12.5px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ fl.name }}</div>
+                                    <div style="font-size:11.5px; color:#6B655C;">{{ fl.meta }}</div>
+                                  </div>
+                                  <button onClick="{{ fl.onDownload }}" aria-label="Download" style="flex:0 0 auto; width:44px; height:44px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#6B655C;" style-hover="color:#C25E3D;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7.5 10.5L12 15l4.5-4.5"></path><path d="M5 19.5h14"></path></svg></button>
+                                </div>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ f.isProducts }}" hint-placeholder-val="">
+                          <div style="border:1px solid rgba(26,23,20,0.1); border-radius:14px; overflow:hidden;">
+                            <sc-for list="{{ f.products }}" as="pr" hint-placeholder-count="4">
+                              <div style="border-bottom:1px solid rgba(26,23,20,0.07);">
+                                <button onClick="{{ pr.toggle }}" aria-expanded="{{ pr.aria }}" style="width:100%; display:flex; align-items:center; gap:14px; min-height:60px; padding:8px 12px; background:none; border:none; cursor:pointer; text-align:left; color:#1A1714; font-size:14px;" style-hover="background:#F8F5EE;">
+                                  <span style="{{ pr.thumbStyle }}"></span>
+                                  <span style="flex:1; min-width:0;">
+                                    <span style="display:flex; align-items:center; gap:8px; font-weight:600;"><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ pr.name }}</span><sc-if value="{{ pr.hasIssue }}" hint-placeholder-val=""><span title="{{ pr.issue }}" style="width:7px; height:7px; flex:0 0 auto; border-radius:50%; background:#D9714E;"></span></sc-if></span>
+                                    <span style="display:block; font-size:12.5px; color:#6B655C;">{{ pr.meta }}</span>
+                                  </span>
+                                  <span style="{{ pr.priceStyle }}">{{ pr.price }}</span>
+                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B655C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="{{ pr.chevStyle }}"><path d="M6 9l6 6 6-6"></path></svg>
+                                </button>
+                                <sc-if value="{{ pr.open }}" hint-placeholder-val="">
+                                  <div style="padding:4px 14px 20px clamp(14px,6vw,74px); display:flex; flex-direction:column; gap:18px;">
+                                    <sc-if value="{{ pr.hasIssue }}" hint-placeholder-val=""><div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:#A9492A;"><span style="width:7px; height:7px; border-radius:50%; background:#D9714E;"></span>{{ pr.issue }}</div></sc-if>
+                                    <div>
+                                      <div style="font-size:12px; font-weight:600; color:#6B655C; margin-bottom:6px;">Description</div>
+                                      <p style="margin:0; font-size:14px; line-height:1.55; max-width:620px;">{{ pr.description }}</p>
+                                    </div>
+                                    <div>
+                                      <div style="font-size:12px; font-weight:600; color:#6B655C; margin-bottom:8px;">Images · {{ pr.imageCount }}</div>
+                                      <div style="display:flex; flex-wrap:wrap; gap:10px;">
+                                        <sc-for list="{{ pr.images }}" as="im" hint-placeholder-count="3">
+                                          <div style="position:relative; width:104px;">
+                                            <div style="{{ im.thumbStyle }}"></div>
+                                            <button onClick="{{ im.onDownload }}" aria-label="Download" style="position:absolute; top:0; right:0; width:44px; height:44px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center;"><span style="width:28px; height:28px; border-radius:50%; background:rgba(251,250,246,0.92); display:flex; align-items:center; justify-content:center; color:#1A1714;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7.5 10.5L12 15l4.5-4.5"></path><path d="M5 19.5h14"></path></svg></span></button>
+                                            <div style="font-size:11px; color:#6B655C; margin-top:5px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ im.name }}</div>
+                                          </div>
+                                        </sc-for>
+                                        <sc-if value="{{ pr.noImages }}" hint-placeholder-val=""><span style="font-size:13px; color:#8A8378;">No images uploaded</span></sc-if>
+                                      </div>
+                                    </div>
+                                    <sc-if value="{{ pr.hasVariations }}" hint-placeholder-val="{{ true }}">
+                                      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:12px;">
+                                        <sc-for list="{{ pr.variations }}" as="v" hint-placeholder-count="2">
+                                          <div style="border:1px solid rgba(26,23,20,0.1); border-radius:12px; background:#F5F1E7; overflow:hidden;">
+                                            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; padding:9px 12px; border-bottom:1px solid rgba(26,23,20,0.08);"><span style="font-weight:600; font-size:13px;">{{ v.name }}</span><span style="font-size:11.5px; color:#6B655C;">{{ v.note }}</span></div>
+                                            <sc-for list="{{ v.options }}" as="o" hint-placeholder-count="2">
+                                              <div style="display:flex; justify-content:space-between; gap:12px; padding:7px 12px; font-size:13px;"><span>{{ o.label }}</span><span style="{{ o.priceStyle }}">{{ o.price }}</span></div>
+                                            </sc-for>
+                                          </div>
+                                        </sc-for>
+                                      </div>
+                                    </sc-if>
+                                    <sc-if value="{{ pr.noVariations }}" hint-placeholder-val=""><span style="font-size:13px; color:#6B655C;">No variations — sold as a single option.</span></sc-if>
+                                  </div>
+                                </sc-if>
+                              </div>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+          <!-- CHANGE HISTORY -->
+          <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; margin-top:24px; padding:20px clamp(18px,3vw,28px);">
+            <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Change history</h2>
+            <p style="margin:0 0 12px; font-size:13.5px; color:#6B655C;">Every change request sent to this client.</p>
+            <sc-if value="{{ historyEmpty }}" hint-placeholder-val="">
+              <p style="margin:0; padding:16px 0 4px; font-size:14px; color:#6B655C; border-top:1px solid rgba(26,23,20,0.07);">No change requests yet.</p>
+            </sc-if>
+            <sc-for list="{{ history }}" as="h" hint-placeholder-count="1">
+              <div style="display:flex; flex-wrap:wrap; gap:6px 20px; padding:16px 0; border-top:1px solid rgba(26,23,20,0.07);">
+                <div style="flex:0 0 160px; display:flex; flex-direction:column; gap:2px;">
+                  <span style="font-size:13px; color:#6B655C;">{{ h.date }}</span>
+                  <span style="font-weight:600; font-size:14px;">{{ h.section }}</span>
+                </div>
+                <div style="flex:1 1 300px; min-width:0;">
+                  <p style="margin:0; font-size:14px; line-height:1.55; max-width:620px;">{{ h.message }}</p>
+                  <sc-if value="{{ h.hasItems }}" hint-placeholder-val=""><div style="font-size:12.5px; color:#6B655C; margin-top:6px;">Flagged: {{ h.items }}</div></sc-if>
+                </div>
+                <span style="flex:0 0 auto; align-self:flex-start;"><span style="{{ h.pillStyle }}">{{ h.pillLabel }}</span></span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </main>
+
+  <!-- EXPORT WARNINGS -->
+  <sc-if value="{{ exportModal }}" hint-placeholder-val="">
+    <div onClick="{{ closeExport }}" style="position:fixed; inset:0; z-index:65; background:rgba(26,23,20,0.4);"></div>
+    <div role="dialog" aria-label="Export warnings" style="{{ modalStyle }}">
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 12px 8px 24px;">
+          <h2 style="flex:1; font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.02em; font-size:22px; margin:0;">A few products need attention</h2>
+          <button onClick="{{ closeExport }}" aria-label="Close" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#6B655C; font-size:24px; line-height:1;" style-hover="color:#1A1714;">×</button>
+        </div>
+      <p style="margin:0; padding:0 24px 12px; font-size:14px; color:#6B655C;">These will import into WooCommerce incomplete. Fix them first, or export as they are.</p>
+      <div style="padding:0 16px 8px; display:flex; flex-direction:column;">
+        <sc-for list="{{ issues }}" as="is" hint-placeholder-count="3">
+          <button onClick="{{ is.go }}" style="display:flex; align-items:center; gap:12px; width:100%; min-height:56px; padding:8px; border:none; border-top:1px solid rgba(26,23,20,0.07); background:none; cursor:pointer; text-align:left; color:#1A1714;" style-hover="background:#F5F1E7;">
+            <span style="width:8px; height:8px; flex:0 0 auto; border-radius:50%; background:#D9714E;"></span>
+            <span style="flex:1; min-width:0;"><span style="display:block; font-weight:600; font-size:14.5px;">{{ is.label }}</span><span style="display:block; font-size:12.5px; color:#6B655C; overflow-wrap:anywhere;">{{ is.names }}</span></span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B655C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 auto;"><path d="M9 6l6 6-6 6"></path></svg>
+          </button>
+        </sc-for>
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap; padding:16px 24px 24px; margin-top:auto;">
+        <button onClick="{{ exportAnyway }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; color:#1A1714; font-weight:600; font-size:14px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#D9714E; color:#C25E3D;">Export anyway</button>
+        <button onClick="{{ reviewProducts }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:11px 22px; border:none; border-radius:999px; background:#D9714E; color:#fff; font-weight:600; font-size:14.5px; cursor:pointer; white-space:nowrap;" style-hover="background:#C25E3D;">Review products</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ARCHIVE CONFIRM -->
+  <sc-if value="{{ archiveOpen }}" hint-placeholder-val="">
+    <div onClick="{{ cancelArchive }}" style="position:fixed; inset:0; z-index:65; background:rgba(26,23,20,0.4);"></div>
+    <div role="alertdialog" style="{{ modalStyle }}">
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 12px 8px 24px;">
+          <h2 style="flex:1; font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.02em; font-size:22px; margin:0;">Archive {{ bizName }}?</h2>
+          <button onClick="{{ cancelArchive }}" aria-label="Close" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#6B655C; font-size:24px; line-height:1;" style-hover="color:#1A1714;">×</button>
+        </div>
+      <p style="margin:0; padding:0 24px 24px; font-size:14.5px; color:#6B655C;">They'll be hidden from your inbox. You can restore them anytime.</p>
+      <div style="display:flex; justify-content:flex-end; gap:8px; padding:0 24px 24px; margin-top:auto;">
+        <button onClick="{{ cancelArchive }}" style="display:inline-flex; align-items:center; min-height:44px; padding:0 6px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; white-space:nowrap; color:#6B655C; padding:0 12px;" style-hover="color:#1A1714;">Cancel</button>
+        <button onClick="{{ doArchive }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 18px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; color:#1A1714; font-weight:600; font-size:14px; cursor:pointer; white-space:nowrap;" style-hover="border-color:#D9714E; color:#C25E3D;">Archive client</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- DELETE CONFIRM -->
+  <sc-if value="{{ deleteOpen }}" hint-placeholder-val="">
+    <div onClick="{{ cancelDelete }}" style="position:fixed; inset:0; z-index:65; background:rgba(26,23,20,0.4);"></div>
+    <div role="alertdialog" style="{{ modalStyle }}">
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 12px 8px 24px;">
+          <h2 style="flex:1; font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.02em; font-size:22px; margin:0;">Delete {{ bizName }} permanently?</h2>
+          <button onClick="{{ cancelDelete }}" aria-label="Close" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#6B655C; font-size:24px; line-height:1;" style-hover="color:#1A1714;">×</button>
+        </div>
+      <p style="margin:0; padding:0 24px 20px; font-size:14.5px; color:#6B655C;">This removes their account, submission and every uploaded file. This can't be undone.</p>
+      <div style="display:flex; flex-direction:column; gap:7px; padding:0 24px 20px;">
+        <label style="font-weight:600; font-size:13px;">Type <strong style="font-weight:700;">{{ bizName }}</strong> to confirm</label>
+        <input value="{{ deleteText }}" onInput="{{ onDeleteText }}" autocomplete="off" style="width:100%; min-height:46px; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:15px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+      </div>
+      <div style="display:flex; justify-content:flex-end; gap:8px; padding:0 24px 24px; margin-top:auto;">
+        <button onClick="{{ cancelDelete }}" style="display:inline-flex; align-items:center; min-height:44px; padding:0 6px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; white-space:nowrap; color:#6B655C; padding:0 12px;" style-hover="color:#1A1714;">Cancel</button>
+        <button onClick="{{ doDelete }}" disabled="{{ deleteDisabled }}" style="{{ deleteStyle }}">Delete permanently</button>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div role="status" style="{{ toastStyle }}">
+      <span style="width:26px; height:26px; flex:0 0 auto; border-radius:50%; border:1.5px solid #D9714E; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4 4 9-9"></path></svg></span>
+      <span style="flex:1;">{{ toast }}</span>
+      <button onClick="{{ closeToast }}" aria-label="Dismiss" style="width:44px; height:44px; flex:0 0 auto; background:none; border:none; cursor:pointer; color:#9A9082; font-size:20px; line-height:1;" style-hover="color:#EDE7DA;">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;client&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;adefine&quot;,&quot;kora&quot;,&quot;ofe&quot;,&quot;bloom&quot;],&quot;default&quot;:&quot;adefine&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;,&quot;description&quot;:&quot;adefine = submitted, kora = in progress with export warnings, ofe = changes requested, bloom = invited. ?id= overrides.&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rootRef = React.createRef();
+    this.qid = new URLSearchParams(location.search).get('id');
+    this.state = { mobile: false, menuOpen: false, ver: 0, toast: '', active: 0, open: {}, exporting: false, copied: null,
+      reqOpen: false, reqText: '', reqFlags: {}, reqErr: '', sendingReq: false,
+      exportModal: false, overflow: false, archiveOpen: false, deleteOpen: false, deleteText: '' };
+  }
+  componentDidMount() { this.mountShell(); this.waitData(() => this.setState({ ver: 1 })); }
+  componentWillUnmount() { clearInterval(this._p); clearTimeout(this._t); clearTimeout(this._tt); clearTimeout(this._ct); clearTimeout(this._rt); this._ro && this._ro.disconnect(); }
+
+  mountShell() {
+    this._mqf = () => { const mob = window.innerWidth < 860; if (mob !== this.state.mobile) this.setState({ mobile: mob, menuOpen: mob ? this.state.menuOpen : false }); };
+    this._mqf();
+    window.addEventListener('resize', this._mqf);
+    this._raf = requestAnimationFrame(this._mqf);
+    this._mt1 = setTimeout(this._mqf, 300);
+    this._mt2 = setTimeout(this._mqf, 1200);
+    this._ro = { disconnect: () => { window.removeEventListener('resize', this._mqf); cancelAnimationFrame(this._raf); clearTimeout(this._mt1); clearTimeout(this._mt2); } };
+  }
+  shellVals() {
+    const mob = !!this.state.mobile;
+    return {
+      rootRef: this.rootRef, isDesktop: !mob, isMobile: mob, menuOpen: !!this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }), closeMenu: () => this.setState({ menuOpen: false }),
+      mainStyle: { flex: '1 1 0', minWidth: 0, padding: mob ? '24px 16px 72px' : '40px 48px 80px' },
+      sheet: (kind) => mob
+        ? { position: 'fixed', inset: 0, zIndex: 70, background: '#F5F1E7', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+        : kind === 'panel'
+          ? { position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(460px, 100%)', zIndex: 70, background: '#F5F1E7', borderLeft: '1px solid rgba(26,23,20,0.1)', boxShadow: '-16px 0 40px rgba(26,23,20,0.12)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+          : { position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 'min(500px, calc(100% - 32px))', maxHeight: 'calc(100vh - 48px)', zIndex: 70, background: '#FBFAF6', border: '1px solid rgba(26,23,20,0.1)', borderRadius: 20, boxShadow: '0 24px 60px rgba(26,23,20,0.2)', overflowY: 'auto', display: 'flex', flexDirection: 'column' },
+      toastStyle: { position: 'fixed', right: mob ? 16 : 32, left: mob ? 16 : 'auto', bottom: mob ? 16 : 32, zIndex: 95, display: 'flex', alignItems: 'center', gap: 12, padding: '10px 8px 10px 14px', borderRadius: 16, background: '#1A1714', color: '#EDE7DA', boxShadow: '0 12px 32px rgba(26,23,20,0.24)', fontSize: 14, maxWidth: mob ? 'none' : 440 }
+    };
+  }
+  showToast(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: '' }), 4000); }
+  waitData(cb) { if (window.THYRA_ADMIN) return cb(); this._p = setInterval(() => { if (window.THYRA_ADMIN) { clearInterval(this._p); cb(); } }, 40); }
+  fmt(d) { if (!d) return ''; const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const [y, mo, da] = d.split('-').map(Number); return da + ' ' + m[mo - 1] + ' ' + y; }
+  validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || '').trim()); }
+  thumb(i, h, r) {
+    const tones = [['#E8DFCC', '#DED3BC'], ['#E3D6C6', '#D8C8B4'], ['#E6E0D2', '#D9D1BF'], ['#EADCCF', '#DFCDBD']];
+    const [a, b] = tones[i % tones.length];
+    return { display: 'flex', alignItems: 'center', justifyContent: 'center', flex: '0 0 auto', width: h === 40 ? 40 : '100%', height: h, borderRadius: r || 0, background: 'repeating-linear-gradient(45deg,' + a + ',' + a + ' 8px,' + b + ' 8px,' + b + ' 16px)' };
+  }
+  getData() {
+    const A = window.THYRA_ADMIN; if (!A) return null;
+    const id = this.qid || (this.props || {}).client || 'adefine';
+    const client = A.getClients().find(c => c.id === id);
+    if (!client) return { missing: true };
+    let sub = A.submissions[client.id];
+    if (!sub) { sub = JSON.parse(JSON.stringify(A.fallback)); sub.business.name = client.name; sub.business.email = client.email; sub.business.phone = client.phone; }
+    return { client, sub, history: A.getHistory(client.id) };
+  }
+  buildSections(sub) {
+    const T = (label, v) => ({ type: 'text', label, v }), L = (label, v) => ({ type: 'long', label, v }), LI = (label, v) => ({ type: 'list', label, v }), F = (label, v) => ({ type: 'files', label, v });
+    const g = (k) => (sub || {})[k] || {};
+    const pol = g('policies');
+    return [
+      { title: 'Business Info', fields: [T('Business name', g('business').name), L('Description', g('business').description), T('Email', g('business').email), T('Phone', g('business').phone), T('Address', g('business').address)] },
+      { title: 'Shop Page', fields: [T('Approx. products', g('shop').count), LI('Categories', g('shop').categories), { type: 'products', label: 'Products', v: g('shop').products }] },
+      { title: 'Home Page', fields: [F('Homepage media', g('home').media), LI('Best sellers', g('home').bestSellers), LI('New in', g('home').newIn), L('Testimonials', (g('home').testimonials || []).join('\n\n')), L('Brand excerpt', g('home').excerpt), LI('Differentiators', g('home').differentiators)] },
+      { title: 'About the Brand', fields: [L('How it started', g('about').story), T('Vision', g('about').vision), T('Mission', g('about').mission), L("Why we're different", g('about').whyDiff), LI('Values', g('about').values)] },
+      { title: 'Contact Page', fields: [T('Phone', g('contact').phone), T('Email', g('contact').email), T('Address', g('contact').address), LI('Form fields', g('contact').formFields)] },
+      { title: 'Design Inspiration', fields: [F('Screenshots', g('inspiration').refs), L('Notes', g('inspiration').notes)] },
+      { title: 'Visual Identity', fields: [LI('Tone', g('identity').tones), { type: 'color', label: 'Base brand colour', v: g('identity').color }, F('Logo', g('identity').logos), F('Favicon', g('identity').favicon), T('Font preferences', g('identity').fonts)] },
+      { title: 'Social Media', fields: [T('Instagram', g('social').instagram), T('TikTok', g('social').tiktok), T('Facebook', g('social').facebook), T('X', g('social').x), T('WhatsApp', g('social').whatsapp)] },
+      { title: 'Policy Pages', fields: [pol.privacyDraft ? T('Privacy policy', 'Client asked Thyra to draft this') : L('Privacy policy', pol.privacy), L('Returns policy', pol.returns), pol.termsDraft ? T('Terms and conditions', 'Client asked Thyra to draft this') : L('Terms and conditions', pol.terms), L('Shipping policy', pol.shipping)] }
+    ];
+  }
+  productIssues(products) {
+    const noPrice = [], noImg = [], varMiss = [];
+    (products || []).forEach((p, k) => {
+      if (!String(p.price || '').trim()) noPrice.push(k);
+      if (!(p.images || []).length) noImg.push(k);
+      (p.variations || []).forEach(v => { if (v.priceVaries) v.options.forEach(o => { if (!String(o.price || '').trim()) varMiss.push({ k, label: p.name + ' — ' + o.label }); }); });
+    });
+    return { noPrice, noImg, varMiss };
+  }
+  csv(client, products) {
+    const e = (x) => '"' + String(x == null ? '' : x).replace(/"/g, '""') + '"';
+    const rows = [['Product', 'Category', 'Base price', 'Variation', 'Option', 'Option price', 'Description', 'Images']];
+    (products || []).forEach(p => {
+      const imgs = (p.images || []).join('; ');
+      if (!p.variations.length) rows.push([p.name, p.category, p.price, '', '', '', p.description, imgs]);
+      p.variations.forEach(v => v.options.forEach(o => rows.push([p.name, p.category, p.price, v.name, o.label, o.price || p.price, p.description, imgs])));
+    });
+    try {
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([rows.map(r => r.map(e).join(',')).join('\n')], { type: 'text/csv' }));
+      a.download = client.id + '-products.csv'; document.body.appendChild(a); a.click(); a.remove();
+    } catch (err) {}
+  }
+  runExport(client, products) {
+    this.setState({ exporting: true, exportModal: false });
+    this._t = setTimeout(() => { this.setState({ exporting: false }); this.csv(client, products); this.showToast('Products exported. Your CSV is downloading.'); }, 1400);
+  }
+  renderVals() {
+    const A = window.THYRA_ADMIN;
+    const sh = this.shellVals();
+    const st = this.state;
+    const base = { ...sh, toast: st.toast, closeToast: () => this.setState({ toast: '' }) };
+    const d = this.getData();
+    if (!d) return { ...base, found: false, notFound: false, navItems: [], fields: [], history: [], issues: [] };
+    if (d.missing) return { ...base, found: false, notFound: true, navItems: [], fields: [], history: [], issues: [] };
+    const { client, sub, history } = d;
+    const sections = this.buildSections(sub);
+    const pad = (i) => String(i + 1).padStart(2, '0');
+    const extOf = (n) => (n.split('.').pop() || '').toUpperCase();
+    const flaggedTitles = history.filter(h => !h.responded).map(h => h.section);
+    const done = client.status === 'invited' || client.status === 'notstarted' ? 0 : client.done;
+    const mob = !!st.mobile;
+
+    const navItems = sections.map((s, i) => {
+      const on = i === st.active, started = i < done, flagged = started && flaggedTitles.includes(s.title);
+      return {
+        num: pad(i), title: s.title, complete: started && !flagged, flagged, notStarted: !started,
+        onClick: () => this.setState({ active: i, reqOpen: false, reqErr: '' }),
+        style: { width: '100%', display: 'flex', alignItems: 'center', gap: 10, minHeight: 44, padding: '8px 10px', borderRadius: 12, border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: 14, fontWeight: on ? 600 : 500, background: on ? 'rgba(217,113,78,0.09)' : 'transparent', color: started || on ? '#1A1714' : '#6B655C' },
+        chipStyle: { display: 'inline-flex', alignItems: 'center', gap: 8, flex: '0 0 auto', minHeight: 44, padding: '0 14px', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap', fontSize: 13.5, fontWeight: 600, border: on ? '1px solid #D9714E' : '1px solid rgba(26,23,20,0.16)', background: on ? 'rgba(217,113,78,0.08)' : '#FBFAF6', color: started || on ? '#1A1714' : '#8A8378' },
+        numStyle: { fontFamily: "'Geist',sans-serif", fontWeight: 700, fontSize: 12, color: on ? '#C25E3D' : '#A79F93', minWidth: 18, flex: '0 0 auto' }
+      };
+    });
+
+    const sec = sections[st.active];
+    const started = st.active < done;
+    const products = (sub && sub.shop && sub.shop.products) || [];
+    const iss = this.productIssues(products);
+    const issueFor = (k) => {
+      const out = [];
+      if (iss.noPrice.includes(k)) out.push('No price');
+      if (iss.noImg.includes(k)) out.push('No images');
+      if (iss.varMiss.some(v => v.k === k)) out.push('A variation is missing a price');
+      return out.join(' · ');
+    };
+    const fields = !started ? [] : sec.fields.map((f, fi) => {
+      const v = f.v, key = st.active + '-' + fi;
+      const empty = v == null || v === '' || (Array.isArray(v) && v.length === 0);
+      const b = { label: f.label, isText: false, isList: false, isColor: false, isLong: false, isFiles: false, isProducts: false };
+      if (empty) return { ...b, isText: true, value: 'Not provided', textStyle: { color: '#8A8378', fontSize: 14 } };
+      if (f.type === 'text') return { ...b, isText: true, value: v, textStyle: { color: '#1A1714', fontSize: 14.5, overflowWrap: 'anywhere' } };
+      if (f.type === 'list') return { ...b, isList: true, items: v };
+      if (f.type === 'color') return { ...b, isColor: true, value: v.toUpperCase(), swatchStyle: { width: 36, height: 36, borderRadius: 10, background: v, border: '1px solid rgba(26,23,20,0.12)' } };
+      if (f.type === 'long') return { ...b, isLong: true, value: v, copied: st.copied === key, onCopy: () => { try { navigator.clipboard && navigator.clipboard.writeText(v); } catch (e) {} clearTimeout(this._ct); this.setState({ copied: key }); this._ct = setTimeout(() => this.setState({ copied: null }), 1600); } };
+      if (f.type === 'files') return { ...b, isFiles: true, files: v.map((fl, k) => ({ name: fl.name, meta: fl.meta, ext: extOf(fl.name), thumbStyle: this.thumb(k, 92), onDownload: () => this.showToast('Downloading ' + fl.name + '.') })) };
+      if (f.type === 'products') return { ...b, isProducts: true, products: v.map((p, k) => {
+        const isOpen = !!st.open[k], issue = issueFor(k);
+        return {
+          name: p.name, description: p.description, open: isOpen, aria: isOpen ? 'true' : 'false',
+          meta: p.category + ' · ' + (p.variations.length ? p.variations.length + (p.variations.length > 1 ? ' variations' : ' variation') : 'No variations'),
+          price: p.price || 'No price', priceStyle: { flex: '0 0 auto', fontSize: 14, color: p.price ? '#1A1714' : '#A9492A', fontWeight: p.price ? 400 : 600 },
+          hasIssue: !!issue, issue,
+          toggle: () => this.setState(s => ({ open: { ...s.open, [k]: !s.open[k] } })),
+          thumbStyle: this.thumb(k, 40, 10),
+          chevStyle: { flex: '0 0 auto', transform: isOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.18s' },
+          imageCount: p.images.length, noImages: !p.images.length,
+          images: p.images.map((im, j) => ({ name: im, thumbStyle: this.thumb(k + j, 104, 12), onDownload: () => this.showToast('Downloading ' + im + '.') })),
+          hasVariations: p.variations.length > 0, noVariations: p.variations.length === 0,
+          variations: p.variations.map(vr => ({ name: vr.name, note: vr.priceVaries ? 'Price varies' : 'Same price', options: vr.options.map(o => {
+            const miss = vr.priceVaries && !o.price;
+            return { label: o.label, price: miss ? 'No price' : (vr.priceVaries ? o.price : (p.price || '—')), priceStyle: { color: miss ? '#A9492A' : '#6B655C', fontWeight: miss ? 600 : 400 } };
+          }) }))
+        };
+      }) };
+      return { ...b, isText: true, value: String(v), textStyle: {} };
+    });
+
+    // flag items for request panel
+    let flagItemsRaw = [];
+    if (started) {
+      sec.fields.forEach(f => {
+        if (f.type === 'products' && Array.isArray(f.v)) f.v.forEach(p => flagItemsRaw.push(p.name));
+        if (f.type === 'files' && Array.isArray(f.v)) f.v.forEach(fl => flagItemsRaw.push(fl.name));
+      });
+    }
+    const flagTitle = sec.title === 'Shop Page' ? 'Flag specific products' : 'Flag specific files';
+    const flagItems = flagItemsRaw.map(n => {
+      const on = !!st.reqFlags[n];
+      return { label: n, aria: on ? 'true' : 'false', mark: on ? '✓' : '',
+        boxStyle: { width: 22, height: 22, flex: '0 0 auto', borderRadius: 6, border: on ? 'none' : '1.5px solid rgba(26,23,20,0.3)', background: on ? '#D9714E' : '#FBFAF6', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13 },
+        toggle: () => this.setState(s => ({ reqFlags: { ...s.reqFlags, [n]: !s.reqFlags[n] } })) };
+    });
+
+    const goShop = (ks) => { const o = {}; ks.forEach(k => { o[k] = true; }); this.setState({ active: 1, open: o, exportModal: false, reqOpen: false }); };
+    const n = (x, one, many) => x + ' ' + (x === 1 ? one : many);
+    const issues = [];
+    if (iss.noPrice.length) issues.push({ label: n(iss.noPrice.length, 'product has', 'products have') + ' no price', names: iss.noPrice.map(k => products[k].name).join(', '), go: () => goShop(iss.noPrice) });
+    if (iss.noImg.length) issues.push({ label: n(iss.noImg.length, 'product has', 'products have') + ' no images', names: iss.noImg.map(k => products[k].name).join(', '), go: () => goShop(iss.noImg) });
+    if (iss.varMiss.length) issues.push({ label: n(iss.varMiss.length, 'variation is', 'variations are') + ' missing a price', names: iss.varMiss.map(v => v.label).join(', '), go: () => goShop(iss.varMiss.map(v => v.k)) });
+    const allIssueKs = [...new Set(iss.noPrice.concat(iss.noImg, iss.varMiss.map(v => v.k)))];
+
+    const sp = A.statusPill(client.status);
+    const dateLabel = client.status === 'invited' ? 'Invited ' + this.fmt(client.invited) : (client.submitted ? 'Submitted ' + this.fmt(client.submitted) : 'Last updated ' + this.fmt(client.updated));
+    const delOk = st.deleteText.trim() === client.name;
+    const canReq = started && !st.reqOpen && client.status !== 'invited';
+    return {
+      ...base,
+      found: true, notFound: false,
+      bizName: client.name, email: client.email, phone: client.phone || '', mailto: 'mailto:' + client.email, tel: 'tel:' + String(client.phone || '').replace(/\s/g, ''),
+      statusLabel: sp.label, pillStyle: sp.style, dateLabel,
+      isArchived: !!client.archived, notArchivedMenu: !client.archived,
+      restore: () => { A.patchClient(client.id, { archived: false }); this.setState(s => ({ ver: s.ver + 1, overflow: false })); this.showToast(client.name + ' restored.'); },
+      doneLabel: done + ' of ' + sections.length,
+      bodyGrid: mob ? { display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 } : { display: 'grid', gridTemplateColumns: '248px minmax(0,1fr)', gap: 24, marginTop: 24, alignItems: 'start' },
+      navItems, fields,
+      activeNum: pad(st.active), activeTitle: sec.title,
+      activeStarted: started, activeNotStarted: !started,
+      activeFlagged: started && flaggedTitles.includes(sec.title),
+      changesPill: A.statusPill('changes').style,
+      canRequest: canReq,
+      reqOpen: st.reqOpen && started, reqText: st.reqText, reqErr: st.reqErr,
+      onReqText: (e) => this.setState({ reqText: e.target.value, reqErr: '' }),
+      openReq: () => this.setState({ reqOpen: true, reqText: '', reqFlags: {}, reqErr: '' }),
+      closeReq: () => this.setState({ reqOpen: false, reqErr: '' }),
+      hasFlagItems: flagItems.length > 0, flagItems, flagTitle,
+      sendingReq: st.sendingReq, notSendingReq: !st.sendingReq,
+      sendReq: () => {
+        const msg = st.reqText.trim();
+        if (!msg) { this.setState({ reqErr: 'Tell the client what to fix.' }); return; }
+        if (st.sendingReq) return;
+        this.setState({ sendingReq: true });
+        this._rt = setTimeout(() => {
+          const items = Object.keys(this.state.reqFlags).filter(k => this.state.reqFlags[k]);
+          A.addHistory(client.id, { id: 'h' + Date.now(), date: A.today(), section: sec.title, message: msg, items, responded: false });
+          A.patchClient(client.id, { status: 'changes', updated: A.today() });
+          this.setState(s => ({ sendingReq: false, reqOpen: false, reqText: '', reqFlags: {}, ver: s.ver + 1 }));
+          this.showToast('Client notified.');
+        }, 900);
+      },
+      history: history.slice().reverse().map(h => ({
+        date: this.fmt(h.date), section: h.section, message: h.message,
+        hasItems: !!(h.items && h.items.length), items: (h.items || []).join(', '),
+        pillLabel: h.responded ? 'Client responded' : 'Awaiting client',
+        pillStyle: h.responded ? A.statusPill('progress').style : A.statusPill('invited').style
+      })),
+      historyEmpty: history.length === 0,
+      exporting: st.exporting, notExporting: !st.exporting,
+      exportStyle: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minWidth: 206, minHeight: 44, padding: '11px 22px', border: 'none', borderRadius: 999, background: '#D9714E', color: '#fff', fontWeight: 600, fontSize: 14.5, cursor: st.exporting ? 'default' : 'pointer', whiteSpace: 'nowrap' },
+      exportCsv: () => {
+        if (st.exporting) return;
+        if (!products.length) { this.showToast('This client has no products to export yet.'); return; }
+        if (issues.length) this.setState({ exportModal: true }); else this.runExport(client, products);
+      },
+      exportModal: st.exportModal, issues, closeExport: () => this.setState({ exportModal: false }),
+      exportAnyway: () => this.runExport(client, products),
+      reviewProducts: () => goShop(allIssueKs),
+      downloadAll: () => this.showToast('Preparing assets. Your zip will download shortly.'),
+      overflowOpen: st.overflow, menuAria: st.overflow ? 'true' : 'false',
+      toggleMenu: () => this.setState({ overflow: !this.state.overflow }),
+      askArchive: () => this.setState({ overflow: false, archiveOpen: true }),
+      askDelete: () => this.setState({ overflow: false, deleteOpen: true, deleteText: '' }),
+      archiveOpen: st.archiveOpen, cancelArchive: () => this.setState({ archiveOpen: false }),
+      doArchive: () => { A.patchClient(client.id, { archived: true }); this.setState(s => ({ archiveOpen: false, ver: s.ver + 1 })); this.showToast(client.name + ' archived.'); },
+      deleteOpen: st.deleteOpen, deleteText: st.deleteText,
+      onDeleteText: (e) => this.setState({ deleteText: e.target.value }),
+      cancelDelete: () => this.setState({ deleteOpen: false, deleteText: '' }),
+      deleteDisabled: !delOk,
+      deleteStyle: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 44, padding: '10px 20px', border: 'none', borderRadius: 999, fontWeight: 600, fontSize: 14, whiteSpace: 'nowrap', cursor: delOk ? 'pointer' : 'not-allowed', background: delOk ? '#A9492A' : '#E4DDD0', color: delOk ? '#fff' : '#8A8378' },
+      doDelete: () => { if (!delOk) return; A.removeClient(client.id); window.location.href = 'Submissions.dc.html?deleted=' + encodeURIComponent(client.name); },
+      modalStyle: sh.sheet('modal')
+    };
+  }
+}
+</script>
+</body>
+</html>

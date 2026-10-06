@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F5F1E7}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  ::placeholder{color:#A79F93}
+  input,button,select{font-family:inherit}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100vh; display:flex; flex-wrap:wrap; align-items:flex-start; background:#F5F1E7; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#1A1714; -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.45;">
+
+<!-- SIDEBAR (desktop) -->
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:sticky; top:0; height:100vh; flex:0 0 232px; background:#1A1714; color:#EDE7DA; display:flex; flex-direction:column; padding:24px 16px;">
+      <div style="padding:0 8px;"><div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div></div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:40px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">{{ accountName }}</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div>
+    </aside>
+  </sc-if>
+
+  <!-- TOP BAR (mobile) -->
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+    <div style="position:sticky; top:0; z-index:50; flex:1 0 100%; display:flex; align-items:center; gap:12px; min-height:60px; padding:8px 8px 8px 20px; background:#1A1714;">
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+      <div style="flex:1;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#EDE7DA;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="">
+    <div role="dialog" aria-label="Menu" style="position:fixed; inset:0; z-index:90; background:#1A1714; display:flex; flex-direction:column; padding:8px 8px 24px 20px;">
+      <div style="display:flex; align-items:center; min-height:60px;">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+        <div style="flex:1;"></div>
+        <button onClick="{{ closeMenu }}" aria-label="Close menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#EDE7DA; font-size:26px; line-height:1;">×</button>
+      </div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:24px; padding-right:12px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="padding-right:12px;"><div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">{{ accountName }}</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div></div>
+    </div>
+  </sc-if>
+
+  <!-- MAIN -->
+  <main style="{{ mainStyle }}">
+    <div style="max-width:1080px; margin:0 auto;">
+      <h1 style="font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.025em; font-size:30px; line-height:1.1; margin:0;">Settings</h1>
+
+      <div style="{{ bodyGrid }}">
+
+        <!-- GROUP LIST -->
+        <div style="{{ groupListStyle }}">
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="5">
+            <button onClick="{{ g.onClick }}" style="{{ g.style }}">
+              <span style="flex:1;">{{ g.label }}</span>
+              <sc-if value="{{ g.dirty }}" hint-placeholder-val=""><span title="Unsaved changes" style="width:7px; height:7px; border-radius:50%; background:#D9714E; flex:0 0 auto;"></span></sc-if>
+            </button>
+          </sc-for>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:16px; min-width:0;">
+
+          <!-- ACCOUNT -->
+          <sc-if value="{{ isAccount }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+                <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Account</h2>
+                <p style="margin:0 0 24px; font-size:13.5px; color:#6B655C;">Your name and the email you log in with.</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Full name</label>
+                    <input value="{{ acc.name }}" onInput="{{ on.accName }}" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ accErr.name }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ accErr.name }}</span></sc-if>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Email address</label>
+                    <input value="{{ acc.email }}" onInput="{{ on.accEmail }}" type="email" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ accErr.email }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ accErr.email }}</span></sc-if>
+                  </div>
+                </div>
+              </div>
+              <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+                <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Change password</h2>
+                <p style="margin:0 0 24px; font-size:13.5px; color:#6B655C;">Leave these blank to keep your current password.</p>
+                <div style="display:flex; flex-direction:column; gap:16px; max-width:400px;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Current password</label>
+                    <input value="{{ pw.current }}" onInput="{{ on.pwCurrent }}" type="password" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ pwErr.current }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ pwErr.current }}</span></sc-if>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">New password</label>
+                    <input value="{{ pw.next }}" onInput="{{ on.pwNext }}" type="password" placeholder="At least 8 characters" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ pwErr.next }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ pwErr.next }}</span></sc-if>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Confirm new password</label>
+                    <input value="{{ pw.confirm }}" onInput="{{ on.pwConfirm }}" type="password" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ pwErr.confirm }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ pwErr.confirm }}</span></sc-if>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- TEAM -->
+          <sc-if value="{{ isTeam }}" hint-placeholder-val="">
+            <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+              <div style="display:flex; flex-wrap:wrap; align-items:flex-start; justify-content:space-between; gap:16px;">
+                <div style="flex:1 1 320px; min-width:200px;">
+                  <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Team</h2>
+                  <p style="margin:0; font-size:13.5px; color:#6B655C;">Admins have full access and can change settings. Viewers can view and export submissions. Invites and removals take effect right away; role changes need saving.</p>
+                </div>
+                <sc-if value="{{ inviteClosed }}" hint-placeholder-val="{{ true }}">
+                  <button onClick="{{ on.openInvite }}" style="min-height:44px; flex:0 0 auto; white-space:nowrap; display:inline-flex; align-items:center; gap:6px; padding:9px 16px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; background:transparent; cursor:pointer; font-weight:600; font-size:13.5px; color:#1A1714;" style-hover="border-color:#D9714E; color:#C25E3D;"><span style="font-size:16px; line-height:1;">+</span>Invite team member</button>
+                </sc-if>
+              </div>
+
+              <sc-if value="{{ inviteOpen }}" hint-placeholder-val="">
+                <div style="margin-top:20px; padding:16px; border:1px solid rgba(217,113,78,0.35); border-radius:16px; background:#F8F5EE;">
+                  <div style="display:flex; flex-wrap:wrap; gap:10px; align-items:center;">
+                    <input value="{{ invite.email }}" onInput="{{ on.inviteEmail }}" type="email" placeholder="name@thyratechnology.com" style="flex:1 1 220px; min-width:0; min-height:44px; padding:11px 14px; border:1px solid rgba(26,23,20,0.16); border-radius:12px; background:#FBFAF6; font-size:14px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <select value="{{ invite.role }}" onChange="{{ on.inviteRole }}" style="flex:0 0 140px; min-height:44px; padding:11px 36px 11px 14px; border:1px solid rgba(26,23,20,0.16); border-radius:12px; background:#FBFAF6 url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B655C' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;) no-repeat right 14px center; appearance:none; -webkit-appearance:none; font-size:14px; color:#1A1714; outline:none; cursor:pointer;">
+                      <option value="Admin">Admin</option>
+                      <option value="Viewer">Viewer</option>
+                    </select>
+                    <button onClick="{{ on.sendInvite }}" style="min-height:44px; padding:11px 18px; border:1px solid #1A1714; border-radius:999px; background:#1A1714; color:#F5F1E7; cursor:pointer; font-weight:600; font-size:13.5px; white-space:nowrap;" style-hover="background:#2A2520;">Send invite</button>
+                    <button onClick="{{ on.closeInvite }}" style="min-height:44px; padding:11px 8px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; color:#6B655C;" style-hover="color:#1A1714;">Cancel</button>
+                  </div>
+                  <sc-if value="{{ inviteErr }}" hint-placeholder-val=""><div style="margin-top:8px; font-size:12.5px; color:#C25E3D; font-weight:500;">{{ inviteErr }}</div></sc-if>
+                </div>
+              </sc-if>
+
+              <div style="margin-top:20px; border-top:1px solid rgba(26,23,20,0.08);">
+                <sc-for list="{{ members }}" as="m" hint-placeholder-count="4">
+                  <div style="border-bottom:1px solid rgba(26,23,20,0.08);">
+                    <div style="display:grid; grid-template-columns:40px minmax(0,1fr) auto auto; gap:10px 14px; align-items:center; padding:12px 0;">
+                      <span style="{{ m.avatarStyle }}">{{ m.initials }}</span>
+                      <div style="min-width:0;">
+                        <div style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+                          <span style="font-weight:600; font-size:14px;">{{ m.displayName }}</span>
+                          <sc-if value="{{ m.you }}" hint-placeholder-val=""><span style="font-size:12px; color:#6B655C;">(you)</span></sc-if>
+                          <sc-if value="{{ m.pending }}" hint-placeholder-val=""><span style="display:inline-flex; padding:2px 10px; border:1px solid rgba(26,23,20,0.2); border-radius:999px; font-size:11.5px; font-weight:600; color:#4A453F;">Invited</span></sc-if>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px; font-size:13px; color:#6B655C;">
+                          <span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ m.email }}</span>
+                          <sc-if value="{{ m.pending }}" hint-placeholder-val=""><button onClick="{{ m.resend }}" style="min-height:44px; padding:0; border:none; background:none; cursor:pointer; font-size:13px; font-weight:600; color:#D9714E;" style-hover="color:#C25E3D;">{{ m.resendLabel }}</button></sc-if>
+                        </div>
+                      </div>
+                      <sc-if value="{{ m.you }}" hint-placeholder-val="">
+                        <span style="font-size:13.5px; color:#6B655C; padding-left:14px;">Admin</span>
+                      </sc-if>
+                      <sc-if value="{{ m.editable }}" hint-placeholder-val="{{ true }}">
+                        <select value="{{ m.role }}" onChange="{{ m.onRole }}" style="width:124px; min-height:44px; padding:9px 34px 9px 14px; border:1px solid rgba(26,23,20,0.16); border-radius:999px; background:#FBFAF6 url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B655C' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;) no-repeat right 13px center; appearance:none; -webkit-appearance:none; font-size:13.5px; color:#1A1714; outline:none; cursor:pointer;">
+                          <option value="Admin">Admin</option>
+                          <option value="Viewer">Viewer</option>
+                        </select>
+                      </sc-if>
+                      <sc-if value="{{ m.you }}" hint-placeholder-val=""><span></span></sc-if>
+                      <sc-if value="{{ m.editable }}" hint-placeholder-val="{{ true }}">
+                        <button onClick="{{ m.askRemove }}" title="{{ m.removeTitle }}" style="width:44px; height:44px; border-radius:50%; border:1px solid rgba(26,23,20,0.16); background:transparent; cursor:pointer; font-size:17px; line-height:1; color:#6B655C; display:flex; align-items:center; justify-content:center;" style-hover="border-color:#D9714E; color:#C25E3D;">–</button>
+                      </sc-if>
+                    </div>
+                    <sc-if value="{{ m.confirming }}" hint-placeholder-val="">
+                      <div role="alertdialog" style="display:flex; align-items:center; gap:16px; flex-wrap:wrap; margin:0 0 14px 54px; padding:14px 16px; border:1px solid rgba(217,113,78,0.35); border-radius:14px; background:#F8F5EE;">
+                        <span style="flex:1 1 280px; font-size:13.5px;">{{ m.confirmText }}</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <button onClick="{{ m.cancelRemove }}" style="min-height:44px; padding:8px 14px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13px; color:#6B655C;" style-hover="color:#1A1714;">Cancel</button>
+                          <button onClick="{{ m.doRemove }}" style="min-height:44px; padding:8px 18px; border:1px solid #C25E3D; border-radius:999px; background:transparent; cursor:pointer; font-weight:600; font-size:13px; color:#A9492A;" style-hover="background:rgba(217,113,78,0.08);">Remove</button>
+                        </div>
+                      </div>
+                    </sc-if>
+                  </div>
+                </sc-for>
+              </div>
+
+              <sc-if value="{{ teamEmpty }}" hint-placeholder-val="">
+                <p style="margin:24px 0 4px; text-align:center; font-size:14px; color:#6B655C;">It's just you for now. Invite a team member when you're ready.</p>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <!-- NOTIFICATIONS -->
+          <sc-if value="{{ isNotif }}" hint-placeholder-val="">
+            <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+              <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Notifications</h2>
+              <p style="margin:0 0 12px; font-size:13.5px; color:#6B655C;">Choose which emails you get about client activity.</p>
+              <sc-for list="{{ notifToggles }}" as="t" hint-placeholder-count="4">
+                <div style="display:flex; align-items:center; gap:24px; padding:16px 0; border-bottom:1px solid rgba(26,23,20,0.08);">
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-weight:600; font-size:14.5px;">{{ t.label }}</div>
+                    <div style="font-size:13px; color:#6B655C;">{{ t.desc }}</div>
+                  </div>
+                  <button role="switch" aria-checked="{{ t.on }}" onClick="{{ t.toggle }}" style="{{ t.trackStyle }}"><span style="{{ t.railStyle }}"><span style="{{ t.knobStyle }}"></span></span></button>
+                </div>
+              </sc-for>
+              <div style="display:flex; flex-direction:column; gap:7px; margin-top:24px; max-width:400px;">
+                <label style="font-weight:600; font-size:13px;">Send notifications to</label>
+                <input value="{{ notif.to }}" onInput="{{ on.notifTo }}" type="email" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                <sc-if value="{{ notifErr }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ notifErr }}</span></sc-if>
+                <span style="font-size:12.5px; color:#6B655C;">Defaults to your account email.</span>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- ONBOARDING FORM -->
+          <sc-if value="{{ isOnboarding }}" hint-placeholder-val="">
+            <div style="display:flex; flex-direction:column; gap:16px;">
+              <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+                <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Form options</h2>
+                <p style="margin:0 0 24px; font-size:13.5px; color:#6B655C;">What clients can pick from in the onboarding form.</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:32px;">
+                  <div>
+                    <div style="font-weight:600; font-size:13px; margin-bottom:4px;">Business type options</div>
+                    <div style="font-size:12.5px; color:#6B655C; margin-bottom:12px;">Shown in the business type dropdown.</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <sc-for list="{{ typeRows }}" as="r" hint-placeholder-count="6">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <input value="{{ r.value }}" onInput="{{ r.onInput }}" placeholder="Business type" style="flex:1; min-width:0; padding:10px 14px; border:1px solid rgba(26,23,20,0.16); border-radius:12px; background:#FBFAF6; font-size:14px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                          <button onClick="{{ r.remove }}" title="Remove" style="flex:0 0 auto; width:44px; height:44px; border-radius:50%; border:1px solid rgba(26,23,20,0.16); background:transparent; cursor:pointer; font-size:17px; line-height:1; color:#6B655C;" style-hover="border-color:#D9714E; color:#C25E3D;">–</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <button onClick="{{ on.addType }}" style="min-height:44px; margin-top:10px; padding:6px 0; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; color:#D9714E;" style-hover="color:#C25E3D;">+ Add business type</button>
+                  </div>
+                  <div>
+                    <div style="font-weight:600; font-size:13px; margin-bottom:4px;">Social platforms</div>
+                    <div style="font-size:12.5px; color:#6B655C; margin-bottom:12px;">Offered in the Social Media section.</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <sc-for list="{{ socialRows }}" as="r" hint-placeholder-count="6">
+                        <div style="display:flex; align-items:center; gap:8px;">
+                          <input value="{{ r.value }}" onInput="{{ r.onInput }}" placeholder="Platform" style="flex:1; min-width:0; padding:10px 14px; border:1px solid rgba(26,23,20,0.16); border-radius:12px; background:#FBFAF6; font-size:14px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                          <button onClick="{{ r.remove }}" title="Remove" style="flex:0 0 auto; width:44px; height:44px; border-radius:50%; border:1px solid rgba(26,23,20,0.16); background:transparent; cursor:pointer; font-size:17px; line-height:1; color:#6B655C;" style-hover="border-color:#D9714E; color:#C25E3D;">–</button>
+                        </div>
+                      </sc-for>
+                    </div>
+                    <button onClick="{{ on.addSocial }}" style="min-height:44px; margin-top:10px; padding:6px 0; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; color:#D9714E;" style-hover="color:#C25E3D;">+ Add platform</button>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:24px; margin-top:28px; padding-top:20px; border-top:1px solid rgba(26,23,20,0.08);">
+                  <div style="flex:1;">
+                    <div style="font-weight:600; font-size:14.5px;">Voice input on long text fields</div>
+                    <div style="font-size:13px; color:#6B655C;">Lets clients dictate answers like their brand story.</div>
+                  </div>
+                  <button role="switch" aria-checked="{{ voice.on }}" onClick="{{ voice.toggle }}" style="{{ voice.trackStyle }}"><span style="{{ voice.railStyle }}"><span style="{{ voice.knobStyle }}"></span></span></button>
+                </div>
+              </div>
+
+              <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+                <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Client emails</h2>
+                <p style="margin:0 0 24px; font-size:13.5px; color:#6B655C;">Used for verification and confirmation emails.</p>
+                <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:16px;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Sender name</label>
+                    <input value="{{ onb.sender }}" onInput="{{ on.sender }}" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Reply-to email</label>
+                    <input value="{{ onb.replyTo }}" onInput="{{ on.replyTo }}" type="email" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                    <sc-if value="{{ replyErr }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ replyErr }}</span></sc-if>
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <label style="font-weight:600; font-size:13px;">Verification link expiry</label>
+                    <select value="{{ onb.expiry }}" onChange="{{ on.expiry }}" style="width:100%; padding:12px 38px 12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6 url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B655C' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;) no-repeat right 15px center; appearance:none; -webkit-appearance:none; font-size:14.5px; color:#1A1714; outline:none; cursor:pointer;">
+                      <option value="24 hours">24 hours</option>
+                      <option value="48 hours">48 hours</option>
+                      <option value="7 days">7 days</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- EXPORT -->
+          <sc-if value="{{ isExport }}" hint-placeholder-val="">
+            <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:24px 28px;">
+              <h2 style="font-family:'Geist',sans-serif; font-weight:600; letter-spacing:-0.015em; font-size:18px; margin:0 0 4px;">Export</h2>
+              <p style="margin:0 0 24px; font-size:13.5px; color:#6B655C;">Defaults applied when generating the WooCommerce CSV.</p>
+              <div style="display:flex; flex-direction:column; gap:24px; max-width:520px;">
+                <div style="display:flex; flex-direction:column; gap:7px; max-width:260px;">
+                  <label style="font-weight:600; font-size:13px;">SKU prefix</label>
+                  <input value="{{ exp.sku }}" onInput="{{ on.sku }}" placeholder="THY-" style="width:100%; padding:12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:14.5px; font-family:ui-monospace,Menlo,monospace; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                  <span style="font-size:12.5px; color:#6B655C;">Added to every product SKU in the export</span>
+                </div>
+                <div role="radiogroup" style="display:flex; flex-direction:column; gap:10px;">
+                  <span style="font-weight:600; font-size:13px;">Import products as</span>
+                  <div style="display:flex; gap:10px;">
+                    <sc-for list="{{ importOpts }}" as="o" hint-placeholder-count="2">
+                      <button role="radio" aria-checked="{{ o.on }}" onClick="{{ o.pick }}" style="{{ o.style }}"><span style="{{ o.dotStyle }}"><span style="{{ o.innerStyle }}"></span></span>{{ o.label }}</button>
+                    </sc-for>
+                  </div>
+                </div>
+                <div style="display:flex; flex-direction:column; gap:7px; max-width:260px;">
+                  <label style="font-weight:600; font-size:13px;">Default stock status</label>
+                  <select value="{{ exp.stock }}" onChange="{{ on.stock }}" style="width:100%; padding:12px 38px 12px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6 url(&quot;data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B655C' stroke-width='2.4' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E&quot;) no-repeat right 15px center; appearance:none; -webkit-appearance:none; font-size:14.5px; color:#1A1714; outline:none; cursor:pointer;">
+                    <option value="In stock">In stock</option>
+                    <option value="Out of stock">Out of stock</option>
+                    <option value="On backorder">On backorder</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:24px; margin-top:28px; padding-top:20px; border-top:1px solid rgba(26,23,20,0.08);">
+                <div style="flex:1;">
+                  <div style="font-weight:600; font-size:14.5px;">Include products with no images</div>
+                  <div style="font-size:13px; color:#6B655C;">When off, products without images are left out of the CSV.</div>
+                </div>
+                <button role="switch" aria-checked="{{ noImg.on }}" onClick="{{ noImg.toggle }}" style="{{ noImg.trackStyle }}"><span style="{{ noImg.railStyle }}"><span style="{{ noImg.knobStyle }}"></span></span></button>
+              </div>
+            </div>
+          </sc-if>
+
+          <!-- SAVE BAR -->
+          <sc-if value="{{ showSave }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; align-items:center; justify-content:flex-end; gap:16px; padding-top:4px;">
+              <sc-if value="{{ dirty }}" hint-placeholder-val="">
+                <span style="font-size:13px; color:#6B655C;">Unsaved changes</span>
+                <button onClick="{{ discard }}" style="min-height:44px; padding:8px 4px; border:none; background:none; cursor:pointer; font-weight:600; font-size:13.5px; color:#6B655C;" style-hover="color:#1A1714;">Discard</button>
+              </sc-if>
+              <button onClick="{{ save }}" disabled="{{ saveDisabled }}" style="{{ saveStyle }}">Save changes</button>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TOAST -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div role="status" style="{{ toastStyle }}">
+      <span style="width:26px; height:26px; flex:0 0 auto; border-radius:50%; border:1.5px solid #D9714E; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4 4 9-9"></path></svg></span>
+      <span style="flex:1;">{{ toast }}</span>
+      <button onClick="{{ closeToast }}" title="Dismiss" style="width:44px; height:44px; background:none; border:none; cursor:pointer; color:#9A9082; font-size:20px; line-height:1;" style-hover="color:#EDE7DA;">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;teamDemo&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;populated&quot;,&quot;just you&quot;],&quot;default&quot;:&quot;populated&quot;,&quot;tsType&quot;:&quot;'populated'|'just you'&quot;,&quot;section&quot;:&quot;Demo&quot;,&quot;description&quot;:&quot;'just you' shows the Team empty state&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this._id = 100;
+    const p = props || {};
+    const L = (arr) => arr.map(v => ({ id: this.uid(), v }));
+    const saved = {
+      account: { name: 'Eze Mitchel', email: 'Mitch@thyratechnology.com' },
+      team: { c1: 'Admin', c2: 'Viewer', i1: 'Viewer' },
+      notif: { signup: true, submitted: true, stalled: true, weekly: false, to: 'Mitch@thyratechnology.com' },
+      onboarding: {
+        types: L(['Fashion & apparel', 'Beauty & skincare', 'Jewellery & accessories', 'Food & drink', 'Home & living', 'Health & wellness', 'Kids & baby', 'Other']),
+        socials: L(['Instagram', 'TikTok', 'Facebook', 'X', 'WhatsApp', 'YouTube']),
+        voice: true, expiry: '24 hours', sender: 'Thyra Technologies', replyTo: 'hello@thyratechnology.com'
+      },
+      export: { sku: 'THY-', importAs: 'Draft', stock: 'In stock', noImages: false }
+    };
+    const members = p.teamDemo === 'just you'
+      ? [{ id: 'me', name: 'Eze Mitchel', email: 'Mitch@thyratechnology.com', you: true }]
+      : [
+          { id: 'me', name: 'Eze Mitchel', email: 'Mitch@thyratechnology.com', you: true },
+          { id: 'c1', name: 'Chidi Okafor', email: 'chidi@thyratechnology.com' },
+          { id: 'c2', name: 'Funmi Bello', email: 'funmi@thyratechnology.com' },
+          { id: 'i1', name: '', email: 'ngozi@thyratechnology.com', pending: true }
+        ];
+    this.rootRef = React.createRef();
+    this.state = {
+      mobile: false, menuOpen: false,
+      group: 'account', saved, draft: JSON.parse(JSON.stringify(saved)), members,
+      pw: { current: '', next: '', confirm: '' }, pwErr: {}, accErr: {}, fieldErr: {},
+      inviteOpen: false, invite: { email: '', role: 'Viewer' }, inviteErr: '',
+      confirmId: null, resent: {}, toast: ''
+    };
+  }
+  uid() { return 'x' + (this._id++); }
+  componentDidMount() { this.mountShell(); }
+  mountShell() {
+    this._mqf = () => { const mob = window.innerWidth < 860; if (mob !== this.state.mobile) this.setState({ mobile: mob, menuOpen: mob ? this.state.menuOpen : false }); };
+    this._mqf();
+    window.addEventListener('resize', this._mqf);
+    this._raf = requestAnimationFrame(this._mqf);
+    this._mt1 = setTimeout(this._mqf, 300);
+    this._mt2 = setTimeout(this._mqf, 1200);
+    this._ro = { disconnect: () => { window.removeEventListener('resize', this._mqf); cancelAnimationFrame(this._raf); clearTimeout(this._mt1); clearTimeout(this._mt2); } };
+  }
+  shellVals() {
+    const mob = !!this.state.mobile;
+    return {
+      rootRef: this.rootRef, isDesktop: !mob, isMobile: mob, menuOpen: !!this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }), closeMenu: () => this.setState({ menuOpen: false }),
+      mainStyle: { flex: '1 1 0', minWidth: 0, padding: mob ? '24px 16px 72px' : '40px 48px 80px' },
+      sheet: (kind) => mob
+        ? { position: 'fixed', inset: 0, zIndex: 70, background: '#F5F1E7', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+        : kind === 'panel'
+          ? { position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(460px, 100%)', zIndex: 70, background: '#F5F1E7', borderLeft: '1px solid rgba(26,23,20,0.1)', boxShadow: '-16px 0 40px rgba(26,23,20,0.12)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+          : { position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 'min(500px, calc(100% - 32px))', maxHeight: 'calc(100vh - 48px)', zIndex: 70, background: '#FBFAF6', border: '1px solid rgba(26,23,20,0.1)', borderRadius: 20, boxShadow: '0 24px 60px rgba(26,23,20,0.2)', overflowY: 'auto', display: 'flex', flexDirection: 'column' },
+      toastStyle: { position: 'fixed', right: mob ? 16 : 32, left: mob ? 16 : 'auto', bottom: mob ? 16 : 32, zIndex: 95, display: 'flex', alignItems: 'center', gap: 12, padding: '10px 8px 10px 14px', borderRadius: 16, background: '#1A1714', color: '#EDE7DA', boxShadow: '0 12px 32px rgba(26,23,20,0.24)', fontSize: 14, maxWidth: mob ? 'none' : 440 }
+    };
+  }
+
+  componentWillUnmount() { this._ro && this._ro.disconnect(); clearTimeout(this._tt); Object.values(this._rt || {}).forEach(clearTimeout); }
+  showToast(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: '' }), 3500); }
+  setD(g, fn) { this.setState(s => { const d = JSON.parse(JSON.stringify(s.draft)); fn(d[g]); return { draft: d }; }); }
+  validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e).trim()); }
+  isDirty(g) {
+    const { saved, draft, pw } = this.state;
+    const diff = JSON.stringify(saved[g]) !== JSON.stringify(draft[g]);
+    if (g === 'account') return diff || !!(pw.current || pw.next || pw.confirm);
+    return diff;
+  }
+  sw(on, toggle) {
+    return {
+      on: on ? 'true' : 'false', toggle,
+      trackStyle: { flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'center', boxSizing: 'border-box', width: 44, height: 44, margin: '-10px 0', padding: 0, border: 'none', background: 'none', outline: 'none', cursor: 'pointer', WebkitTapHighlightColor: 'transparent' },
+      railStyle: { position: 'relative', display: 'block', flex: '0 0 auto', width: 42, height: 24, borderRadius: 999, background: on ? '#D9714E' : 'rgba(26,23,20,0.18)', transition: 'background 0.15s' },
+      knobStyle: { position: 'absolute', top: 3, left: on ? 21 : 3, width: 18, height: 18, borderRadius: '50%', background: '#FBFAF6', boxShadow: '0 1px 2px rgba(26,23,20,0.25)', transition: 'left 0.15s' }
+    };
+  }
+  save = () => {
+    const g = this.state.group;
+    if (!this.isDirty(g)) return;
+    const d = this.state.draft;
+    if (g === 'account') {
+      const accErr = {}, pwErr = {}, pw = this.state.pw;
+      if (!d.account.name.trim()) accErr.name = 'Enter your name.';
+      if (!this.validEmail(d.account.email)) accErr.email = 'Enter a valid email address.';
+      if (pw.current || pw.next || pw.confirm) {
+        if (!pw.current) pwErr.current = 'Enter your current password.';
+        if (pw.next.length < 8) pwErr.next = 'Use at least 8 characters.';
+        if (pw.confirm !== pw.next) pwErr.confirm = "Passwords don't match.";
+      }
+      this.setState({ accErr, pwErr });
+      if (Object.keys(accErr).length || Object.keys(pwErr).length) return;
+      this.setState({ pw: { current: '', next: '', confirm: '' } });
+    }
+    if (g === 'notif' && !this.validEmail(d.notif.to)) { this.setState({ fieldErr: { notifTo: 'Enter a valid email address.' } }); return; }
+    if (g === 'onboarding') {
+      if (!this.validEmail(d.onboarding.replyTo)) { this.setState({ fieldErr: { replyTo: 'Enter a valid email address.' } }); return; }
+      d.onboarding.types = d.onboarding.types.filter(r => r.v.trim());
+      d.onboarding.socials = d.onboarding.socials.filter(r => r.v.trim());
+    }
+    this.setState(s => ({ saved: { ...s.saved, [g]: JSON.parse(JSON.stringify(d[g])) }, draft: { ...s.draft, [g]: JSON.parse(JSON.stringify(d[g])) }, fieldErr: {} }));
+    this.showToast('Changes saved.');
+  };
+  renderVals() {
+    const { group, draft, members, pw, pwErr, accErr, fieldErr, inviteOpen, invite, inviteErr, confirmId, resent, toast } = this.state;
+    const groupDefs = [['account', 'Account'], ['team', 'Team'], ['notif', 'Notifications'], ['onboarding', 'Onboarding form'], ['export', 'Export']];
+    const groups = groupDefs.map(([k, l]) => {
+      const on = k === group;
+      return {
+        label: l, dirty: this.isDirty(k),
+        onClick: () => this.setState({ group: k, confirmId: null }),
+        style: this.state.mobile ? { flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: 8, minHeight: 44, padding: '0 16px', borderRadius: 999, cursor: 'pointer', whiteSpace: 'nowrap', fontSize: 13.5, fontWeight: 600, border: on ? '1px solid #D9714E' : '1px solid rgba(26,23,20,0.16)', background: on ? 'rgba(217,113,78,0.08)' : '#FBFAF6', color: '#1A1714' } : { width: '100%', display: 'flex', alignItems: 'center', gap: 10, minHeight: 44, padding: '11px 12px', borderRadius: 12, border: 'none', cursor: 'pointer', textAlign: 'left', fontSize: 14, fontWeight: on ? 600 : 500, background: on ? 'rgba(217,113,78,0.09)' : 'transparent', color: on ? '#1A1714' : '#4A453F' }
+      };
+    });
+    const initials = (n, e) => (n ? n.split(' ').map(x => x[0]).slice(0, 2).join('') : e[0]).toUpperCase();
+    const memberRows = members.map(m => ({
+      displayName: m.pending ? 'Pending invite' : m.name, email: m.email,
+      initials: initials(m.name, m.email), you: !!m.you, pending: !!m.pending, editable: !m.you,
+      role: draft.team[m.id] || 'Admin',
+      avatarStyle: { width: 40, height: 40, borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Geist',sans-serif", fontWeight: 600, fontSize: 13, background: m.pending ? 'transparent' : '#EDE7DA', border: m.pending ? '1.5px dashed rgba(26,23,20,0.25)' : 'none', color: '#4A453F' },
+      onRole: (e) => { const v = e.target.value; this.setD('team', t => { t[m.id] = v; }); },
+      removeTitle: m.pending ? 'Cancel invite' : 'Remove',
+      askRemove: () => this.setState({ confirmId: m.id }),
+      confirming: confirmId === m.id,
+      confirmText: m.pending ? 'Cancel the invite to ' + m.email + '?' : 'Remove ' + m.name + "? They'll lose access to all submissions immediately.",
+      cancelRemove: () => this.setState({ confirmId: null }),
+      doRemove: () => {
+        this.setState(s => {
+          const strip = (o) => { const c = { ...o }; delete c[m.id]; return c; };
+          return { members: s.members.filter(x => x.id !== m.id), confirmId: null, saved: { ...s.saved, team: strip(s.saved.team) }, draft: { ...s.draft, team: strip(s.draft.team) } };
+        });
+        this.showToast(m.pending ? 'Invite cancelled.' : m.name + ' removed.');
+      },
+      resendLabel: resent[m.id] ? 'Sent' : 'Resend',
+      resend: () => {
+        if (resent[m.id]) return;
+        this.setState(s => ({ resent: { ...s.resent, [m.id]: true } }));
+        this._rt = this._rt || {};
+        this._rt[m.id] = setTimeout(() => this.setState(s => ({ resent: { ...s.resent, [m.id]: false } })), 4000);
+        this.showToast('Invite resent to ' + m.email + '.');
+      }
+    }));
+
+    const ob = draft.onboarding;
+    const listRows = (key) => ob[key].map((r, i) => ({
+      value: r.v,
+      onInput: (e) => { const v = e.target.value; this.setD('onboarding', o => { o[key][i].v = v; }); },
+      remove: () => this.setD('onboarding', o => { o[key].splice(i, 1); })
+    }));
+    const nt = draft.notif;
+    const notifDefs = [
+      ['signup', 'New client sign-up', 'Email me when someone creates an account.'],
+      ['submitted', 'Onboarding submitted', 'Email me when a client confirms their details.'],
+      ['stalled', 'Onboarding stalled', "Email me when a client hasn't continued for 7 days."],
+      ['weekly', 'Weekly summary', 'A Monday email with new sign-ups and submissions.']
+    ];
+    const ex = draft.export;
+    const dirty = this.isDirty(group);
+    const mob = !!this.state.mobile;
+    return {
+      ...this.shellVals(),
+      bodyGrid: mob ? { display: 'flex', flexDirection: 'column', gap: 16, marginTop: 20 } : { display: 'grid', gridTemplateColumns: '232px minmax(0,1fr)', gap: 24, marginTop: 24, alignItems: 'start' },
+      groupListStyle: mob ? { display: 'flex', gap: 8, overflowX: 'auto', margin: '0 -16px', padding: '0 16px 2px' } : { position: 'sticky', top: 24, background: '#FBFAF6', border: '1px solid rgba(26,23,20,0.1)', borderRadius: 20, padding: 10 },
+      accountName: this.state.saved.account.name,
+      groups,
+      isAccount: group === 'account', isTeam: group === 'team', isNotif: group === 'notif', isOnboarding: group === 'onboarding', isExport: group === 'export',
+      acc: draft.account, pw, pwErr, accErr,
+      members: memberRows, teamEmpty: members.length <= 1,
+      inviteOpen, inviteClosed: !inviteOpen, invite, inviteErr,
+      notif: nt, notifErr: fieldErr.notifTo || '', replyErr: fieldErr.replyTo || '',
+      notifToggles: notifDefs.map(([k, l, d]) => ({ label: l, desc: d, ...this.sw(nt[k], () => this.setD('notif', n => { n[k] = !n[k]; })) })),
+      onb: ob, typeRows: listRows('types'), socialRows: listRows('socials'),
+      voice: this.sw(ob.voice, () => this.setD('onboarding', o => { o.voice = !o.voice; })),
+      exp: ex,
+      importOpts: ['Draft', 'Published'].map(v => {
+        const on = ex.importAs === v;
+        return {
+          label: v, on: on ? 'true' : 'false',
+          pick: () => this.setD('export', e => { e.importAs = v; }),
+          style: { display: 'inline-flex', alignItems: 'center', gap: 10, padding: '10px 18px 10px 12px', borderRadius: 999, cursor: 'pointer', fontWeight: 600, fontSize: 14, border: on ? '1px solid #D9714E' : '1px solid rgba(26,23,20,0.16)', background: on ? 'rgba(217,113,78,0.08)' : 'transparent', color: '#1A1714' },
+          dotStyle: { width: 18, height: 18, borderRadius: '50%', border: on ? '1.5px solid #D9714E' : '1.5px solid rgba(26,23,20,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center' },
+          innerStyle: { width: 8, height: 8, borderRadius: '50%', background: on ? '#D9714E' : 'transparent' }
+        };
+      }),
+      noImg: this.sw(ex.noImages, () => this.setD('export', e => { e.noImages = !e.noImages; })),
+      showSave: group !== 'team' || dirty, dirty,
+      saveDisabled: !dirty,
+      saveStyle: { padding: '12px 26px', border: 'none', borderRadius: 999, fontWeight: 600, fontSize: 15, cursor: dirty ? 'pointer' : 'not-allowed', background: dirty ? '#D9714E' : '#E4DDD0', color: dirty ? '#fff' : '#8A8378' },
+      save: this.save,
+      discard: () => this.setState(s => ({ draft: { ...s.draft, [group]: JSON.parse(JSON.stringify(s.saved[group])) }, pw: { current: '', next: '', confirm: '' }, pwErr: {}, accErr: {}, fieldErr: {} })),
+      toast, closeToast: () => this.setState({ toast: '' }),
+      on: {
+        accName: (e) => { const v = e.target.value; this.setD('account', a => { a.name = v; }); this.setState({ accErr: { ...this.state.accErr, name: null } }); },
+        accEmail: (e) => { const v = e.target.value; this.setD('account', a => { a.email = v; }); this.setState({ accErr: { ...this.state.accErr, email: null } }); },
+        pwCurrent: (e) => this.setState({ pw: { ...this.state.pw, current: e.target.value }, pwErr: { ...this.state.pwErr, current: null } }),
+        pwNext: (e) => this.setState({ pw: { ...this.state.pw, next: e.target.value }, pwErr: { ...this.state.pwErr, next: null } }),
+        pwConfirm: (e) => this.setState({ pw: { ...this.state.pw, confirm: e.target.value }, pwErr: { ...this.state.pwErr, confirm: null } }),
+        openInvite: () => this.setState({ inviteOpen: true, inviteErr: '' }),
+        closeInvite: () => this.setState({ inviteOpen: false, invite: { email: '', role: 'Viewer' }, inviteErr: '' }),
+        inviteEmail: (e) => this.setState({ invite: { ...this.state.invite, email: e.target.value }, inviteErr: '' }),
+        inviteRole: (e) => this.setState({ invite: { ...this.state.invite, role: e.target.value } }),
+        sendInvite: () => {
+          const em = this.state.invite.email.trim();
+          if (!this.validEmail(em)) { this.setState({ inviteErr: 'Enter a valid email address.' }); return; }
+          if (this.state.members.some(m => m.email.toLowerCase() === em.toLowerCase())) { this.setState({ inviteErr: 'That person already has access.' }); return; }
+          const id = this.uid(), role = this.state.invite.role;
+          this.setState(s => ({
+            members: [...s.members, { id, name: '', email: em, pending: true }],
+            saved: { ...s.saved, team: { ...s.saved.team, [id]: role } },
+            draft: { ...s.draft, team: { ...s.draft.team, [id]: role } },
+            inviteOpen: false, invite: { email: '', role: 'Viewer' }
+          }));
+          this.showToast('Invite sent to ' + em + '.');
+        },
+        notifTo: (e) => { const v = e.target.value; this.setD('notif', n => { n.to = v; }); this.setState({ fieldErr: {} }); },
+        addType: () => this.setD('onboarding', o => { o.types.push({ id: this.uid(), v: '' }); }),
+        addSocial: () => this.setD('onboarding', o => { o.socials.push({ id: this.uid(), v: '' }); }),
+        sender: (e) => { const v = e.target.value; this.setD('onboarding', o => { o.sender = v; }); },
+        replyTo: (e) => { const v = e.target.value; this.setD('onboarding', o => { o.replyTo = v; }); this.setState({ fieldErr: {} }); },
+        expiry: (e) => { const v = e.target.value; this.setD('onboarding', o => { o.expiry = v; }); },
+        sku: (e) => { const v = e.target.value; this.setD('export', x => { x.sku = v; }); },
+        stock: (e) => { const v = e.target.value; this.setD('export', x => { x.stock = v; }); }
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

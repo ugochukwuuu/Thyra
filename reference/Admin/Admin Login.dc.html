@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  input,button{font-family:inherit}
+  ::placeholder{color:#A79F93}
+  @keyframes thyraDot{0%,100%{opacity:1}50%{opacity:0.28}}
+</style>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100%; display:flex; flex-direction:column; background:#F5F1E7; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#1A1714; -webkit-font-smoothing:antialiased;">
+
+  
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+    <div style="position:sticky; top:0; z-index:40; display:flex; align-items:center; padding:16px 20px; background:#1A1714;">
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;">
+        <span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span>
+      </div>
+    </div>
+  </sc-if>
+
+  <div style="flex:1; display:flex;">
+
+    <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+      <div style="flex:1 1 340px; min-width:0; background:#1A1714; padding:clamp(32px,6vw,64px) clamp(28px,6vw,56px); display:flex; flex-direction:column; justify-content:space-between; gap:36px;">
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <div style="display:flex; align-items:center; gap:12px; font-family:'Geist',sans-serif; font-weight:700; font-size:26px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:3px; width:28px; flex:0 0 auto;"><span style="display:flex; gap:2px;"><span style="flex:1; height:5px; background:#EDE7DA;"></span><span style="flex:1; height:5px; background:#D9714E;"></span><span style="flex:1; height:5px; background:#EDE7DA;"></span><span style="flex:1; height:5px; background:#EDE7DA;"></span></span><span style="position:relative; height:19px; border:2.5px solid #EDE7DA; border-radius:4px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:8px; height:9px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span></div>
+          <div style="font-size:15px; color:#9A9082;">Thyra admin</div>
+        </div>
+      </div>
+    </sc-if>
+
+    <div style="flex:2 1 340px; min-width:0; display:flex; flex-direction:column;">
+      <div style="{{ contentWrap }}">
+        <div style="width:100%; max-width:min(352px,100%);">
+
+          <h2 style="font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.025em; font-size:30px; line-height:1.15; margin:0 0 8px; color:#1A1714;">Admin log in</h2>
+          <p style="font-size:15px; color:#6B655C; margin:0 0 28px; line-height:1.5;">For Thyra staff only.</p>
+          
+              <div style="display:flex; flex-direction:column; gap:7px; margin-bottom:16px;">
+                <label style="font-weight:600; font-size:13px;">Email</label>
+                <input value="{{ email }}" onInput="{{ onEmail }}" type="email" autocomplete="username" placeholder="you@thyratechnology.com" style="width:100%; padding:13px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:15px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                <sc-if value="{{ err.email }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ err.email }}</span></sc-if>
+              </div>
+          
+              <div style="display:flex; flex-direction:column; gap:7px; margin-bottom:4px;">
+                <label style="font-weight:600; font-size:13px;">Password</label>
+                <div style="position:relative;">
+                  <input value="{{ password }}" onInput="{{ onPassword }}" type="{{ pwType }}" placeholder="Your password" style="width:100%; padding:13px 15px; border:1px solid rgba(26,23,20,0.16); border-radius:13px; background:#FBFAF6; font-size:15px; color:#1A1714; outline:none; padding-right:66px;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+                  <button onClick="{{ togglePw }}" style="position:absolute; right:4px; top:0; bottom:0; min-width:56px; background:none; border:none; color:#6B655C; font-weight:600; font-size:13px; cursor:pointer; padding:0 10px;">{{ pwLabel }}</button>
+                </div>
+                <sc-if value="{{ err.password }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ err.password }}</span></sc-if>
+                <sc-if value="{{ err.form }}" hint-placeholder-val=""><span style="font-size:12.5px; color:#C25E3D; font-weight:500;">{{ err.form }}</span></sc-if>
+              </div>
+          <div style="display:flex; justify-content:flex-end; margin-bottom:16px;">
+            <a href="Admin Forgot Password.dc.html" style="display:inline-flex; align-items:center; min-height:44px; font-size:13.5px; color:#6B655C; white-space:nowrap;" style-hover="color:#C25E3D;">Forgot password?</a>
+          </div>
+          <button onClick="{{ submit }}" style="display:inline-flex; align-items:center; justify-content:center; width:100%; min-height:48px; padding:15px 24px; border:none; border-radius:999px; background:#D9714E; color:#fff; font-weight:600; font-size:15px; cursor:pointer;" style-hover="background:#C25E3D;">
+            <sc-if value="{{ loading }}" hint-placeholder-val=""><span style="display:inline-flex; align-items:center;">Logging in<span style="display:inline-flex; gap:4px; margin-left:9px;"><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.18s;"></span><span style="width:5px; height:5px; border-radius:50%; background:#fff; animation:thyraDot 1s infinite 0.36s;"></span></span></span></sc-if>
+            <sc-if value="{{ idle }}" hint-placeholder-val="{{ true }}"><span>Log in</span></sc-if>
+          </button>
+
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; padding:0 24px 40px;">
+        <div style="display:flex; gap:18px;">
+          <a href="../Thyra Legal.dc.html#terms" style="font-size:13px; color:#6B655C;" style-hover="color:#C25E3D;">Terms</a>
+          <a href="../Thyra Legal.dc.html#privacy" style="font-size:13px; color:#6B655C;" style-hover="color:#C25E3D;">Privacy</a>
+          <a href="../Thyra Legal.dc.html#cookies" style="font-size:13px; color:#6B655C;" style-hover="color:#C25E3D;">Cookies</a>
+        </div>
+        <span style="font-size:12px; color:#A79F93;">© 2026 Thyra Technologies</span>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;demoOutcome&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;succeed&quot;,&quot;error&quot;],&quot;default&quot;:&quot;succeed&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Demo&quot;}}">
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const q = new URLSearchParams(location.search);
+    this.q = q;
+    const p = props || {};
+    this.rootRef = React.createRef();
+    this.state = { mobile: false, secs: 0, sent: false, loading: false, err: {}, show: false, email: '', password: '' };
+  }
+  componentDidMount() {
+    const el = this.rootRef.current;
+    if (el) {
+      const measure = () => { const m = el.getBoundingClientRect().width < 720; if (m !== this.state.mobile) this.setState({ mobile: m }); };
+      measure();
+      this._ro = new ResizeObserver(measure);
+      this._ro.observe(el);
+    }
+  }
+  componentWillUnmount() { clearInterval(this._tick); clearTimeout(this._t); this._ro && this._ro.disconnect(); }
+  validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || '').trim()); }
+  startCooldown() {
+    this.setState({ sent: true, secs: 30 });
+    clearInterval(this._tick);
+    this._tick = setInterval(() => {
+      const s = this.state.secs - 1;
+      if (s <= 0) { clearInterval(this._tick); this.setState({ secs: 0, sent: false }); }
+      else this.setState({ secs: s });
+    }, 1000);
+  }
+  clearErr(k) { const e = { ...this.state.err }; delete e[k]; return e; }
+  submit = () => {
+    const { email, password } = this.state;
+    const err = {};
+    if (!email.trim()) err.email = 'Enter your email.';
+    else if (!this.validEmail(email)) err.email = 'Enter a valid email address.';
+    if (!password) err.password = 'Enter your password.';
+    if (Object.keys(err).length) { this.setState({ err }); return; }
+    this.setState({ err: {}, loading: true });
+    clearTimeout(this._t);
+    const outcome = (this.props || {}).demoOutcome || 'succeed';
+    this._t = setTimeout(() => {
+      if (outcome === 'error') this.setState({ loading: false, err: { form: "That email and password don't match." } });
+      else window.location.href = 'Submissions.dc.html';
+    }, 1400);
+  };
+  renderVals() {
+    const s = this.state, p = this.props || {};
+    return Object.assign({
+      rootRef: this.rootRef, isDesktop: !s.mobile, isMobile: s.mobile,
+      contentWrap: s.mobile
+        ? { flex: 1, display: 'flex', justifyContent: 'center', padding: '40px 20px 32px' }
+        : { flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 'clamp(20px,6vw,56px) clamp(16px,6vw,52px)' },
+      err: s.err, secs: s.secs, sent: s.sent, canResend: !(s.secs > 0), coolingDown: s.secs > 0,
+      loading: !!s.loading, idle: !s.loading,
+      pwType: s.show ? 'text' : 'password', pwLabel: s.show ? 'Hide' : 'Show',
+      togglePw: () => this.setState({ show: !this.state.show }),
+      resend: () => { if (!(this.state.secs > 0)) this.startCooldown(); }
+    }, (function (s) {
+  return {
+    email: s.email, password: s.password,
+    onEmail: (e) => this.setState({ email: e.target.value, err: {} }),
+    onPassword: (e) => this.setState({ password: e.target.value, err: {} }),
+    submit: this.submit
+  };
+}).call(this, s, p));
+  }
+}
+</script>
+</body>
+</html>

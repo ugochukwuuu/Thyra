@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Hanken+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;background:#F5F1E7}
+  a{color:#D9714E;text-decoration:none}
+  a:hover{color:#C25E3D}
+  ::selection{background:#D9714E;color:#fff}
+  ::placeholder{color:#A79F93}
+  input,button,select,textarea{font-family:inherit}
+  @keyframes thyraDot{0%,100%{opacity:1}50%{opacity:0.28}}
+</style>
+<script src="./admin-data.js"></script>
+</helmet>
+<div ref="{{ rootRef }}" style="min-height:100vh; display:flex; flex-wrap:wrap; align-items:flex-start; background:#F5F1E7; font-family:'Hanken Grotesk',system-ui,sans-serif; color:#1A1714; -webkit-font-smoothing:antialiased; font-size:14px; line-height:1.45;">
+
+  <!-- SIDEBAR (desktop) -->
+  <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+    <aside style="position:sticky; top:0; height:100vh; flex:0 0 232px; background:#1A1714; color:#EDE7DA; display:flex; flex-direction:column; padding:24px 16px;">
+      <div style="padding:0 8px;"><div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div></div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:40px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:10px 12px; min-height:44px; font-size:14px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">Eze Mitchel</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div>
+    </aside>
+  </sc-if>
+
+  <!-- TOP BAR (mobile) -->
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+    <div style="position:sticky; top:0; z-index:50; flex:1 0 100%; display:flex; align-items:center; gap:12px; min-height:60px; padding:8px 8px 8px 20px; background:#1A1714;">
+      <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+      <div style="flex:1;"></div>
+      <button onClick="{{ openMenu }}" aria-label="Open menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:#EDE7DA;"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"></path></svg></button>
+    </div>
+  </sc-if>
+  <sc-if value="{{ menuOpen }}" hint-placeholder-val="">
+    <div role="dialog" aria-label="Menu" style="position:fixed; inset:0; z-index:90; background:#1A1714; display:flex; flex-direction:column; padding:8px 8px 24px 20px;">
+      <div style="display:flex; align-items:center; min-height:60px;">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'Geist',sans-serif; font-weight:700; font-size:18px; letter-spacing:-0.02em; color:#EDE7DA;"><span style="display:inline-flex; flex-direction:column; gap:2px; width:20px; flex:0 0 auto;"><span style="display:flex; gap:1.5px;"><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#D9714E;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span><span style="flex:1; height:4px; background:#EDE7DA;"></span></span><span style="position:relative; height:14px; border:2px solid #EDE7DA; border-radius:3px;"><span style="position:absolute; left:50%; bottom:0; transform:translateX(-50%); width:6px; height:7px; background:#EDE7DA; border-radius:1px 1px 0 0;"></span></span></span><span>Thyra</span><span style="margin-left:6px; font-family:'Hanken Grotesk',sans-serif; font-weight:600; font-size:10.5px; letter-spacing:0.12em; text-transform:uppercase; color:#9A9082;">Admin</span></div>
+        <div style="flex:1;"></div>
+        <button onClick="{{ closeMenu }}" aria-label="Close menu" style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:#EDE7DA; font-size:26px; line-height:1;">×</button>
+      </div>
+      <nav style="display:flex; flex-direction:column; gap:4px; margin-top:24px; padding-right:12px;">
+        <a href="Leads.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; background:rgba(237,231,218,0.08); color:#EDE7DA; font-weight:600;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.08);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"></circle><path d="M2.5 20a6.5 6.5 0 0 1 13 0"></path><path d="M16 4.5a3.5 3.5 0 0 1 0 7"></path><path d="M18 14.5a6.5 6.5 0 0 1 3.5 5.5"></path></svg>
+          <span>Leads</span>
+        </a>
+        <a href="Submissions.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 13h4l1.5 2.5h5L16 13h4"></path><path d="M5.5 5h13L20 13v5.5a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5V13z"></path></svg>
+          <span>Submissions</span>
+        </a>
+        <a href="Settings.dc.html" style="display:flex; align-items:center; gap:12px; padding:12px 14px; min-height:52px; font-size:17px; border-radius:12px; color:#9A9082; font-weight:500;" style-hover="color:#EDE7DA; background:rgba(237,231,218,0.04);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"></path></svg>
+          <span>Settings</span>
+        </a>
+      </nav>
+      <div style="flex:1;"></div>
+      <div style="padding-right:12px;"><div style="display:flex; align-items:center; gap:12px; padding:16px 8px 0; border-top:1px solid rgba(237,231,218,0.12);">
+      <span style="width:36px; height:36px; flex:0 0 auto; border-radius:50%; background:rgba(237,231,218,0.1); display:flex; align-items:center; justify-content:center; font-family:'Geist',sans-serif; font-weight:600; font-size:13px; color:#EDE7DA;">EM</span>
+      <div style="min-width:0; flex:1;">
+        <div style="font-weight:600; font-size:13.5px; color:#EDE7DA;">Eze Mitchel</div>
+        <a href="Admin Login.dc.html" style="display:inline-flex; align-items:center; min-height:32px; font-size:12.5px; color:#9A9082;" style-hover="color:#D9714E;">Log out</a>
+      </div>
+    </div></div>
+    </div>
+  </sc-if>
+
+  <main style="{{ mainStyle }}">
+    <div style="max-width:1200px; margin:0 auto;">
+      <h1 style="font-family:'Geist',sans-serif; font-weight:700; letter-spacing:-0.025em; font-size:30px; line-height:1.1; margin:0;">Leads</h1>
+      <div style="font-size:13.5px; color:#6B655C; margin-top:6px;">People who booked a call from the landing page.</div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; margin-top:24px;">
+        <div style="position:relative; width:100%; max-width:420px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6B655C" stroke-width="1.8" stroke-linecap="round" style="position:absolute; left:15px; top:50%; transform:translateY(-50%);"><circle cx="11" cy="11" r="6.5"></circle><path d="M20 20l-4.2-4.2"></path></svg>
+          <input value="{{ query }}" onInput="{{ onQuery }}" placeholder="Search by business name or email" style="width:100%; min-height:46px; padding:11px 15px 11px 40px; border:1px solid rgba(26,23,20,0.16); border-radius:999px; background:#FBFAF6; font-size:14px; color:#1A1714; outline:none;" style-focus="border-color:#D9714E; box-shadow:0 0 0 3px rgba(217,113,78,0.16);">
+        </div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap;">
+          <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.onClick }}" style="{{ f.style }}">{{ f.label }}<span style="{{ f.countStyle }}">{{ f.count }}</span></button>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:16px; background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; overflow-x:auto;">
+          <div style="min-width:1492px;">
+            <div style="display:grid; grid-template-columns:minmax(170px,1.4fr) 150px 150px minmax(170px,1.3fr) 110px 120px 104px 150px 190px; gap:16px; align-items:center; padding:0 24px; min-height:48px; border-bottom:1px solid rgba(26,23,20,0.1); background:#F8F5EE; font-size:12px; font-weight:600; letter-spacing:0.04em; text-transform:uppercase; color:#6B655C;">
+              <span>Business</span><span>Type</span><span>Phone</span><span>Email</span><span>Budget</span><span>Timeline</span><span>Call date</span><span>Stage</span><span></span>
+            </div>
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="6">
+              <div style="display:grid; grid-template-columns:minmax(170px,1.4fr) 150px 150px minmax(170px,1.3fr) 110px 120px 104px 150px 190px; gap:16px; align-items:center; padding:8px 24px; min-height:64px; border-bottom:1px solid rgba(26,23,20,0.07); font-size:13.5px;">
+                <div style="min-width:0;">
+                  <div style="font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">{{ r.name }}</div>
+                  <div style="font-size:12.5px; color:#6B655C;">{{ r.contact }}</div>
+                </div>
+                <span style="color:#6B655C;">{{ r.type }}</span>
+                <a href="{{ r.tel }}" style="color:#1A1714; white-space:nowrap;" style-hover="color:#C25E3D;">{{ r.phone }}</a>
+                <a href="{{ r.mailto }}" style="color:#1A1714; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" style-hover="color:#C25E3D;">{{ r.email }}</a>
+                <span>{{ r.budget }}</span>
+                <span style="color:#6B655C;">{{ r.timeline }}</span>
+                <span style="{{ r.callStyle }}">{{ r.call }}</span>
+                <span><select value="{{ r.stage }}" onChange="{{ r.onStage }}" aria-label="Stage" style="{{ r.stageStyle }}">
+                    <option value="new">New</option>
+                    <option value="booked">Call booked</option>
+                    <option value="won">Won</option>
+                    <option value="notfit">Not a fit</option>
+                  </select></span>
+                <div style="display:flex; justify-content:flex-end;">
+                  <sc-if value="{{ r.isWon }}" hint-placeholder-val=""><a href="{{ r.inviteHref }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:11px 22px; border:none; border-radius:999px; background:#D9714E; color:#fff; font-weight:600; font-size:14.5px; cursor:pointer; white-space:nowrap; padding:10px 16px; font-size:13px;" style-hover="background:#C25E3D; color:#fff;">Invite to onboarding</a></sc-if>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="">
+        <div style="display:flex; flex-direction:column; gap:10px; margin-top:16px;">
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="4">
+            <div style="background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:16px; padding:16px;">
+              <div style="display:flex; align-items:flex-start; gap:10px;">
+                <div style="flex:1; min-width:0;">
+                  <div style="font-weight:600; font-size:15px;">{{ r.name }}</div>
+                  <div style="font-size:13px; color:#6B655C;">{{ r.contact }} · {{ r.type }}</div>
+                </div>
+                <select value="{{ r.stage }}" onChange="{{ r.onStage }}" aria-label="Stage" style="{{ r.stageStyle }}">
+                    <option value="new">New</option>
+                    <option value="booked">Call booked</option>
+                    <option value="won">Won</option>
+                    <option value="notfit">Not a fit</option>
+                  </select>
+              </div>
+              <div style="display:grid; grid-template-columns:auto 1fr; gap:6px 16px; margin-top:12px; font-size:13.5px;">
+                <span style="color:#6B655C;">Phone</span><a href="{{ r.tel }}" style="display:inline-flex; align-items:center; min-height:32px; color:#1A1714;">{{ r.phone }}</a>
+                <span style="color:#6B655C;">Email</span><a href="{{ r.mailto }}" style="display:inline-flex; align-items:center; min-height:32px; color:#1A1714; overflow-wrap:anywhere;">{{ r.email }}</a>
+                <span style="color:#6B655C;">Budget</span><span>{{ r.budget }}</span>
+                <span style="color:#6B655C;">Timeline</span><span>{{ r.timeline }}</span>
+                <span style="color:#6B655C;">Call date</span><span style="{{ r.callStyle }}">{{ r.call }}</span>
+              </div>
+              <sc-if value="{{ r.isWon }}" hint-placeholder-val="">
+                <a href="{{ r.inviteHref }}" style="display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:11px 22px; border:none; border-radius:999px; background:#D9714E; color:#fff; font-weight:600; font-size:14.5px; cursor:pointer; white-space:nowrap; width:100%; margin-top:14px;" style-hover="background:#C25E3D; color:#fff;">Invite to onboarding</a>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ noRows }}" hint-placeholder-val="">
+        <div style="margin-top:16px; background:#FBFAF6; border:1px solid rgba(26,23,20,0.1); border-radius:20px; padding:56px 24px; text-align:center; color:#6B655C; font-size:14.5px;">{{ emptyText }}</div>
+      </sc-if>
+    </div>
+  </main>
+
+  <sc-if value="{{ toast }}" hint-placeholder-val="">
+    <div role="status" style="{{ toastStyle }}">
+      <span style="width:26px; height:26px; flex:0 0 auto; border-radius:50%; border:1.5px solid #D9714E; display:flex; align-items:center; justify-content:center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#D9714E" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5.5 12.5l4 4 9-9"></path></svg></span>
+      <span style="flex:1;">{{ toast }}</span>
+      <button onClick="{{ closeToast }}" aria-label="Dismiss" style="width:44px; height:44px; flex:0 0 auto; background:none; border:none; cursor:pointer; color:#9A9082; font-size:20px; line-height:1;" style-hover="color:#EDE7DA;">×</button>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.rootRef = React.createRef();
+    this.state = { mobile: false, menuOpen: false, query: '', filter: 'all', ver: 0, toast: '' };
+  }
+  componentDidMount() { this.mountShell(); this.waitData(() => this.setState({ ver: 1 })); }
+  componentWillUnmount() { clearInterval(this._p); clearTimeout(this._tt); this._ro && this._ro.disconnect(); }
+
+  mountShell() {
+    this._mqf = () => { const mob = window.innerWidth < 860; if (mob !== this.state.mobile) this.setState({ mobile: mob, menuOpen: mob ? this.state.menuOpen : false }); };
+    this._mqf();
+    window.addEventListener('resize', this._mqf);
+    this._raf = requestAnimationFrame(this._mqf);
+    this._mt1 = setTimeout(this._mqf, 300);
+    this._mt2 = setTimeout(this._mqf, 1200);
+    this._ro = { disconnect: () => { window.removeEventListener('resize', this._mqf); cancelAnimationFrame(this._raf); clearTimeout(this._mt1); clearTimeout(this._mt2); } };
+  }
+  shellVals() {
+    const mob = !!this.state.mobile;
+    return {
+      rootRef: this.rootRef, isDesktop: !mob, isMobile: mob, menuOpen: !!this.state.menuOpen,
+      openMenu: () => this.setState({ menuOpen: true }), closeMenu: () => this.setState({ menuOpen: false }),
+      mainStyle: { flex: '1 1 0', minWidth: 0, padding: mob ? '24px 16px 72px' : '40px 48px 80px' },
+      sheet: (kind) => mob
+        ? { position: 'fixed', inset: 0, zIndex: 70, background: '#F5F1E7', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+        : kind === 'panel'
+          ? { position: 'fixed', top: 0, right: 0, bottom: 0, width: 'min(460px, 100%)', zIndex: 70, background: '#F5F1E7', borderLeft: '1px solid rgba(26,23,20,0.1)', boxShadow: '-16px 0 40px rgba(26,23,20,0.12)', overflowY: 'auto', display: 'flex', flexDirection: 'column' }
+          : { position: 'fixed', left: '50%', top: '50%', transform: 'translate(-50%,-50%)', width: 'min(500px, calc(100% - 32px))', maxHeight: 'calc(100vh - 48px)', zIndex: 70, background: '#FBFAF6', border: '1px solid rgba(26,23,20,0.1)', borderRadius: 20, boxShadow: '0 24px 60px rgba(26,23,20,0.2)', overflowY: 'auto', display: 'flex', flexDirection: 'column' },
+      toastStyle: { position: 'fixed', right: mob ? 16 : 32, left: mob ? 16 : 'auto', bottom: mob ? 16 : 32, zIndex: 95, display: 'flex', alignItems: 'center', gap: 12, padding: '10px 8px 10px 14px', borderRadius: 16, background: '#1A1714', color: '#EDE7DA', boxShadow: '0 12px 32px rgba(26,23,20,0.24)', fontSize: 14, maxWidth: mob ? 'none' : 440 }
+    };
+  }
+  showToast(msg) { clearTimeout(this._tt); this.setState({ toast: msg }); this._tt = setTimeout(() => this.setState({ toast: '' }), 4000); }
+  waitData(cb) { if (window.THYRA_ADMIN) return cb(); this._p = setInterval(() => { if (window.THYRA_ADMIN) { clearInterval(this._p); cb(); } }, 40); }
+  fmt(d) { if (!d) return ''; const m = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; const [y, mo, da] = d.split('-').map(Number); return da + ' ' + m[mo - 1] + ' ' + y; }
+  validEmail(e) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(e || '').trim()); }
+  renderVals() {
+    const A = window.THYRA_ADMIN;
+    const sh = this.shellVals();
+    const all = A ? A.getLeads() : [];
+    const { query, filter } = this.state;
+    const KEYS = ['new', 'booked', 'won', 'notfit'];
+    const q = query.trim().toLowerCase();
+    const list = all.filter(l => (filter === 'all' || l.stage === filter) && (!q || l.name.toLowerCase().includes(q) || l.email.toLowerCase().includes(q)))
+      .sort((a, b) => (b.call || '0') < (a.call || '0') ? -1 : 1);
+    const pill = (on) => ({ display: 'inline-flex', alignItems: 'center', gap: 8, flex: '0 0 auto', minHeight: 44, padding: '0 16px', borderRadius: 999, cursor: 'pointer', fontWeight: 600, fontSize: 13, whiteSpace: 'nowrap', border: on ? '1px solid #D9714E' : '1px solid rgba(26,23,20,0.16)', background: on ? 'rgba(217,113,78,0.08)' : 'transparent', color: on ? '#A9492A' : '#1A1714' });
+    const chev = (c) => 'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27' + encodeURIComponent(c) + '%27 stroke-width=%272.6%27 stroke-linecap=%27round%27%3E%3Cpath d=%27M6 9l6 6 6-6%27/%3E%3C/svg%3E") no-repeat right 12px center';
+    const rows = list.map(l => {
+      const sp = A.stagePill(l.stage);
+      return {
+        ...l, stage: l.stage,
+        tel: 'tel:' + l.phone.replace(/\s/g, ''), mailto: 'mailto:' + l.email,
+        call: l.call ? this.fmt(l.call) : 'Not booked',
+        callStyle: { color: l.call ? '#1A1714' : '#8A8378', whiteSpace: 'nowrap' },
+        isWon: l.stage === 'won',
+        inviteHref: 'Submissions.dc.html?invite=1&biz=' + encodeURIComponent(l.name) + '&name=' + encodeURIComponent(l.contact) + '&email=' + encodeURIComponent(l.email),
+        stageStyle: { ...sp.style, minHeight: 44, padding: '0 34px 0 14px', fontSize: 13, cursor: 'pointer', appearance: 'none', WebkitAppearance: 'none', outline: 'none', background: (sp.style.background === 'transparent' ? 'transparent ' : sp.style.background + ' ') + chev(sp.style.color) },
+        onStage: (e) => { const v = e.target.value; A.patchLead(l.id, { stage: v }); this.setState(s => ({ ver: s.ver + 1 })); this.showToast(l.name + ' moved to ' + A.STAGES[v].label + '.'); }
+      };
+    });
+    return {
+      ...sh,
+      query, onQuery: (e) => this.setState({ query: e.target.value }),
+      filters: [['all', 'All', all.length]].concat(KEYS.map(k => [k, A ? A.STAGES[k].label : k, all.filter(l => l.stage === k).length])).map(([k, lab, n]) => ({
+        label: lab, count: n, style: pill(filter === k), countStyle: { fontSize: 12, fontWeight: 600, color: filter === k ? '#A9492A' : '#6B655C' }, onClick: () => this.setState({ filter: k })
+      })),
+      rows, noRows: rows.length === 0,
+      emptyText: all.length === 0 ? 'No leads yet. When someone books a call from the landing page, they\'ll show up here.' : 'No leads match that search.',
+      toast: this.state.toast, closeToast: () => this.setState({ toast: '' })
+    };
+  }
+}
+</script>
+</body>
+</html>
