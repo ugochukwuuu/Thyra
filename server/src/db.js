@@ -1,6 +1,10 @@
 import pg from 'pg';
 import { config } from './config.js';
 
+// Return DATE columns as 'YYYY-MM-DD' strings. The default turns them into a Date at local
+// midnight, which shifts the day when converted to UTC (Lagos is UTC+1).
+pg.types.setTypeParser(pg.types.builtins.DATE, (value) => value);
+
 export const pool = new pg.Pool({
   connectionString: config.databaseUrl,
   ssl: config.databaseSsl ? { rejectUnauthorized: false } : false,

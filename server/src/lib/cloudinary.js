@@ -37,3 +37,34 @@ export function uploadFile(buffer, userId, resourceType) {
     stream.end(buffer);
   });
 }
+
+/**
+ * Downloads a stored file's bytes for the admin (single downloads and the asset zip).
+ * Documents are stored without a file extension, so Cloudinary's PDF delivery block does not apply to them.
+ */
+export async function fetchFile(file) {
+  const res = await fetch(file.url);
+  if (!res.ok) throw new Error(`Cloudinary returned ${res.status} for ${file.publicId}`);
+  return {
+    buffer: Buffer.from(await res.arrayBuffer()),
+    contentType: res.headers.get('content-type') || 'application/octet-stream',
+  };
+}
+
+/** Removes every file a client uploaded. Best effort: failures are logged, not thrown. */
+export async function deleteUserFiles(userId) {
+  if (!cloudinaryConfigured) return;
+  const prefix = userFolder(userId);
+  for (const resource_type of ['image', 'video', 'raw']) {
+    try {
+      await cloudinary.api.delete_resources_by_prefix(`${prefix}/`, { resource_type });
+    } catch (err) {
+      console.error(`Could not delete ${resource_type} files under ${prefix}:`, err.error?.message ?? err.message);
+    }
+  }
+  try {
+    await cloudinary.api.delete_folder(prefix);
+  } catch {
+    // The folder may already be gone or never have existed.
+  }
+}

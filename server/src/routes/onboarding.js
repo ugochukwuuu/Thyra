@@ -3,6 +3,8 @@ import multer from 'multer';
 import { query, withTransaction } from '../db.js';
 import { uploadFile } from '../lib/cloudinary.js';
 import { HttpError } from '../lib/errors.js';
+import { notifyStaff } from '../lib/notify.js';
+import { getSettings } from '../lib/settings.js';
 import { requireAuth, requireRole } from '../middleware/auth.js';
 import { validate } from '../middleware/validate.js';
 import { SECTIONS, draftSchema, findSubmissionProblems } from '../validation/onboarding.js';
@@ -10,9 +12,20 @@ import { SECTIONS, draftSchema, findSubmissionProblems } from '../validation/onb
 const router = Router();
 router.use(requireAuth, requireRole('client'));
 
-const serialize = (row) => ({
+// A client can edit while filling the form in, and again when the team asks for changes.
+const EDITABLE = ['in_progress', 'changes_requested'];
+
+const serialize = (row, changeRequests = []) => ({
   id: row.id,
   status: row.status,
+  // Open requests from the Thyra team; the client sees each one at the top of its section.
+  changeRequests: changeRequests.map((c) => ({
+    id: c.id,
+    step: c.step,
+    message: c.message,
+    flaggedItems: c.flagged_items,
+    createdAt: c.created_at,
+  })),
   // The furthest wizard step reached (0-9); a returning client resumes there.
   currentStep: row.current_step,
   ...Object.fromEntries(Object.entries(SECTIONS).map(([key, { column }]) => [key, row[column]])),
@@ -26,11 +39,26 @@ async function findSubmission(userId) {
   return rows[0];
 }
 
+async function openChangeRequests(submissionId) {
+  const { rows } = await query(
+    'SELECT * FROM change_requests WHERE submission_id = $1 AND resolved_at IS NULL ORDER BY created_at',
+    [submissionId],
+  );
+  return rows;
+}
+
 const alreadySubmitted = () =>
   new HttpError(409, 'This submission has already been confirmed and can no longer be edited.');
 
 router.get('/', async (req, res) => {
-  res.json({ submission: serialize(await findSubmission(req.user.id)) });
+  const row = await findSubmission(req.user.id);
+  res.json({ submission: serialize(row, await openChangeRequests(row.id)) });
+});
+
+/** Choices the admin controls in Settings > Onboarding form. */
+router.get('/options', async (_req, res) => {
+  const s = await getSettings('onboarding');
+  res.json({ options: { socialPlatforms: s.socialPlatforms, voiceInput: s.voiceInput } });
 });
 
 // Autosave. Sections that are sent replace the stored section whole; the rest are untouched.
@@ -49,23 +77,29 @@ router.put('/', validate((req) => draftSchema(req.user.id)), async (req, res) =>
 
   if (sets.length === 0) {
     const row = await findSubmission(req.user.id);
-    return res.json({ submission: serialize(row) });
+    return res.json({ submission: serialize(row, await openChangeRequests(row.id)) });
   }
 
   const { rows } = await query(
     `UPDATE onboarding_submissions SET ${sets.join(', ')}
-     WHERE user_id = $1 AND status = 'in_progress'
+     WHERE user_id = $1 AND status = ANY($${params.length + 1}::submission_status[])
      RETURNING *`,
-    params,
+    [...params, EDITABLE],
   );
   if (!rows[0]) {
     await findSubmission(req.user.id); // 404 if the row is missing entirely
     throw alreadySubmitted();
   }
-  res.json({ submission: serialize(rows[0]) });
+  res.json({ submission: serialize(rows[0], await openChangeRequests(rows[0].id)) });
 });
 
 router.post('/submit', async (req, res) => {
+  if (!req.user.email_verified_at) {
+    throw new HttpError(403, `Confirm your email before you submit. We sent a link to ${req.user.email}.`, {
+      extra: { code: 'email_unverified' },
+    });
+  }
+  let justSubmitted = false;
   const row = await withTransaction(async (db) => {
     const { rows } = await db.query(
       'SELECT * FROM onboarding_submissions WHERE user_id = $1 FOR UPDATE',
@@ -87,8 +121,21 @@ router.post('/submit', async (req, res) => {
        WHERE id = $1 RETURNING *`,
       [current.id],
     );
+    // Confirming again is the client's answer to any open change requests.
+    await db.query('UPDATE change_requests SET resolved_at = now() WHERE submission_id = $1 AND resolved_at IS NULL', [current.id]);
+    justSubmitted = true;
     return updated.rows[0];
   });
+
+  if (justSubmitted) {
+    const name = req.user.business_name || req.user.email;
+    void notifyStaff('submitted', {
+      subject: `${name} submitted their onboarding`,
+      heading: `${name} confirmed their details`,
+      paragraphs: ['Their onboarding is ready to review and export.'],
+      path: `/admin/submissions/${req.user.id}`,
+    });
+  }
   res.json({ submission: serialize(row) });
 });
 
@@ -141,7 +188,7 @@ router.post('/files', upload.array('files', 10), async (req, res) => {
   }
 
   const row = await findSubmission(req.user.id);
-  if (row.status === 'submitted') throw alreadySubmitted();
+  if (!EDITABLE.includes(row.status)) throw alreadySubmitted();
 
   const uploaded = await Promise.all(
     files.map(async (f) => {

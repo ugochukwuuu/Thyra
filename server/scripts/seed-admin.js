@@ -1,12 +1,13 @@
 // Creates (or updates) an admin account. There is deliberately no public route for this.
 //
-//   ADMIN_EMAIL=you@thyra.co ADMIN_PASSWORD='a long passphrase' npm run seed:admin
-//   npm run seed:admin -- you@thyra.co 'a long passphrase'
+//   ADMIN_EMAIL=you@thyra.co ADMIN_PASSWORD='a long passphrase' ADMIN_NAME='Your Name' npm run seed:admin
+//   npm run seed:admin -- you@thyra.co 'a long passphrase' 'Your Name'
 import bcrypt from 'bcrypt';
 import { pool } from '../src/db.js';
 
 const email = (process.argv[2] || process.env.ADMIN_EMAIL || '').trim().toLowerCase();
 const password = process.argv[3] || process.env.ADMIN_PASSWORD || '';
+const fullName = (process.argv[4] || process.env.ADMIN_NAME || '').trim() || null;
 
 async function main() {
   if (!email || !password) {
@@ -18,11 +19,14 @@ async function main() {
 
   const hash = await bcrypt.hash(password, 12);
   const { rows } = await pool.query(
-    `INSERT INTO users (email, password_hash, role)
-     VALUES ($1, $2, 'admin')
-     ON CONFLICT (email) DO UPDATE SET password_hash = EXCLUDED.password_hash, role = 'admin'
+    `INSERT INTO users (email, password_hash, role, full_name, email_verified_at)
+     VALUES ($1, $2, 'admin', $3, now())
+     ON CONFLICT (email) DO UPDATE
+       SET password_hash = EXCLUDED.password_hash, role = 'admin',
+           full_name = coalesce(EXCLUDED.full_name, users.full_name),
+           email_verified_at = coalesce(users.email_verified_at, now())
      RETURNING id, (xmax = 0) AS created`,
-    [email, hash],
+    [email, hash, fullName],
   );
   console.log(`${rows[0].created ? 'Created' : 'Updated'} admin account for ${email}`);
 }

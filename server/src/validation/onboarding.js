@@ -160,11 +160,10 @@ const visualIdentity = (userId) =>
     brandGuide: optionalFile(userId),
   });
 
-export const PLATFORMS = ['Instagram', 'TikTok', 'Facebook', 'X', 'Pinterest', 'YouTube', 'LinkedIn', 'Other'];
-
+// The platform list is set by an admin in Settings, so any short name is accepted here.
 const socialMedia = z.object({
   items: z
-    .array(z.object({ id, platform: z.enum(PLATFORMS).default('Instagram'), link: str(1000) }))
+    .array(z.object({ id, platform: z.string().trim().min(1).max(50).default('Instagram'), link: str(1000) }))
     .max(20)
     .default([]),
 });

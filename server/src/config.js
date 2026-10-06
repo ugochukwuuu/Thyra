@@ -26,6 +26,11 @@ export const config = {
   resetTokenMinutes: 15,
   resendApiKey: env.RESEND_API_KEY || '',
   emailFrom: env.EMAIL_FROM || 'Thyra <no-reply@thyra.co>',
+  // Extra sites allowed to post to the public lead form, e.g. the WordPress landing page.
+  leadOrigins: (env.LEAD_FORM_ORIGINS || '')
+    .split(',')
+    .map((o) => o.trim().replace(/\/$/, ''))
+    .filter(Boolean),
   cloudinary: {
     cloudName: env.CLOUDINARY_CLOUD_NAME || '',
     apiKey: env.CLOUDINARY_API_KEY || '',

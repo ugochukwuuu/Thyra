@@ -1,82 +1,9 @@
 import assert from 'node:assert/strict';
-import { after, before, beforeEach, describe, it } from 'node:test';
+import { describe, it } from 'node:test';
+import { bcrypt, client, ctx, query, registered, signup, tokenFrom, useTestApp, userFolder, verifyEmail } from './helpers.js';
 
-// Must be set before the app modules are imported: config reads it at load time.
-process.env.NODE_ENV = 'test';
-process.env.JWT_SECRET ??= 'test-secret-test-secret-test-secret-test';
-
-const { createApp } = await import('../src/app.js');
-const { pool, query } = await import('../src/db.js');
-const { migrate } = await import('../scripts/migrate.js');
-const { mailer } = await import('../src/lib/email.js');
-const { userFolder } = await import('../src/lib/cloudinary.js');
-const bcrypt = (await import('bcrypt')).default;
-
-let server;
-let base;
-let sentEmails;
-
-/** Minimal fetch wrapper that keeps cookies, like a browser tab would. */
-function client() {
-  let cookie = '';
-  const call = async (method, path, body) => {
-    const res = await fetch(base + path, {
-      method,
-      headers: { ...(body !== undefined && { 'Content-Type': 'application/json' }), ...(cookie && { Cookie: cookie }) },
-      body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
-    for (const c of res.headers.getSetCookie()) {
-      const pair = c.split(';')[0];
-      cookie = pair.endsWith('=') ? '' : pair;
-    }
-    const text = await res.text();
-    return { status: res.status, body: text ? JSON.parse(text) : null, headers: res.headers };
-  };
-  return {
-    get: (p) => call('GET', p),
-    post: (p, b = {}) => call('POST', p, b),
-    put: (p, b) => call('PUT', p, b),
-    hasCookie: () => cookie !== '',
-    cookie: () => cookie,
-  };
-}
-
-const signup = (overrides = {}) => ({
-  businessName: 'Ade Fine Jewellery',
-  email: 'ade@example.com',
-  password: 'correct horse',
-  confirmPassword: 'correct horse',
-  ...overrides,
-});
-
-async function registered(overrides) {
-  const c = client();
-  const res = await c.post('/api/auth/register', signup(overrides));
-  assert.equal(res.status, 201);
-  return { c, user: res.body.user };
-}
-
-before(async () => {
-  // These tests TRUNCATE users, so refuse to run against anything that isn't obviously a test database.
-  const { rows } = await query('SELECT current_database() AS name');
-  assert.match(rows[0].name, /test/, `Refusing to run tests against database "${rows[0].name}"`);
-  await migrate({ log: () => {} });
-  server = createApp().listen(0);
-  base = `http://localhost:${server.address().port}`;
-});
-
-after(async () => {
-  server.close();
-  await pool.end();
-});
-
-beforeEach(async () => {
-  await query('TRUNCATE users CASCADE');
-  sentEmails = [];
-  mailer.sendPasswordReset = async (to, token) => {
-    sentEmails.push({ to, token });
-  };
-});
+useTestApp();
+const base = () => ctx.base;
 
 describe('register', () => {
   it('creates a client, an empty submission, and a session', async () => {
@@ -170,7 +97,7 @@ describe('login and logout', () => {
   });
 
   it('rejects a tampered session cookie', async () => {
-    const res = await fetch(`${base}/api/auth/me`, { headers: { Cookie: 'thyra_session=abc.def.ghi' } });
+    const res = await fetch(`${base()}/api/auth/me`, { headers: { Cookie: 'thyra_session=abc.def.ghi' } });
     assert.equal(res.status, 401);
   });
 });
@@ -182,8 +109,9 @@ describe('password reset', () => {
     const unknown = await client().post('/api/auth/forgot-password', { email: 'ghost@example.com' });
     assert.equal(known.status, 200);
     assert.deepEqual(known.body, unknown.body);
-    assert.equal(sentEmails.length, 1);
-    assert.equal(sentEmails[0].to, 'ade@example.com');
+    const resets = ctx.sent.filter((m) => m.kind === 'password_reset');
+    assert.equal(resets.length, 1);
+    assert.equal(resets[0].to, 'ade@example.com');
   });
 
   it('stores only a hash of the token and expires it after 15 minutes', async () => {
@@ -192,14 +120,14 @@ describe('password reset', () => {
     const { rows } = await query(
       `SELECT token_hash, extract(epoch from (expires_at - created_at)) AS ttl FROM password_resets`,
     );
-    assert.notEqual(rows[0].token_hash, sentEmails[0].token);
+    assert.notEqual(rows[0].token_hash, tokenFrom('password_reset'));
     assert.equal(Math.round(Number(rows[0].ttl) / 60), 15);
   });
 
   it('sets a new password once, and the old one stops working', async () => {
     await registered();
     await client().post('/api/auth/forgot-password', { email: 'ade@example.com' });
-    const { token } = sentEmails[0];
+    const token = tokenFrom('password_reset');
 
     const reset = await client().post('/api/auth/reset-password', {
       token,
@@ -226,7 +154,7 @@ describe('password reset', () => {
     await client().post('/api/auth/forgot-password', { email: 'ade@example.com' });
     await query(`UPDATE password_resets SET expires_at = now() - interval '1 second'`);
     const res = await client().post('/api/auth/reset-password', {
-      token: sentEmails[0].token,
+      token: tokenFrom('password_reset'),
       password: 'brand new pass',
       confirmPassword: 'brand new pass',
     });
@@ -237,11 +165,12 @@ describe('password reset', () => {
   it('only honours the newest link', async () => {
     await registered();
     await client().post('/api/auth/forgot-password', { email: 'ade@example.com' });
+    const first = tokenFrom('password_reset');
     await client().post('/api/auth/forgot-password', { email: 'ade@example.com' });
-    const [first, second] = sentEmails;
+    const second = tokenFrom('password_reset');
     const body = { password: 'brand new pass', confirmPassword: 'brand new pass' };
-    assert.equal((await client().post('/api/auth/reset-password', { token: first.token, ...body })).status, 400);
-    assert.equal((await client().post('/api/auth/reset-password', { token: second.token, ...body })).status, 200);
+    assert.equal((await client().post('/api/auth/reset-password', { token: first, ...body })).status, 400);
+    assert.equal((await client().post('/api/auth/reset-password', { token: second, ...body })).status, 200);
   });
 
   it('rejects a made-up token', async () => {
@@ -426,17 +355,18 @@ describe('onboarding', () => {
     assert.equal(badGuide.status, 400);
   });
 
-  it('rejects non-numeric prices, unknown tones and platforms, and more than two tones', async () => {
+  it('rejects non-numeric prices, unknown tones, blank platforms, and more than two tones', async () => {
     const { c } = await registered();
     assert.equal((await c.put('/api/onboarding', { products: { items: [{ id: 'p1', price: 'free' }] } })).status, 400);
     assert.equal((await c.put('/api/onboarding', { visualIdentity: { tones: ['Grumpy'] } })).status, 400);
     assert.equal((await c.put('/api/onboarding', { visualIdentity: { tones: ['Warm', 'Bold', 'Modern'] } })).status, 400);
-    assert.equal((await c.put('/api/onboarding', { socialMedia: { items: [{ id: 's', platform: 'MySpace' }] } })).status, 400);
+    assert.equal((await c.put('/api/onboarding', { socialMedia: { items: [{ id: 's', platform: '' }] } })).status, 400);
     assert.equal((await c.put('/api/onboarding', { contactPage: { fields: [{ id: 'f', type: 'checkbox' }] } })).status, 400);
   });
 
   it('refuses to submit while required details are missing, and says which step', async () => {
-    const { c } = await registered();
+    const { c, user } = await registered();
+    await verifyEmail(user.id);
     await c.put('/api/onboarding', { businessInfo: { name: 'Ade' } });
     const res = await c.post('/api/onboarding/submit');
     assert.equal(res.status, 422);
@@ -445,7 +375,8 @@ describe('onboarding', () => {
   });
 
   it('catches incomplete rows on each step at submit', async () => {
-    const { c } = await registered();
+    const { c, user } = await registered();
+    await verifyEmail(user.id);
     await c.put('/api/onboarding', {
       ...completeDraft(),
       products: { items: [{ id: 'p1', name: 'Ring', variations: [{ id: 'x', name: 'Size', priceVaries: false, options: [] }] }] },
@@ -461,7 +392,8 @@ describe('onboarding', () => {
   });
 
   it('submits a complete form, allows blank policies, then locks it', async () => {
-    const { c } = await registered();
+    const { c, user } = await registered();
+    await verifyEmail(user.id);
     await c.put('/api/onboarding', completeDraft());
 
     const res = await c.post('/api/onboarding/submit');
@@ -486,11 +418,11 @@ describe('onboarding', () => {
     const post = (c, kind, blob, filename) => {
       const form = new FormData();
       form.append('files', blob, filename);
-      return fetch(`${base}/api/onboarding/files?kind=${kind}`, { method: 'POST', headers: { Cookie: c.cookie() }, body: form });
+      return fetch(`${base()}/api/onboarding/files?kind=${kind}`, { method: 'POST', headers: { Cookie: c.cookie() }, body: form });
     };
 
     it('needs a login', async () => {
-      const res = await fetch(`${base}/api/onboarding/files?kind=image`, { method: 'POST' });
+      const res = await fetch(`${base()}/api/onboarding/files?kind=image`, { method: 'POST' });
       assert.equal(res.status, 401);
     });
 
