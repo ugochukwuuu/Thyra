@@ -40,24 +40,71 @@ async function sender() {
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 const hoursLabel = (h) => (h % 24 === 0 && h >= 48 ? plural(h / 24, 'day') : plural(h, 'hour'));
 
+const SENDBYTE_URL = 'https://api.sendbyte.africa/v1/emails';
+
+/** Sends through SendByte's API. Returns an error description, or null when it was accepted. */
+async function sendWithSendByte({ from, replyTo, to, subject, text, html }) {
+  const res = await fetch(SENDBYTE_URL, {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${config.sendbyteApiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to, subject, text, html, ...(replyTo && { reply_to: replyTo }) }),
+  });
+  if (res.ok) return null;
+  const body = await res.json().catch(() => null);
+  return body?.error ?? { status: res.status };
+}
+
+async function sendWithResend({ from, replyTo, to, subject, text, html }) {
+  const { error } = await resend.emails.send({ from, replyTo, to, subject, text, html });
+  return error ?? null;
+}
+
+/** The providers to try, in order. EMAIL_USE_RESEND=false puts SendByte first. */
+function providerOrder() {
+  const available = [
+    resend && { name: 'Resend', send: sendWithResend },
+    config.sendbyteApiKey && { name: 'SendByte', send: sendWithSendByte },
+  ].filter(Boolean);
+  return config.useResendFirst ? available : available.reverse();
+}
+
+/**
+ * Tries each provider in turn until one accepts the email. A provider counts as failed when it
+ * returns an error or throws (e.g. it is down). Returns the name of the provider that sent it, or null.
+ */
+export async function sendWithFallback(email, providers, log = console.error) {
+  for (const [i, p] of providers.entries()) {
+    const next = providers[i + 1] ? `; trying ${providers[i + 1].name}` : '';
+    try {
+      const error = await p.send(email);
+      if (!error) return p.name;
+      log(`${p.name} rejected "${email.subject}"${next}:`, error);
+    } catch (err) {
+      log(`${p.name} failed to send "${email.subject}"${next}:`, err);
+    }
+  }
+  return null;
+}
+
 /**
  * Every outgoing email goes through `mailer.deliver`, which tests replace to capture messages.
  * Sending never throws: a failed email must not change the response to the user.
  */
 export const mailer = {
   async deliver(msg) {
-    if (!resend) {
-      if (config.isProduction) console.error(`RESEND_API_KEY is not set; "${msg.subject}" was not sent to ${msg.to}.`);
+    const providers = providerOrder();
+    if (!providers.length) {
+      if (config.isProduction) console.error(`No email provider is set up; "${msg.subject}" was not sent to ${msg.to}.`);
       else console.log(`\n[dev] Email to ${msg.to}: ${msg.subject}${msg.link ? `\n${msg.link}` : ''}\n`);
       return;
     }
     try {
       const { from, replyTo } = await sender();
       const { text, html } = render(msg);
-      const { error } = await resend.emails.send({ from, replyTo, to: msg.to, subject: msg.subject, text, html });
-      if (error) console.error(`Resend rejected "${msg.subject}":`, error);
+      const sentBy = await sendWithFallback({ from, replyTo, to: msg.to, subject: msg.subject, text, html }, providers);
+      if (!sentBy) console.error(`Every email provider failed; "${msg.subject}" was not sent to ${msg.to}.`);
     } catch (err) {
-      console.error(`Failed to send "${msg.subject}":`, err);
+      console.error(`Failed to prepare "${msg.subject}":`, err);
     }
   },
 

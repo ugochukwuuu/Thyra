@@ -45,7 +45,7 @@ All settings live in `server/.env`, and that file is ignored by git. Never commi
 - `DATABASE_SSL` should be `true` when the database needs an encrypted connection, for example Railway's public database address.
 - `JWT_SECRET` signs the login cookie. In production it must be a random string of at least 32 characters. You can make one with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`.
 - `CLIENT_URL` is the public address of the website. It is used in the links inside every email the app sends.
-- `RESEND_API_KEY` and `EMAIL_FROM` control all emails: password resets, email confirmation, invites, change requests and staff notifications. Without a key, each email's link is printed in the API console instead, which is useful while developing. The sender name and reply-to address can also be set in the admin under Settings, then Onboarding form.
+- `RESEND_API_KEY`, `SENDBYTE_API_KEY`, `EMAIL_USE_RESEND` and `EMAIL_FROM` control all emails: password resets, email confirmation, invites, change requests and staff notifications. The app uses two providers, so one can stand in when the other fails. With `EMAIL_USE_RESEND=true`, the default, each email goes through Resend first, and through SendByte only if Resend rejects it or can't be reached. With `EMAIL_USE_RESEND=false`, SendByte goes first and Resend is the fallback. A provider without a key is skipped, and with no keys at all each email's link is printed in the API console instead, which is useful while developing. SendByte test keys (`sk_test_`) only record emails in SendByte's dashboard and never deliver them. The sender name and reply-to address can also be set in the admin under Settings, then Onboarding form.
 - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` control file uploads. Without them, uploads return a message saying they are not set up.
 - `LEAD_FORM_ORIGINS` lists other websites, separated by commas, that may send the pre-call qualifier form to this app, for example `https://thyratechnology.com`. The app's own address is always allowed.
 - `ADMIN_EMAIL`, `ADMIN_PASSWORD` and `ADMIN_NAME` are only read by the command that creates an admin account.
@@ -131,7 +131,7 @@ The API serves the built website, so one Railway service is enough. `railway.jso
    - `DATABASE_URL` set to a reference to the database, not typed by hand. Click "Add Reference" and pick the Postgres service's `DATABASE_URL`. Railway writes this as `${{Postgres.DATABASE_URL}}`, and it uses Railway's private network, so leave `DATABASE_SSL` unset.
    - `JWT_SECRET`, a random string of at least 32 characters. You can make one with `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`.
    - `CLIENT_URL`, the public address you plan to use, for example `https://app.thyratechnology.com`. You can fill this in after step 5 once you know it, then let Railway redeploy.
-   - `RESEND_API_KEY` and `EMAIL_FROM`
+   - `RESEND_API_KEY`, `SENDBYTE_API_KEY`, `EMAIL_USE_RESEND` and `EMAIL_FROM`
    - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET`
    - `LEAD_FORM_ORIGINS`, if the pre-call qualifier form lives on another site such as the WordPress landing page
 4. Deploy. The API creates the database tables the first time it starts, and `/api/health` is what Railway checks to see that it is up.

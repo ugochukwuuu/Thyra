@@ -24,7 +24,11 @@ export const config = {
   jwtSecret,
   sessionDays: Number(env.JWT_EXPIRES_IN_DAYS) || 7,
   resetTokenMinutes: 15,
+  // Email: Resend goes first unless EMAIL_USE_RESEND is "false", and the other provider is the fallback.
+  // A provider without a key is skipped. With no keys at all, emails are only logged (development).
   resendApiKey: env.RESEND_API_KEY || '',
+  sendbyteApiKey: env.SENDBYTE_API_KEY || '',
+  useResendFirst: (env.EMAIL_USE_RESEND ?? 'true').trim().toLowerCase() !== 'false',
   emailFrom: env.EMAIL_FROM || 'Thyra <no-reply@thyra.co>',
   // Extra sites allowed to post to the public lead form, e.g. the WordPress landing page.
   leadOrigins: (env.LEAD_FORM_ORIGINS || '')
