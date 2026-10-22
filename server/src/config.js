@@ -20,7 +20,8 @@ export const config = {
   port: Number(env.PORT) || 4000,
   clientUrl: (env.CLIENT_URL || 'http://localhost:5173').replace(/\/$/, ''),
   databaseUrl: isTest ? required('TEST_DATABASE_URL') : required('DATABASE_URL'),
-  databaseSsl: env.DATABASE_SSL === 'true',
+  // Tests always use the local test database, which has no SSL.
+  databaseSsl: !isTest && env.DATABASE_SSL === 'true',
   jwtSecret,
   sessionDays: Number(env.JWT_EXPIRES_IN_DAYS) || 7,
   resetTokenMinutes: 15,
