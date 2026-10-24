@@ -1,0 +1,7 @@
+project_id = "thyra-onboarding-platform"
+
+# The API checks the Supabase access token itself, and some routes are public (lead form, sign-up).
+[functions.api]
+verify_jwt = false
+entrypoint = "./functions/api/index.js"
+import_map = "./functions/api/deno.json"

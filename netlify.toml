@@ -1,0 +1,26 @@
+# Netlify builds and serves the React app in client/. The API runs on Supabase (supabase/functions/api).
+# client/public/_redirects sends every address to the app, so links like /admin/submissions open directly.
+
+[build]
+  base = "client"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+  # Public by design: the anon key only identifies the project, and every table is locked to it.
+  VITE_SUPABASE_URL = "https://jlnajywuapunazewyxab.supabase.co"
+  VITE_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpsbmFqeXd1YXB1bmF6ZXd5eGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2ODc3MDcsImV4cCI6MjEwODI2MzcwN30.t0mXVF7cWRE-aqSj6rxGUgBLWQ_AuQtm6AePBP7DVlc"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Built files have content hashes in their names, so they can be cached for good.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"

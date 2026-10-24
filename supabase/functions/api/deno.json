@@ -1,0 +1,17 @@
+{
+  "imports": {
+    "@std/testing/bdd": "jsr:@std/testing@1.0.21/bdd",
+    "@supabase/supabase-js": "npm:@supabase/supabase-js@2.76.1",
+    "hono": "npm:hono@4.10.4",
+    "hono/": "npm:/hono@4.10.4/",
+    "postgres": "npm:postgres@3.4.7",
+    "zod": "npm:zod@4.1.12"
+  },
+  "lint": {
+    "rules": {
+      "exclude": [
+        "require-await"
+      ]
+    }
+  }
+}

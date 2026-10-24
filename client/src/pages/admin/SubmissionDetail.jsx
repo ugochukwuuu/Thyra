@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from '../../auth/AuthContext.jsx'
 import { ApiError, api } from '../../lib/api.js'
 import { previewUrl } from '../onboarding/model.js'
+import { downloadAssets, downloadOne } from './assets.js'
 import { buildSections, flaggableItems } from './sections.js'
 import { downloadFile, formatDate } from './format.js'
 import { useToast } from './toast.js'
@@ -233,7 +234,7 @@ export default function SubmissionDetail() {
       </div>
     )
 
-  const { client, submission, changeRequests, issues, exportIncludesNoImages } = data
+  const { client, submission, changeRequests, issues, exportIncludesNoImages, fileSlug } = data
   const sections = buildSections(submission)
   const done = client.done
   const flagged = new Set(changeRequests.filter((c) => !c.resolvedAt).map((c) => c.step))
@@ -264,7 +265,7 @@ export default function SubmissionDetail() {
 
   const onDownload = async (file) => {
     try {
-      await downloadFile(`/admin/clients/${id}/files?publicId=${encodeURIComponent(file.publicId)}`, fileName(file))
+      await downloadOne(file, fileName(file))
     } catch (err) {
       toast(err.message, 'error')
     }
@@ -298,7 +299,8 @@ export default function SubmissionDetail() {
     setBusy('zip')
     toast('Preparing assets. Your zip will download shortly.')
     try {
-      await downloadFile(`/admin/clients/${id}/assets.zip`, 'assets.zip')
+      const missing = await downloadAssets(submission, fileSlug)
+      if (missing) toast(`${missing} file${missing === 1 ? '' : 's'} could not be downloaded. See MISSING-FILES.txt in the zip.`, 'error')
     } catch (err) {
       toast(err.message, 'error')
     } finally {

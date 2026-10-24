@@ -17,6 +17,35 @@ import {
 const SAVE_DELAY_MS = 800
 const RETRY_DELAY_MS = 5000
 
+/** Cloudinary's storage type for a file: documents are 'raw', and media can be either a video or an image. */
+const resourceTypeFor = (file, kind) => (kind === 'document' ? 'raw' : file.type.startsWith('video/') ? 'video' : 'image')
+
+/** Sends one file to Cloudinary with a signature from the API, and returns the record the form stores. */
+async function uploadToCloudinary(file, kind, { uploadUrl, apiKey, folder, timestamp, signature }) {
+  const form = new FormData()
+  form.append('file', file)
+  form.append('api_key', apiKey)
+  form.append('folder', folder)
+  form.append('timestamp', String(timestamp))
+  form.append('signature', signature)
+  let res
+  try {
+    res = await fetch(`${uploadUrl}/${resourceTypeFor(file, kind)}/upload`, { method: 'POST', body: form })
+  } catch {
+    throw new Error('The upload failed. Check your connection and try again.')
+  }
+  if (!res.ok) {
+    // Cloudinary refusing the file (corrupt, wrong format) is about the file, not the connection.
+    throw new Error(
+      res.status === 400
+        ? 'That file could not be processed. Check it opens on your device, or try another.'
+        : 'The upload failed. Please try again.',
+    )
+  }
+  const result = await res.json()
+  return { url: result.secure_url, publicId: result.public_id, resourceType: result.resource_type, name: file.name.slice(0, 200) }
+}
+
 /**
  * Owns the whole onboarding form: loading, editing, step navigation, debounced autosave,
  * and final submission. Every edit is saved to the server a moment after typing stops.
@@ -285,18 +314,20 @@ export function useOnboarding() {
     }
   }, [flush, sessionExpired, pruneRows])
 
-  /** Uploads files of one kind (image | media | document) and returns the stored file records. */
+  /**
+   * Uploads files of one kind (image | media | document) straight to Cloudinary, into this client's
+   * folder, and returns the stored file records. The API only signs the upload.
+   */
   const uploadFiles = useCallback(
     async (files, kind) => {
-      const form = new FormData()
-      files.forEach((f) => form.append('files', f))
+      let upload
       try {
-        const { files: stored } = await api(`/onboarding/files?kind=${kind}`, { method: 'POST', form })
-        return stored
+        ;({ upload } = await api('/onboarding/files/signature', { method: 'POST', body: {} }))
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) sessionExpired()
         throw err
       }
+      return Promise.all(files.map((file) => uploadToCloudinary(file, kind, upload)))
     },
     [sessionExpired],
   )

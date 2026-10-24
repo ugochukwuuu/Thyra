@@ -1,5 +1,7 @@
 // Shared constants and helpers for the admin pages.
 
+import { apiFetch, errorFrom } from '../../lib/api.js'
+
 export const STATUS_LABELS = {
   invited: 'Invited',
   notstarted: 'Not started',
@@ -35,23 +37,20 @@ export const initials = (name, email = '') =>
     .map((w) => w[0].toUpperCase())
     .join('')
 
-/** Downloads a file from the API with the session cookie, then hands it to the browser. */
+/** Downloads a file from the API with the access token, then hands it to the browser. */
 export async function downloadFile(path, fallbackName) {
-  const res = await fetch(`/api${path}`, { credentials: 'same-origin' })
-  if (!res.ok) {
-    let message = 'The download failed. Please try again.'
-    try {
-      message = (await res.json()).error?.message ?? message
-    } catch {
-      // not JSON
-    }
-    throw new Error(message)
-  }
+  const res = await apiFetch(path)
+  if (!res.ok) throw new Error((await errorFrom(res)).message)
   const disposition = res.headers.get('content-disposition') ?? ''
   const star = /filename\*=UTF-8''([^;]+)/.exec(disposition)
   const plain = /filename="([^"]+)"/.exec(disposition)
   const name = star ? decodeURIComponent(star[1]) : plain?.[1] ?? fallbackName
-  const url = URL.createObjectURL(await res.blob())
+  saveBlob(await res.blob(), name)
+}
+
+/** Saves a blob the browser already has, as a download with this name. */
+export function saveBlob(blob, name) {
+  const url = URL.createObjectURL(blob)
   const a = document.createElement('a')
   a.href = url
   a.download = name

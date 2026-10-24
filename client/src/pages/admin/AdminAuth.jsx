@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthContext.jsx'
+import { signIn, useAuth } from '../../auth/AuthContext.jsx'
 import { LoadingLabel, PasswordField, TextField, useShowPassword } from '../../components/Field.jsx'
 import { LogoMark } from '../../components/Logo.jsx'
 import { ApiError, api } from '../../lib/api.js'
@@ -391,6 +391,7 @@ export function JoinTeam() {
         method: 'POST',
         body: { token, fullName: values.fullName.trim(), password: values.password, confirmPassword: values.confirm },
       })
+      await signIn(user.email, values.password)
       setUser(user)
       navigate('/admin/submissions', { replace: true })
     } catch (err) {

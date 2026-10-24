@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
-import { useAuth } from '../auth/AuthContext.jsx'
+import { signIn, useAuth } from '../auth/AuthContext.jsx'
 import { AuthLayout } from '../components/AuthLayout.jsx'
 import { ACCOUNT_BRAND } from '../components/brandCopy.js'
 import { LoadingLabel, PasswordField, TextField, useShowPassword } from '../components/Field.jsx'
@@ -73,10 +73,12 @@ export default function SignUp() {
     setErrors({})
     setLoading(true)
     try {
-      await api('/auth/register', {
+      const { user } = await api('/auth/register', {
         method: 'POST',
         body: { businessName: businessName.trim(), email: email.trim(), password, confirmPassword, ...(invite && { inviteToken }) },
       })
+      // The account exists now; sign in with it (an invite decides the email, so use the one the server kept).
+      await signIn(user.email, password)
       // An invite already proves the email, so go straight in. Otherwise show the "check your inbox" note first.
       if (invite) await refresh()
       else setPhase('done')

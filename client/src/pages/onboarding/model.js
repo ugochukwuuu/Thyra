@@ -351,7 +351,7 @@ export function seedContact(data) {
 
 const MB = 1024 * 1024
 
-/** What each upload kind accepts; mirrors the server so people get feedback before anything is sent. */
+/** What each upload kind accepts. Files go straight from the browser to Cloudinary, so these are the checks before upload. */
 export const FILE_KINDS = {
   image: {
     accept: 'image/jpeg,image/png,image/webp,image/gif,image/svg+xml,image/x-icon,image/vnd.microsoft.icon,.ico',
