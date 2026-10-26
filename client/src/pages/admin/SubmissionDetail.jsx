@@ -13,7 +13,8 @@ const pad = (i) => String(i + 1).padStart(2, '0')
 const fileName = (f) => f.name || f.publicId.split('/').pop()
 const ext = (f) => (fileName(f).split('.').pop() || f.resourceType).slice(0, 4).toUpperCase()
 
-function FileTile({ file, onDownload }) {
+function FileTile({ file, onDownload, downloading }) {
+  const busy = downloading.has(file.publicId)
   const visual = file.resourceType !== 'raw'
   return (
     <div className="file">
@@ -23,8 +24,8 @@ function FileTile({ file, onDownload }) {
           {fileName(file)}
           {file.caption && <div className="small">{file.caption}</div>}
         </div>
-        <button type="button" className="dl-btn" aria-label={`Download ${fileName(file)}`} onClick={() => onDownload(file)}>
-          <DownloadIcon />
+        <button type="button" className="dl-btn" aria-label={busy ? `Downloading ${fileName(file)}` : `Download ${fileName(file)}`} aria-busy={busy} disabled={busy} onClick={() => onDownload(file)}>
+          <DownloadIcon busy={busy} />
         </button>
       </div>
     </div>
@@ -60,7 +61,7 @@ function LongText({ value }) {
   )
 }
 
-function Product({ p, open, onToggle, onDownload }) {
+function Product({ p, open, onToggle, onDownload, downloading }) {
   return (
     <div className="product">
       <button type="button" className="product-head" aria-expanded={open} onClick={onToggle}>
@@ -102,9 +103,16 @@ function Product({ p, open, onToggle, onDownload }) {
                   <div className="pic">
                     <img src={previewUrl(im, 208)} alt={j === 0 ? 'Main photo' : `Gallery photo ${j}`} loading="lazy" />
                   </div>
-                  <button type="button" className="dl" aria-label={`Download ${fileName(im)}`} onClick={() => onDownload(im)}>
+                  <button
+                    type="button"
+                    className="dl"
+                    aria-label={downloading.has(im.publicId) ? `Downloading ${fileName(im)}` : `Download ${fileName(im)}`}
+                    aria-busy={downloading.has(im.publicId)}
+                    disabled={downloading.has(im.publicId)}
+                    onClick={() => onDownload(im)}
+                  >
                     <span>
-                      <DownloadIcon />
+                      <DownloadIcon busy={downloading.has(im.publicId)} />
                     </span>
                   </button>
                   <div className="cap clip">{j === 0 ? 'Main · ' : ''}{fileName(im)}</div>
@@ -139,7 +147,7 @@ function Product({ p, open, onToggle, onDownload }) {
   )
 }
 
-function FieldValue({ f, open, toggle, onDownload }) {
+function FieldValue({ f, open, toggle, onDownload, downloading }) {
   const empty = f.value == null || f.value === '' || (Array.isArray(f.value) && f.value.length === 0)
   if (empty) return <div className="f-val empty">Not provided</div>
   if (f.type === 'list')
@@ -169,7 +177,7 @@ function FieldValue({ f, open, toggle, onDownload }) {
     return (
       <div className="f-val file-grid">
         {f.value.map((file) => (
-          <FileTile key={file.publicId} file={file} onDownload={onDownload} />
+          <FileTile key={file.publicId} file={file} onDownload={onDownload} downloading={downloading} />
         ))}
       </div>
     )
@@ -177,7 +185,7 @@ function FieldValue({ f, open, toggle, onDownload }) {
     return (
       <div className="f-val products">
         {f.value.map((p) => (
-          <Product key={p.id} p={p} open={!!open[p.id]} onToggle={() => toggle(p.id)} onDownload={onDownload} />
+          <Product key={p.id} p={p} open={!!open[p.id]} onToggle={() => toggle(p.id)} onDownload={onDownload} downloading={downloading} />
         ))}
       </div>
     )
@@ -200,6 +208,8 @@ export default function SubmissionDetail() {
   const [dialog, setDialog] = useState(null) // 'export' | 'archive' | 'delete'
   const [deleteText, setDeleteText] = useState('')
   const [busy, setBusy] = useState('') // 'export' | 'zip' | 'delete'
+  const [zipProgress, setZipProgress] = useState(null) // { done, total } while the zip is being put together
+  const [downloading, setDownloading] = useState(() => new Set()) // publicIds of single files downloading now
 
   const load = useCallback(async () => {
     try {
@@ -264,10 +274,21 @@ export default function SubmissionDetail() {
   }
 
   const onDownload = async (file) => {
+    if (downloading.has(file.publicId)) return
+    const mark = (on) =>
+      setDownloading((s) => {
+        const next = new Set(s)
+        if (on) next.add(file.publicId)
+        else next.delete(file.publicId)
+        return next
+      })
+    mark(true)
     try {
       await downloadOne(file, fileName(file))
     } catch (err) {
       toast(err.message, 'error')
+    } finally {
+      mark(false)
     }
   }
 
@@ -299,12 +320,13 @@ export default function SubmissionDetail() {
     setBusy('zip')
     toast('Preparing assets. Your zip will download shortly.')
     try {
-      const missing = await downloadAssets(submission, fileSlug)
+      const missing = await downloadAssets(submission, fileSlug, (done, total) => setZipProgress({ done, total }))
       if (missing) toast(`${missing} file${missing === 1 ? '' : 's'} could not be downloaded. See MISSING-FILES.txt in the zip.`, 'error')
     } catch (err) {
       toast(err.message, 'error')
     } finally {
       setBusy('')
+      setZipProgress(null)
     }
   }
 
@@ -387,9 +409,13 @@ export default function SubmissionDetail() {
         <div className="actions">
           <button type="button" className="a-btn-outline" onClick={downloadAll} disabled={busy === 'zip'}>
             <DownloadIcon />
-            <Busy busy={busy === 'zip'} label="Download all assets" busyLabel="Preparing" />
+            <Busy
+              busy={busy === 'zip'}
+              label="Download all assets"
+              busyLabel={zipProgress?.total ? `Preparing ${zipProgress.done} of ${zipProgress.total}` : 'Preparing'}
+            />
           </button>
-          <button type="button" className="a-btn" style={{ minWidth: 206 }} onClick={exportCsv}>
+          <button type="button" className="a-btn" style={{ minWidth: 206 }} onClick={exportCsv} disabled={busy === 'export'}>
             <Busy busy={busy === 'export'} label="Export products (CSV)" busyLabel="Exporting" />
           </button>
           {canEdit && (
@@ -532,7 +558,7 @@ export default function SubmissionDetail() {
               {sec.fields.map((f) => (
                 <div key={f.label} className="f-row">
                   <span className="f-label">{f.label}</span>
-                  <FieldValue f={f} open={open} toggle={(pid) => setOpen((o) => ({ ...o, [pid]: !o[pid] }))} onDownload={onDownload} />
+                  <FieldValue f={f} open={open} toggle={(pid) => setOpen((o) => ({ ...o, [pid]: !o[pid] }))} onDownload={onDownload} downloading={downloading} />
                 </div>
               ))}
             </div>

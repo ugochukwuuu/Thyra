@@ -10,7 +10,7 @@ import './admin.css'
 /** Charcoal brand panel on the left ("Thyra admin"), form on the right. Staff only. */
 function AdminAuthLayout({ children }) {
   return (
-    <div className="auth-page">
+    <div className="auth-page adm-auth">
       <div className="adm-topbar mobile-only" style={{ position: 'static' }}>
         <div className="adm-brand" style={{ padding: 0 }}>
           <LogoMark />

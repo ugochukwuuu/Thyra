@@ -183,8 +183,10 @@
 }
 
 @media (max-width: 859px) {
+  /* Stacked, not a wrapping flex row: a wrapping row spreads spare height between the
+     top bar and the page, and can squeeze the page onto the top bar's line. */
   .adm {
-    flex-wrap: wrap;
+    display: block;
   }
   .adm-side {
     display: none;
@@ -193,7 +195,6 @@
     position: sticky;
     top: 0;
     z-index: 50;
-    flex: 1 0 100%;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -203,6 +204,10 @@
   }
   .adm-main {
     padding: 24px 16px 72px;
+  }
+  /* The admin login has no brand panel on phones, so start the form near the top. */
+  .adm-auth .auth-form-center {
+    align-items: flex-start;
   }
   .desktop-only {
     display: none !important;
@@ -946,6 +951,8 @@
   .detail-body {
     display: flex;
     flex-direction: column;
+    /* Stretch to the screen so the section chips scroll inside it instead of widening the page. */
+    align-items: stretch;
     gap: 12px;
     margin-top: 16px;
   }
@@ -1279,6 +1286,23 @@
 .dl-btn:hover {
   color: var(--terra-dark);
 }
+.dl-btn:disabled,
+.img .dl:disabled {
+  cursor: progress;
+}
+/* Shown in place of the download icon while a file is downloading. */
+.spinner {
+  display: inline-block;
+  border-radius: 50%;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  animation: adm-spin 0.7s linear infinite;
+}
+@keyframes adm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 .products {
   border: 1px solid var(--line-1);
   border-radius: 14px;
@@ -1495,6 +1519,8 @@
   .settings-body {
     display: flex;
     flex-direction: column;
+    /* Stretch to the screen so the group tabs scroll inside it instead of widening the page. */
+    align-items: stretch;
     gap: 16px;
     margin-top: 20px;
   }

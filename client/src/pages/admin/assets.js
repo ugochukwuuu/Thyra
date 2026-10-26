@@ -53,13 +53,16 @@ async function fetchBytes(url) {
 /**
  * Downloads every file and saves them as one zip. Files that can't be fetched are listed in
  * MISSING-FILES.txt instead of stopping the whole download. Returns how many were missing.
+ * onProgress(done, total) is called as each file arrives.
  */
-export async function downloadAssets(submission, name) {
+export async function downloadAssets(submission, name, onProgress = () => {}) {
   const files = collectFiles(submission)
   if (!files.length) throw new Error('This client has not uploaded any files yet.')
 
   const entries = {}
   const failed = []
+  let done = 0
+  onProgress(0, files.length)
   // A few at a time, so a large submission doesn't open dozens of downloads at once.
   for (let i = 0; i < files.length; i += 4) {
     await Promise.all(
@@ -70,6 +73,7 @@ export async function downloadAssets(submission, name) {
         } catch {
           failed.push(path)
         }
+        onProgress(++done, files.length)
       }),
     )
   }

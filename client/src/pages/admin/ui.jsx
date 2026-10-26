@@ -145,7 +145,9 @@ export function SearchBox({ value, onChange }) {
   )
 }
 
-export function DownloadIcon({ size = 14 }) {
+/** The download arrow, or a spinner while that download is running. */
+export function DownloadIcon({ size = 14, busy = false }) {
+  if (busy) return <span className="spinner" style={{ width: size, height: size }} aria-hidden="true" />
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M12 4v11" />

@@ -173,7 +173,9 @@ The deploy has two parts: the API and database on Supabase, and the website on a
 
 8. Put the website on Netlify. On [app.netlify.com](https://app.netlify.com), choose "Add new project", then "Import an existing project", pick GitHub and this repository, and deploy. `netlify.toml` in the root of the repository already sets the folder, the build command, and the Supabase address and anon key, so there is nothing to type in. `client/public/_redirects` sends every address to the app, so links such as `/admin/submissions` work when opened directly.
 
-9. Add your domain, for example `app.thyratechnology.com`, under the Netlify project's Domain management. Netlify shows a CNAME record to add. If `thyratechnology.com` already hosts the WordPress site on Hostinger, add the record on the subdomain, not the bare domain, so the existing site keeps working: in Hostinger's hPanel, open the domain's DNS settings and add a CNAME record named `app` with the value the host gave you. Make sure `CLIENT_URL` matches the final address, and run step 3 again if it changes.
+9. Add your domain, `onboarding.thyratechnology.com`, under the Netlify project's Domain management, and make it the primary domain. The WordPress site stays on the bare domain on Hostinger, so the app lives on a subdomain: in Hostinger's hPanel, open the domain's DNS settings and add a CNAME record named `onboarding` with the value `thyra-onboarding.netlify.app`. Netlify then issues the HTTPS certificate. Make sure `CLIENT_URL` matches the final address, and run step 3 again if it changes.
+
+   Avoid `app.thyratechnology.com` for now: Hostinger's servers still return an old Railway record for it that hPanel no longer shows, and only Hostinger support can remove it.
 
 ## Things to know
 
